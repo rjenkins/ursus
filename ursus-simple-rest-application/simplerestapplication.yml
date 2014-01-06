@@ -1,0 +1,7 @@
+httpServer:
+  host: localhost
+  jmxEnabled: true
+  staticResourceDirectory: ./assets
+  staticResourceContextRoot: /ray
+logging:
+  level: INFO
