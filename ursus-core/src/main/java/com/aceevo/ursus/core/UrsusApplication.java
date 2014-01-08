@@ -67,7 +67,7 @@ public abstract class UrsusApplication<T extends UrsusApplicationConfiguration> 
         SLF4JBridgeHandler.removeHandlersForRootLogger();
         SLF4JBridgeHandler.install();
 
-        // Use reflection to find out UrsusApplicationConfiguration Class
+        // Use reflection to find our UrsusApplicationConfiguration Class
         this.configurationClass = (Class<T>) ((ParameterizedType) getClass()
                 .getGenericSuperclass()).getActualTypeArguments()[0];
 
@@ -103,10 +103,19 @@ public abstract class UrsusApplication<T extends UrsusApplicationConfiguration> 
         exceptionMapperClass = clazz;
     }
 
+    /**
+     * Provide support for registering instances of {@link Service} whose lifecycle
+     * will be tied to this Grizzly HTTP Server
+     * @param service @{link Service} to register with this Grizzly HTTP Server instance
+     */
     protected void register(Service service) {
         managedServices.add(service);
     }
 
+    /**
+     * Determine our default YAML configuration file name and parse
+     * @return and instance of type T which extends {@link UrsusApplicationConfiguration}
+     */
     private T parseConfiguration() {
 
         //Fetch Server Configuration
