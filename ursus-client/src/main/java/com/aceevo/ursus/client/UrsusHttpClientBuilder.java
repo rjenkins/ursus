@@ -34,14 +34,11 @@ import org.apache.http.protocol.HttpContext;
 import java.io.IOException;
 
 /**
- * A HttpClient wrapper class, setStrategies method and configuration classes.
- * <p/>
- * Among other things,
- * <ul>
- * <li>Disables stale connection checks</li>
- * <li>Disables Nagle's algorithm</li>
- * <li>Disables cookie management by default</li>
- * </ul>
+ * A HttpClient wrapper class, uses setting and some code from Dropwizard's HttpClient, like Dropwizard
+ * provides support for.
+ * Disabling stale connection checks
+ * Disabling Nagle's algorithm
+ * Disabling cookie management by default
  */
 public class UrsusHttpClientBuilder {
 

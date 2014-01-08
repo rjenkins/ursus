@@ -32,6 +32,15 @@ WebSocket is designed to be implemented in web browsers and web servers, but it 
 The WebSocket protocol makes possible more interaction between a browser and a web site, facilitating live content
 and the creation of real-time applications and services.
 
+#### Additional Libraries
 
+Ursus also includes many libraries found in Dropwizard and other frameworks and libraries to help speed up
+development including,
 
+* Logback and SLF4J bridging of Grizzly's java.util.logging
+* Guava
+* Hibernate Validator
+* An Apache based HTTPClient and a Jersey 2.5 client
+* Jackson for YAML and JSON parsing
+* Joda time
 
