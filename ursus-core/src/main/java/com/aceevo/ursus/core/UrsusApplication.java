@@ -23,6 +23,8 @@ import com.aceevo.ursus.config.UrsusConfigurationFactory;
 import com.aceevo.ursus.websockets.GrizzlyServerFilter;
 import com.aceevo.ursus.websockets.TyrusAddOn;
 import com.aceevo.ursus.websockets.UrsusTyrusServerContainer;
+import com.google.common.base.Charsets;
+import com.google.common.io.Resources;
 import com.google.common.util.concurrent.Service;
 import org.glassfish.grizzly.http.CompressionConfig;
 import org.glassfish.grizzly.http.server.HttpServer;
@@ -42,6 +44,7 @@ import org.slf4j.bridge.SLF4JBridgeHandler;
 import javax.websocket.DeploymentException;
 import javax.websocket.server.ServerEndpoint;
 import javax.ws.rs.ext.ExceptionMapper;
+import java.io.IOException;
 import java.lang.reflect.ParameterizedType;
 import java.util.HashSet;
 import java.util.Set;
@@ -61,7 +64,7 @@ public abstract class UrsusApplication<T extends UrsusApplicationConfiguration> 
     private final Set<Service> managedServices = new HashSet<Service>();
     private final String[] args;
 
-    final Logger logger = LoggerFactory.getLogger(UrsusApplication.class);
+    final Logger LOGGER = LoggerFactory.getLogger(UrsusApplication.class);
 
     protected UrsusApplication(String[] args) {
 
@@ -83,6 +86,9 @@ public abstract class UrsusApplication<T extends UrsusApplicationConfiguration> 
         run(initializeServer());
     }
 
+    /**
+     * Parse command line arguments for handling
+     */
     private void parseArguments() {
         if(args == null || args.length == 0)
             return;
@@ -186,9 +192,9 @@ public abstract class UrsusApplication<T extends UrsusApplicationConfiguration> 
         Runtime.getRuntime().addShutdownHook(new Thread(new Runnable() {
             @Override
             public void run() {
-                logger.info("Stopping Grizzly HttpServer...");
+                LOGGER.info("Stopping Grizzly HttpServer...");
                 httpServer.stop();
-                logger.info("Stopping all managed services...");
+                LOGGER.info("Stopping all managed services...");
                 for(Service service : managedServices) {
                     service.stopAsync();
                 }
@@ -196,15 +202,16 @@ public abstract class UrsusApplication<T extends UrsusApplicationConfiguration> 
         }, "shutdownHook"));
 
         try {
-            logger.info("Starting all managed services...");
+            LOGGER.info("Starting all managed services...");
             for(Service service : managedServices) {
                 service.startAsync();
             }
             httpServer.start();
-            logger.info("Press CTRL^C to exit..");
+            printBanner(getClass().getSimpleName());
+            LOGGER.info("Press CTRL^C to exit..");
             Thread.currentThread().join();
         } catch (Exception e) {
-            logger.error("There was an error while starting Grizzly HTTP server.", e);
+            LOGGER.error("There was an error while starting Grizzly HTTP server.", e);
         }
     }
 
@@ -319,6 +326,18 @@ public abstract class UrsusApplication<T extends UrsusApplicationConfiguration> 
             } catch (DeploymentException e) {
                 throw new RuntimeException("Unable to deploy WebSocket endpoints", e);
             }
+        }
+    }
+
+    protected void printBanner(String name) {
+        try {
+            final String banner = Resources.toString(Resources.getResource("banner.txt"),
+                    Charsets.UTF_8)
+                    .replace("\n", String.format("%n"));
+            LOGGER.info(String.format("Starting {}%n{}"), name, banner);
+        } catch (Exception ex) {
+            // don't display the banner if there isn't one
+            LOGGER.info("Starting {}", name);
         }
     }
 }
