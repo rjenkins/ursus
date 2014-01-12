@@ -22,7 +22,7 @@
               <transformers>
                 <transformer />
                 <transformer>
-                  <mainClass>com.aceevo.ursus.example.SimpleRestApplication</mainClass>
+                  <mainClass>com.aceevo.ursus.example.ExampleApplication</mainClass>
                 </transformer>
               </transformers>
             </configuration>

@@ -9,5 +9,5 @@ import com.aceevo.ursus.config.UrsusApplicationConfiguration;
  * Time: 8:55 PM
  * To change this template use File | Settings | File Templates.
  */
-public class SimpleRestApplicationConfiguration extends UrsusApplicationConfiguration {
+public class ExampleApplicationConfiguration extends UrsusApplicationConfiguration {
 }

@@ -55,13 +55,17 @@ public abstract class UrsusApplication<T extends UrsusApplicationConfiguration> 
 
     private Class exceptionMapperClass = UrsusExceptionMapper.class;
     final HttpServer httpServer = new HttpServer();
+    private String configurationFile;
     private final Class<T> configurationClass;
     private final T configuration;
     private final Set<Service> managedServices = new HashSet<Service>();
+    private final String[] args;
 
     final Logger logger = LoggerFactory.getLogger(UrsusApplication.class);
 
-    protected UrsusApplication() {
+    protected UrsusApplication(String[] args) {
+
+        this.args = args;
 
         // Bridge j.u.l in Grizzly with SLF4J
         SLF4JBridgeHandler.removeHandlersForRootLogger();
@@ -71,11 +75,21 @@ public abstract class UrsusApplication<T extends UrsusApplicationConfiguration> 
         this.configurationClass = (Class<T>) ((ParameterizedType) getClass()
                 .getGenericSuperclass()).getActualTypeArguments()[0];
 
+        parseArguments();
         this.configuration = parseConfiguration();
 
         configureLogging(configuration);
         boostrap(configuration);
         run(initializeServer());
+    }
+
+    private void parseArguments() {
+        if(args == null || args.length == 0)
+            return;
+
+        if("server".equals(args[0]) && args.length >= 2) {
+            configurationFile = args[1];
+        }
     }
 
     /**
@@ -119,8 +133,8 @@ public abstract class UrsusApplication<T extends UrsusApplicationConfiguration> 
     private T parseConfiguration() {
 
         //Fetch Server Configuration
-        String yamlFileName = getClass().getSimpleName().toLowerCase() + ".yml";
-        UrsusConfigurationFactory ursusConfigurationFactory = new UrsusConfigurationFactory(yamlFileName, configurationClass);
+        configurationFile = configurationFile != null ? configurationFile : getClass().getSimpleName().toLowerCase() + ".yml";
+        UrsusConfigurationFactory ursusConfigurationFactory = new UrsusConfigurationFactory(configurationFile, configurationClass);
         return (T) ursusConfigurationFactory.getConfiguration();
     }
 

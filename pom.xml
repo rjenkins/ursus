@@ -21,7 +21,7 @@
         <module>ursus-core</module>
         <module>ursus-config</module>
         <module>ursus-client</module>
-        <module>ursus-example-rest-application</module>
+        <module>ursus-example-application</module>
         <module>ursus-example-http-client</module>
         <module>ursus-example-jersey-client</module>
         <module>ursus-example-websocket-client</module>

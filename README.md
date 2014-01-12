@@ -6,7 +6,7 @@ Ursus is a [Dropwizard](http://dropwizard.codahale.com/) inspired framework for 
 production-ready web services on the JVM and [Grizzly](https://grizzly.java.net/). Ursus combines Grizzly's
 NIO/Event Driven framework and popular libraries such as [Jersey 2.5](https://jersey.java.net/) and
 [Project Tyrus - JSR 356: Java API for WebSocket - Reference Implementation](https://tyrus.java.net/) with
-the simple found in Dropwizard, allowing you to focus on developing your services rather
+the simple conventions found in Dropwizard, allowing you to focus on developing your services rather
 than managing their accompanying dependencies, reducing time-to-market and maintenance.
 
 #### Grizzly HTTP Container
@@ -34,13 +34,12 @@ and the creation of real-time applications and services.
 
 #### Additional Libraries
 
-Ursus also includes many libraries found in Dropwizard and other frameworks and libraries to help speed up
-development including,
+Ursus also includes many libraries found in Dropwizard and other frameworks to help speed up development including,
 
-* Logback and SLF4J bridging of Grizzly's java.util.logging
 * Guava
-* Hibernate Validator
-* An Apache based HTTPClient and a Jersey 2.5 client
-* Jackson for YAML and JSON parsing
 * Joda time
+* Hibernate Validator
+* Jackson for YAML and JSON support
+* Logback and SLF4J bridging of Grizzly's java.util.logging
+* An Apache based HTTPClient and a Jersey 2.5 client
 

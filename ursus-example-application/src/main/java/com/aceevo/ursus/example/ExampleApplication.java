@@ -4,14 +4,19 @@ import com.aceevo.ursus.core.UrsusApplication;
 import com.aceevo.ursus.example.api.EchoEndpointResource;
 import org.glassfish.grizzly.http.server.HttpServer;
 
-public class SimpleRestApplication extends UrsusApplication<SimpleRestApplicationConfiguration> {
+public class ExampleApplication extends UrsusApplication<ExampleApplicationConfiguration> {
+
+
+    public ExampleApplication(String[] args) {
+        super(args);
+    }
 
     public static void main(String[] args) {
-        new SimpleRestApplication();
+        new ExampleApplication(args);
     }
 
     @Override
-    protected void boostrap(SimpleRestApplicationConfiguration simpleRestApplicationConfiguration) {
+    protected void boostrap(ExampleApplicationConfiguration exampleApplicationConfiguration) {
         packages("com.aceevo.ursus.example.api");
 
         // We have to either manually register @ServerEndpoint classes in our ResourceConfig or annotate them
