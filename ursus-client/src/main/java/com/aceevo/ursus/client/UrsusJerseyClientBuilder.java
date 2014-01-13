@@ -21,7 +21,6 @@ package com.aceevo.ursus.client;
 import com.aceevo.ursus.config.UrsusJerseyClientConfiguration;
 import org.apache.http.impl.conn.PoolingClientConnectionManager;
 import org.glassfish.jersey.apache.connector.ApacheClientProperties;
-import org.glassfish.jersey.apache.connector.ApacheConnector;
 import org.glassfish.jersey.client.ClientConfig;
 import org.glassfish.jersey.client.ClientProperties;
 import org.glassfish.jersey.jackson.JacksonFeature;
@@ -58,7 +57,6 @@ public class UrsusJerseyClientBuilder {
      * @return a fully-configured {@link Client}
      */
 
-    @SuppressWarnings("deprecation")
     public Client build() {
         ClientConfig clientConfig = new ClientConfig();
         clientConfig.property(ClientProperties.READ_TIMEOUT, configuration.getReadTimeout());
@@ -70,10 +68,6 @@ public class UrsusJerseyClientBuilder {
         poolingClientConnectionManager.setDefaultMaxPerRoute(configuration.getDefaultMaxPerRoute());
 
         clientConfig.property(ApacheClientProperties.CONNECTION_MANAGER, poolingClientConnectionManager);
-
-        ApacheConnector connector = new ApacheConnector(clientConfig);
-
-        clientConfig.connector(connector);
 
         Client client = ClientBuilder.newBuilder()
                 .register(JacksonFeature.class)
