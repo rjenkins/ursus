@@ -47,7 +47,7 @@ Ursus also includes many libraries found in Dropwizard and other frameworks to h
 Ursus releases artifacts are hosted on the central repository, to get started with ursus simply add the ```ursus-core```
 module to your pom.xml as a dependency.
 
-```
+```xml
  <dependencies>
     <dependency>
         <groupId>com.aceevo</groupId>
