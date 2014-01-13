@@ -6,7 +6,7 @@
 
     <groupId>com.aceevo</groupId>
     <artifactId>ursus-parent</artifactId>
-    <version>0.1</version>
+    <version>0.1-SNAPSHOT</version>
     <packaging>pom</packaging>
     <name>Ursus Project</name>
     <description>
