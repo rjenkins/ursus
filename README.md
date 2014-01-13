@@ -62,7 +62,7 @@ Let's take a look at the ```ursus-example-application``` project. Ursus applicat
 of ```UrsusApplication``` and an instance of subclass of ```UrsusApplicationConfiguration```. The com.aceevo.ursus.example package contains both.
 Let's start by looking at the ```ExampleApplicationConfiguration``` class.
 
-```
+```java
 package com.aceevo.ursus.example;
 
 import com.aceevo.ursus.config.UrsusApplicationConfiguration;
