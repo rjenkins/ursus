@@ -37,6 +37,7 @@ import org.glassfish.jersey.grizzly2.httpserver.GrizzlyHttpContainer;
 import org.glassfish.jersey.jackson.JacksonFeature;
 import org.glassfish.jersey.server.ContainerFactory;
 import org.glassfish.jersey.server.ResourceConfig;
+import org.glassfish.tyrus.server.Server;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.slf4j.bridge.SLF4JBridgeHandler;
@@ -63,6 +64,7 @@ public abstract class UrsusApplication<T extends UrsusApplicationConfiguration> 
     private final T configuration;
     private final Set<Service> managedServices = new HashSet<Service>();
     private final String[] args;
+    private final Set<Object> serverEndpointInstances = new HashSet<Object>();
 
     final Logger LOGGER = LoggerFactory.getLogger(UrsusApplication.class);
 
@@ -91,10 +93,10 @@ public abstract class UrsusApplication<T extends UrsusApplicationConfiguration> 
      * Parse command line arguments for handling
      */
     private void parseArguments() {
-        if(args == null || args.length == 0)
+        if (args == null || args.length == 0)
             return;
 
-        if("server".equals(args[0]) && args.length >= 2) {
+        if ("server".equals(args[0]) && args.length >= 2) {
             configurationFile = args[1];
         }
     }
@@ -127,6 +129,7 @@ public abstract class UrsusApplication<T extends UrsusApplicationConfiguration> 
     /**
      * Provide support for registering instances of {@link Service} whose lifecycle
      * will be tied to this Grizzly HTTP Server
+     *
      * @param service @{link Service} to register with this Grizzly HTTP Server instance
      */
     protected void register(Service service) {
@@ -135,6 +138,7 @@ public abstract class UrsusApplication<T extends UrsusApplicationConfiguration> 
 
     /**
      * Determine our default YAML configuration file name and parse
+     *
      * @return and instance of type T which extends {@link UrsusApplicationConfiguration}
      */
     private T parseConfiguration() {
@@ -143,6 +147,10 @@ public abstract class UrsusApplication<T extends UrsusApplicationConfiguration> 
         configurationFile = configurationFile != null ? configurationFile : getClass().getSimpleName().toLowerCase() + ".yml";
         UrsusConfigurationFactory ursusConfigurationFactory = new UrsusConfigurationFactory(configurationFile, configurationClass);
         return (T) ursusConfigurationFactory.getConfiguration();
+    }
+
+    private void registerEndpoint(Object object) {
+        serverEndpointInstances.add(object);
     }
 
     /**
@@ -166,7 +174,7 @@ public abstract class UrsusApplication<T extends UrsusApplicationConfiguration> 
         config.setJmxEnabled(configuration.getHttpServer().isJmxEnabled());
 
         //Configure static resource handler if required
-        if(configuration.getHttpServer().getStaticResourceDirectory() != null &&
+        if (configuration.getHttpServer().getStaticResourceDirectory() != null &&
                 configuration.getHttpServer().getStaticResourceContextRoot() != null)
             config.addHttpHandler(new StaticHttpHandler(configuration.getHttpServer().getStaticResourceDirectory()),
                     configuration.getHttpServer().getStaticResourceContextRoot());
@@ -196,7 +204,7 @@ public abstract class UrsusApplication<T extends UrsusApplicationConfiguration> 
                 LOGGER.info("Stopping Grizzly HttpServer...");
                 httpServer.stop();
                 LOGGER.info("Stopping all managed services...");
-                for(Service service : managedServices) {
+                for (Service service : managedServices) {
                     service.stopAsync();
                 }
             }
@@ -204,7 +212,7 @@ public abstract class UrsusApplication<T extends UrsusApplicationConfiguration> 
 
         try {
             LOGGER.info("Starting all managed services...");
-            for(Service service : managedServices) {
+            for (Service service : managedServices) {
                 service.startAsync();
             }
             httpServer.start();
@@ -313,13 +321,15 @@ public abstract class UrsusApplication<T extends UrsusApplicationConfiguration> 
         Set<Class<?>> classes = getClasses();
         Set<Class<?>> tyrusEndpoints = new HashSet<Class<?>>();
         for (Class<?> clazz : classes) {
-            if (clazz.isAnnotationPresent(ServerEndpoint.class))
+            if (clazz.isAnnotationPresent(ServerEndpoint.class)) {
                 tyrusEndpoints.add(clazz);
+            }
         }
 
         if (tyrusEndpoints.size() > 0) {
             UrsusTyrusServerContainer ursusTyrusServerContainer = null;
             try {
+
                 ursusTyrusServerContainer = new UrsusTyrusServerContainer(tyrusEndpoints,
                         configuration.getHttpServer().getRootContext(), configuration.getTyrus().getIncomingBufferSize());
                 GrizzlyServerFilter grizzlyServerFilter = new GrizzlyServerFilter(ursusTyrusServerContainer);

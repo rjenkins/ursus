@@ -22,6 +22,7 @@ public class ExampleApplication extends UrsusApplication<ExampleApplicationConfi
         // We have to either manually register @ServerEndpoint classes in our ResourceConfig or annotate them
         // with @Provider because they are not picked up by the ResourceConfig scanner
         register(EchoEndpointResource.class);
+
     }
 
     @Override
