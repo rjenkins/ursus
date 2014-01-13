@@ -36,7 +36,7 @@
     </licenses>
 
     <scm>
-        <connection>scm:git:git://github.com/rjenkins/ursus.git</connection>
+        <connection>scm:git:git@github.com/rjenkins/ursus.git</connection>
         <developerConnection>scm:git:git@github.com:rjenkins/ursus.git</developerConnection>
         <url>http://github.com/rjenkins/ursus/</url>
         <tag>HEAD</tag>
