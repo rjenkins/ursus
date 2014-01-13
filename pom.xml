@@ -5,7 +5,7 @@
 
     <groupId>com.aceevo</groupId>
     <artifactId>ursus-parent</artifactId>
-    <version>0.1</version>
+    <version>0.2-SNAPSHOT</version>
     <packaging>pom</packaging>
     <name>Ursus Project</name>
     <description>
@@ -39,7 +39,7 @@
         <connection>scm:git:ssh://git@github.com/rjenkins/ursus.git</connection>
         <developerConnection>scm:git:ssh://git@github.com/rjenkins/ursus.git</developerConnection>
         <url>http://github.com/rjenkins/ursus</url>
-        <tag>v0.1</tag>
+        <tag>HEAD</tag>
     </scm>
 
     <issueManagement>

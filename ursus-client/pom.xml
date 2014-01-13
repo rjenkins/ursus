@@ -5,7 +5,7 @@
     <parent>
         <artifactId>ursus-parent</artifactId>
         <groupId>com.aceevo</groupId>
-        <version>0.1</version>
+        <version>0.2-SNAPSHOT</version>
     </parent>
 
     <artifactId>ursus-client</artifactId>
@@ -14,7 +14,7 @@
         <dependency>
             <groupId>com.aceevo</groupId>
             <artifactId>ursus-config</artifactId>
-            <version>0.1</version>
+            <version>0.2-SNAPSHOT</version>
         </dependency>
         <dependency>
             <groupId>javax.ws.rs</groupId>
