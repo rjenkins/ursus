@@ -58,8 +58,8 @@ module to your pom.xml as a dependency.
 ```
 
 #### Our First Application
-Let's take a look at the ```ursus-example-application``` project. Ursus applications require 2 classes, an instance of a subclass
-of ```UrsusApplication``` and an instance of subclass of ```UrsusApplicationConfiguration```. The com.aceevo.ursus.example package contains both.
+Let's take a look at the ```ursus-example-application``` project a simple HelloWorld service. Ursus applications require 2 classes, a subclass
+of ```UrsusApplication``` and a subclass of ```UrsusApplicationConfiguration```. The com.aceevo.ursus.example package contains both.
 Let's start by looking at the ```ExampleApplicationConfiguration``` class.
 
 ```java
@@ -84,6 +84,9 @@ public class ExampleApplicationConfiguration extends UrsusApplicationConfigurati
     }
 }
 ```
+Just like Dropwizard we will specify our environment specific configuration parameters in a [YAML](http://www.yaml.org/), configuration
+file and these parameters will be deserialized by Jackson and validated. By default Ursus will look for a file whose name is the simple class name of
+your application with a ```.yml``` extension, for this example application that's ```exampleapplication.yml```
 
 
 
