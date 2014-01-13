@@ -53,21 +53,25 @@ public class UrsusConfigurationFactory<T extends UrsusApplicationConfiguration> 
             T ursusHttpServerConfig =
                     mapper.readValue(open(configurationFile), clazz);
 
-            Set<ConstraintViolation<T>> violationSet = validator.validate(ursusHttpServerConfig);
-            if(!violationSet.isEmpty()) {
-                StringBuilder stringBuilder = new StringBuilder();
-                for(ConstraintViolation constraintViolation : violationSet) {
-                    stringBuilder.append(constraintViolation.getPropertyPath());
-                    stringBuilder.append(" ");
-                    stringBuilder.append(constraintViolation.getMessage() + "\n");
-                }
-                throw new RuntimeException(stringBuilder.substring(0, stringBuilder.length() -1));
-            }
-
-            return ursusHttpServerConfig;
+            return validate(ursusHttpServerConfig);
         } catch (IOException e) {
             throw new RuntimeException("Error parsing: " + configurationFile, e);
         }
+    }
+
+    private T validate(T ursusHttpServerConfig) {
+        Set<ConstraintViolation<T>> violationSet = validator.validate(ursusHttpServerConfig);
+        if (!violationSet.isEmpty()) {
+            StringBuilder stringBuilder = new StringBuilder();
+            for (ConstraintViolation constraintViolation : violationSet) {
+                stringBuilder.append(constraintViolation.getPropertyPath());
+                stringBuilder.append(" ");
+                stringBuilder.append(constraintViolation.getMessage() + "\n");
+            }
+            throw new RuntimeException(stringBuilder.substring(0, stringBuilder.length() - 1));
+        }
+
+        return ursusHttpServerConfig;
     }
 
     private InputStream open(String configurationFile) throws IOException {

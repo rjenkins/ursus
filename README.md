@@ -58,9 +58,9 @@ module to your pom.xml as a dependency.
 ```
 
 #### Our First Application
-Let's take a look at the ```ursus-example-application``` project. All ursus applications require 2 classes, an instance
-of a subclass of ```UrsusApplication``` and an instance of subclass of ```UrsusApplicationConfiguration```.
-The com.aceevo.ursus.example package contains both. Let's start by looking at the ```ExampleApplicationConfiguration``` class.
+Let's take a look at the ```ursus-example-application``` project. Ursus applications require 2 classes, an instance of a subclass
+of ```UrsusApplication``` and an instance of subclass of ```UrsusApplicationConfiguration```. The com.aceevo.ursus.example package contains both.
+Let's start by looking at the ```ExampleApplicationConfiguration``` class.
 
 ```
 package com.aceevo.ursus.example;
