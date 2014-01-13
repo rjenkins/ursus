@@ -14,6 +14,20 @@
         A Java framework for developing lightweight RESTful web services
     </description>
     <url>https://github.com/rjenkins/ursus</url>
+    <properties>
+        <slf4j.version>1.7.5</slf4j.version>
+        <logback.version>1.0.13</logback.version>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    </properties>
+    <modules>
+        <module>ursus-core</module>
+        <module>ursus-config</module>
+        <module>ursus-client</module>
+        <module>ursus-example-application</module>
+        <module>ursus-example-http-client</module>
+        <module>ursus-example-jersey-client</module>
+        <module>ursus-example-websocket-client</module>
+    </modules>
 
     <licenses>
         <license>
@@ -30,6 +44,11 @@
         <tag>HEAD</tag>
     </scm>
 
+    <issueManagement>
+        <system>github</system>
+        <url>http://github.com/rjenkins/ursus/issues#issue/</url>
+    </issueManagement>
+
     <developers>
         <developer>
             <name>Ray Jenkins</name>
@@ -38,21 +57,51 @@
         </developer>
     </developers>
 
+    <distributionManagement>
+        <snapshotRepository>
+            <id>sonatype-nexus-snapshots</id>
+            <name>Sonatype Nexus Snapshots</name>
+            <url>http://oss.sonatype.org/content/repositories/snapshots</url>
+        </snapshotRepository>
+        <repository>
+            <id>sonatype-nexus-staging</id>
+            <name>Nexus Release Repository</name>
+            <url>http://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
+        </repository>
+    </distributionManagement>
 
-    <properties>
-        <slf4j.version>1.7.5</slf4j.version>
-        <logback.version>1.0.13</logback.version>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    </properties>
-    <modules>
-        <module>ursus-core</module>
-        <module>ursus-config</module>
-        <module>ursus-client</module>
-        <module>ursus-example-application</module>
-        <module>ursus-example-http-client</module>
-        <module>ursus-example-jersey-client</module>
-        <module>ursus-example-websocket-client</module>
-    </modules>
+    <profiles>
+        <profile>
+            <id>release-sign-artifacts</id>
+            <activation>
+                <property>
+                    <name>performRelease</name>
+                    <value>true</value>
+                </property>
+            </activation>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-gpg-plugin</artifactId>
+                        <version>1.4</version>
+                        <executions>
+                            <execution>
+                                <id>sign-artifacts</id>
+                                <phase>verify</phase>
+                                <goals>
+                                    <goal>sign</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                        <configuration>
+                            <keyname>888713B6</keyname>
+                        </configuration>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
 
     <build>
         <plugins>

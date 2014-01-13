@@ -9,7 +9,7 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>ursus-simple-websocket-client</artifactId>
+    <artifactId>ursus-example-websocket-client</artifactId>
 
     <dependencies>
         <dependency>
