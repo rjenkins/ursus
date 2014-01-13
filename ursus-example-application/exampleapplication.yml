@@ -5,3 +5,4 @@ httpServer:
   staticResourceContextRoot: /ray
 logging:
   level: INFO
+name: Ray

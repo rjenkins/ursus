@@ -15,12 +15,8 @@ public class EchoEndpointResource {
 
     Logger logger = LoggerFactory.getLogger(EchoEndpointResource.class);
 
-    @Inject
-    ExampleApplicationConfiguration exampleApplicationConfiguration;
-
     @OnMessage
     public String onMessage(String message, Session session) {
-        logger.info("exampleApplicationConfiguration.getName() is: " + exampleApplicationConfiguration.getName());
         logger.info("Received message from client: " + message);
         return message;
     }
