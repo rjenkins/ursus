@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
 
@@ -36,9 +37,9 @@
     </licenses>
 
     <scm>
-        <connection>scm:git:git@github.com:/rjenkins/ursus.git</connection>
-        <developerConnection>scm:git:git@github.com:rjenkins/ursus.git</developerConnection>
-        <url>http://github.com/rjenkins/ursus</url>
+        <connection>scm:git:git@github.com:rjenkins/ursus.git</connection>
+        <developerConnection>scm:git:git@github.com:rjenkins/ursis.git</developerConnection>
+        <url>git@github.com:rjenkins/ursus.git</url>
         <tag>HEAD</tag>
     </scm>
 
@@ -121,7 +122,7 @@
                         <id>enforce</id>
                         <configuration>
                             <rules>
-                                <DependencyConvergence />
+                                <DependencyConvergence/>
                             </rules>
                         </configuration>
                         <goals>
