@@ -43,3 +43,21 @@ Ursus also includes many libraries found in Dropwizard and other frameworks to h
 * Logback and SLF4J bridging of Grizzly's java.util.logging
 * An Apache based HTTPClient and a Jersey 2.5 client
 
+### Quick Start
+
+Ursus releases artifacts are hosted on the central repository, to get started with ursus simply add the ```**ursus-core**```
+module to your pom as a dependency.
+
+```
+ <dependencies>
+    <dependency>
+        <groupId>com.aceevo</groupId>
+        <artifactId>ursus-core</artifactId>
+        <version>0.1</version>
+    </dependency>
+ </dependencies>
+
+```
+
+
+
