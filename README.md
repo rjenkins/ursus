@@ -44,9 +44,8 @@ Ursus also includes many libraries found in Dropwizard and other frameworks to h
 * An Apache based HTTPClient and a Jersey 2.5 client
 
 ### Quick Start
-
-Ursus releases artifacts are hosted on the central repository, to get started with ursus simply add the ```**ursus-core**```
-module to your pom as a dependency.
+Ursus releases artifacts are hosted on the central repository, to get started with ursus simply add the ```ursus-core```
+module to your pom.xml as a dependency.
 
 ```
  <dependencies>
@@ -56,7 +55,34 @@ module to your pom as a dependency.
         <version>0.1</version>
     </dependency>
  </dependencies>
+```
 
+#### Our First Application
+Let's take a look at the ```ursus-example-application``` project. All ursus applications require 2 classes, an instance
+of a subclass of ```UrsusApplication``` and an instance of subclass of ```UrsusApplicationConfiguration```.
+The com.aceevo.ursus.example package contains both. Let's start by looking at the ```ExampleApplicationConfiguration``` class.
+
+```
+package com.aceevo.ursus.example;
+
+import com.aceevo.ursus.config.UrsusApplicationConfiguration;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import org.hibernate.validator.constraints.NotEmpty;
+
+public class ExampleApplicationConfiguration extends UrsusApplicationConfiguration {
+
+    @NotEmpty
+    @JsonProperty
+    private String name;
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+}
 ```
 
 

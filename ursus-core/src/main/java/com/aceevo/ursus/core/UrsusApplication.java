@@ -80,6 +80,7 @@ public abstract class UrsusApplication<T extends UrsusApplicationConfiguration> 
 
         parseArguments();
         this.configuration = parseConfiguration();
+        registerInstances(new UrsusApplicationBinder(this.configuration));
 
         configureLogging(configuration);
         boostrap(configuration);

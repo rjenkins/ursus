@@ -21,7 +21,11 @@ package com.aceevo.ursus.config;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
 
+import javax.validation.ConstraintViolation;
+import javax.validation.Validation;
+import javax.validation.Validator;
 import java.io.*;
+import java.util.Set;
 
 /**
  * Factory for parsing yaml and generating a UrsusApplicationConfiguration
@@ -33,6 +37,8 @@ public class UrsusConfigurationFactory<T extends UrsusApplicationConfiguration> 
     private final String configurationFile;
     private final Class<T> clazz;
     private YAMLFactory yamlFactory = new YAMLFactory();
+    private final Validator validator = Validation.buildDefaultValidatorFactory().getValidator();
+
 
     public UrsusConfigurationFactory(String configurationFile, Class<T> clazz) {
         this.configurationFile = configurationFile;
@@ -46,6 +52,18 @@ public class UrsusConfigurationFactory<T extends UrsusApplicationConfiguration> 
 
             T ursusHttpServerConfig =
                     mapper.readValue(open(configurationFile), clazz);
+
+            Set<ConstraintViolation<T>> violationSet = validator.validate(ursusHttpServerConfig);
+            if(!violationSet.isEmpty()) {
+                StringBuilder stringBuilder = new StringBuilder();
+                for(ConstraintViolation constraintViolation : violationSet) {
+                    stringBuilder.append(constraintViolation.getPropertyPath());
+                    stringBuilder.append(" ");
+                    stringBuilder.append(constraintViolation.getMessage() + "\n");
+                }
+                throw new RuntimeException(stringBuilder.substring(0, stringBuilder.length() -1));
+            }
+
             return ursusHttpServerConfig;
         } catch (IOException e) {
             throw new RuntimeException("Error parsing: " + configurationFile, e);

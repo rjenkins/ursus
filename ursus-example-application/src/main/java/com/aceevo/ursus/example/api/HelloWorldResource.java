@@ -8,8 +8,12 @@ package com.aceevo.ursus.example.api;
  * To change this template use File | Settings | File Templates.
  */
 
+import com.aceevo.ursus.example.ExampleApplicationConfiguration;
 import com.aceevo.ursus.example.model.Hello;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
+import javax.inject.Inject;
 import javax.validation.Valid;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
@@ -28,12 +32,17 @@ import java.util.concurrent.Future;
 @Produces(MediaType.APPLICATION_JSON)
 public class HelloWorldResource {
 
-    ExecutorService executorService = Executors.newSingleThreadExecutor();
+    private final ExecutorService executorService = Executors.newSingleThreadExecutor();
+    private final Logger LOGGER = LoggerFactory.getLogger(HelloWorldResource.class);
+
+    @Inject
+    ExampleApplicationConfiguration exampleApplicationConfiguration;
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     public Response hello() {
-        return Response.ok(new Hello("Ray")).build();
+        LOGGER.info("exampleApplicationConfiguration is: " + exampleApplicationConfiguration);
+        return Response.ok(new Hello(exampleApplicationConfiguration.getName())).build();
     }
 
     @POST

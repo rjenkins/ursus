@@ -1,13 +1,21 @@
 package com.aceevo.ursus.example;
 
 import com.aceevo.ursus.config.UrsusApplicationConfiguration;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
-/**
- * Created with IntelliJ IDEA.
- * User: rayjenkins
- * Date: 1/2/14
- * Time: 8:55 PM
- * To change this template use File | Settings | File Templates.
- */
+import javax.validation.constraints.NotNull;
+
 public class ExampleApplicationConfiguration extends UrsusApplicationConfiguration {
+
+    @NotNull
+    @JsonProperty
+    private String name;
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
 }
