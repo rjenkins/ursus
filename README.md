@@ -36,8 +36,8 @@ and the creation of real-time applications and services.
 
 Ursus also includes many libraries found in Dropwizard and other frameworks to help speed up development including,
 
-* Guava
-* Joda time
+* [Guava](https://code.google.com/p/guava-libraries/)
+* [Joda time](www.joda.org/joda-time/)
 * Hibernate Validator
 * Jackson for YAML and JSON support
 * Logback and SLF4J bridging of Grizzly's java.util.logging
