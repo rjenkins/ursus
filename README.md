@@ -100,11 +100,6 @@ at how we can set our environment specific configuration parameters in ```exampl
 ```yaml
 httpServer:
   host: localhost
-  jmxEnabled: true
-  staticResourceDirectory: ./assets
-  staticResourceContextRoot: /ray
-logging:
-  level: INFO
 name: Ray
 ```
 
