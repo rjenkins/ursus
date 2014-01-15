@@ -21,7 +21,7 @@ public class ExampleApplication extends UrsusApplication<ExampleApplicationConfi
 
     @Override
     protected void boostrap(ExampleApplicationConfiguration exampleApplicationConfiguration) {
-//        packages("com.aceevo.ursus.example.api");
+        packages("com.aceevo.ursus.example.api");
 
 //        ServerEndpointConfig serverEndpointConfig = ServerEndpointConfig.Builder.create(EchoEndpointResource.class, "/echo").build();
 //        serverEndpointConfig.getUserProperties().put("exampleApplicationConfiguration", exampleApplicationConfiguration);
@@ -34,6 +34,6 @@ public class ExampleApplication extends UrsusApplication<ExampleApplicationConfi
 
     @Override
     protected void run(HttpServer httpServer) {
-//        startWithShutdownHook(httpServer);
+        startWithShutdownHook(httpServer);
     }
 }

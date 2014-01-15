@@ -353,7 +353,7 @@ public class HelloWorldResource {
 
     @POST
     @Produces(MediaType.APPLICATION_JSON)
-    public Response createHello(@Valid Hello hello,@Context UriInfo uriInfo) {
+    public Response createHello(@Valid Hello hello, @Context UriInfo uriInfo) {
         URI uri = UriBuilder.fromUri(uriInfo.getRequestUri()).path(hello.getName()).build();
         return Response.created(uri).build();
     }
