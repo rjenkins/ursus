@@ -94,13 +94,44 @@ included libraries simply by adding a line or two of YAML (more on that later).
 
 #### Creating our YAML File
 
-Let's allow our ExampleApplication the ability to specify who it should say Hello to, not just some dumb old World. For this
-we'll the the name property we created in ```ExampleApplicationConfiguration now we can define this parameter in ```exampleapplication.yml```
+Let's allow our ExampleApplication the ability to specify who it should say Hello to. For this we'll use the name property we created in
+```ExampleApplicationConfiguration```. Now we can define this parameter in ```exampleapplication.yml```
 
 ```yaml
 httpServer:
   host: localhost
 name: Ray
+```
+
+Great! Let's move on to creating our first application.
+
+#### Creating an UrsusApplication
+
+```java
+package com.aceevo.ursus.example;
+
+import com.aceevo.ursus.core.UrsusApplication;
+import org.glassfish.grizzly.http.server.HttpServer;
+
+public class ExampleApplication extends UrsusApplication<ExampleApplicationConfiguration> {
+
+    protected ExampleApplication(String[] args) {
+        super(args);
+    }
+
+    public static void main(String[] args) throws Exception {
+        new ExampleApplication(args);
+    }
+
+    @Override
+    protected void boostrap(ExampleApplicationConfiguration exampleApplicationConfiguration) {
+        //To change body of implemented methods use File | Settings | File Templates.
+    }
+
+    @Override
+    protected void run(HttpServer httpServer) {
+        //To change body of implemented methods use File | Settings | File Templates.
+    }
 ```
 
 
