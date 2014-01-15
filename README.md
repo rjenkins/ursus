@@ -192,8 +192,91 @@ For the ```ursus-example-application``` we've already added this to the pom.xml,
 ```
 
 If you've cloned the ursus git repo and have modified the ```ursus-example-application``` we should be able to build and test
-our project, build by running ```mvn clean; mvn package``` from the ursus root director. Now we can ```cd ursus-example-application``` and
-start our server with the following command ```java -jar ./target/ursus-example-application-0.2-SNAPSHOT.jar ```
+our project, build by running ```mvn clean; mvn package``` from the ursus director. Now we can cd into ursus-example-application and
+start our server with the following command ```java -jar ./target/ursus-example-application-0.2-SNAPSHOT.jar```
+
+Unfortunately our application starts and then quickly exists, what's up?
+
+```
+boundray:ursus-example-application rayjenkins$ java -jar ./target/ursus-example-application-0.2-SNAPSHOT.jar
+19:16:17.488 [main] INFO  o.h.validator.internal.util.Version - HV000001: Hibernate Validator 5.0.1.Final
+19:16:18.009 [main] INFO  o.g.jersey.server.ApplicationHandler - Initiating Jersey application, version Jersey: 2.5 2013-12-18 14:27:29...
+boundray:ursus-example-application rayjenkins$
+```
+
+### Starting the HttpServer
+
+We need to start our HttpServer instance to start our application. The ```protected void run(HttpServer httpServer)``` run method passes us
+our configured HttpServer (after bootstrap has been called) allowing us to make any additional modifications to the Grizzly Http Server before
+we start our application. When we're ready to start Ursus provides a helper method ```protected void startWithShutdownHook(final HttpServer httpServer)```
+that handles registering a shutdown hook for our application.
+
+```java
+    /**
+     * Convenience method for starting this Grizzly HttpServer
+     *
+     * @param httpServer
+     */
+    protected void startWithShutdownHook(final HttpServer httpServer) {
+
+        Runtime.getRuntime().addShutdownHook(new Thread(new Runnable() {
+            @Override
+            public void run() {
+                LOGGER.info("Stopping Grizzly HttpServer...");
+                httpServer.stop();
+                LOGGER.info("Stopping all managed services...");
+                for (Service service : managedServices) {
+                    service.stopAsync();
+                }
+            }
+        }, "shutdownHook"));
+
+        try {
+            LOGGER.info("Starting all managed services...");
+            for (Service service : managedServices) {
+                service.startAsync();
+            }
+            httpServer.start();
+            printBanner(getClass().getSimpleName());
+            LOGGER.info("Press CTRL^C to exit..");
+            Thread.currentThread().join();
+        } catch (Exception e) {
+            LOGGER.error("There was an error while starting Grizzly HTTP server.", e);
+        }
+    }
+```
+
+Let's add that to our ExampleApplication run method, build again and retry.
+
+```java
+ @Override
+    protected void run(HttpServer httpServer) {
+        startWithShutdownHook(httpServer);
+    }
+```
+
+```java -jar ./target/ursus-example-application-0.2-SNAPSHOT.jar```
+
+```
+boundray:ursus-example-application rayjenkins$ java -jar ./target/ursus-example-application-0.2-SNAPSHOT.jar
+19:32:04.643 [main] INFO  o.h.validator.internal.util.Version - HV000001: Hibernate Validator 5.0.1.Final
+19:32:05.150 [main] INFO  o.g.jersey.server.ApplicationHandler - Initiating Jersey application, version Jersey: 2.5 2013-12-18 14:27:29...
+19:32:05.504 [main] INFO  c.aceevo.ursus.core.UrsusApplication - Starting all managed services...
+19:32:05.557 [main] INFO  o.g.g.http.server.NetworkListener - Started listener bound to [localhost:8080]
+19:32:05.561 [main] INFO  o.g.grizzly.http.server.HttpServer - [HttpServer] Started.
+19:32:05.570 [main] INFO  c.aceevo.ursus.core.UrsusApplication - Starting ExampleApplication
+ __  __   ______    ______   __  __   ______
+/_/\/_/\ /_____/\  /_____/\ /_/\/_/\ /_____/\
+\:\ \:\ \\:::_ \ \ \::::_\/_\:\ \:\ \\::::_\/_
+ \:\ \:\ \\:(_) ) )_\:\/___/\\:\ \:\ \\:\/___/\
+  \:\ \:\ \\: __ `\ \\_::._\:\\:\ \:\ \\_::._\:\
+   \:\_\:\ \\ \ `\ \ \ /____\:\\:\_\:\ \ /____\:\
+    \_____\/ \_\/ \_\/ \_____\/ \_____\/ \_____\/
+
+
+19:32:05.570 [main] INFO  c.aceevo.ursus.core.UrsusApplication - Press CTRL^C to exit..
+```
+
 
 
 
