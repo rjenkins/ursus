@@ -382,13 +382,14 @@ public class HelloWorldResource {
 }
 ```
 
-There's a few things going on in this resource, so let's watch through them step by step.
+There's a few things going on in this resource, so let's walk through them step by step.
 
 * We define the path and media type at the class level with ```@Path("hello") and @Produces(MediaType.APPLICATION_JSON)```
 * We create an ExecutorService for our AsyncResponse resource with ```java private final ExecutorService executorService = Executors.newSingleThreadExecutor();```
 * We @Inject an instance of  ```ExampleApplicationConfiguration```
 
-The first ```@GET``` and ```@POST``` methods are pretty standard, let's take a look at the ```@PATH("/async") sayHelloAsync``` resource method.
+The first ```@GET``` and ```@POST``` methods are pretty standard, let's take a look at the ```@PATH("/async") sayHelloAsync``` resource method. This method
+uses the ```@Suspend``` annotation and allows us to suspect the current request and submit a Callable
 
 
 

@@ -13,10 +13,8 @@ import javax.ws.rs.container.AsyncResponse;
 import javax.ws.rs.container.Suspended;
 import javax.ws.rs.core.*;
 import java.net.URI;
-import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-import java.util.concurrent.Future;
 
 @Path("hello")
 @Produces(MediaType.APPLICATION_JSON)
@@ -45,15 +43,17 @@ public class HelloWorldResource {
     @Produces(MediaType.APPLICATION_JSON)
     public void sayHelloAsync(final @Suspended AsyncResponse asyncResponse) throws Exception {
 
-        Future<Hello> helloFuture = executorService.submit(new Callable<Hello>() {
+        executorService.submit(new Runnable() {
             @Override
-            public Hello call() throws Exception {
-                Thread.currentThread().sleep(5000);
-                return new Hello(exampleApplicationConfiguration.getName());
+            public void run() {
+                try {
+                    Thread.currentThread().sleep(5000);
+                    asyncResponse.resume(Response.ok(new Hello(exampleApplicationConfiguration.getName())).build());
+                } catch (InterruptedException e) {
+                    e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+                }
             }
         });
 
-        Hello hello = helloFuture.get();
-        asyncResponse.resume(Response.ok(hello).build());
     }
 }
