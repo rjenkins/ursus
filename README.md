@@ -38,9 +38,9 @@ Ursus also includes many libraries found in Dropwizard and other frameworks to h
 
 * [Guava](https://code.google.com/p/guava-libraries/)
 * [Joda time](www.joda.org/joda-time/)
-* Hibernate Validator
-* Jackson for YAML and JSON support
-* Logback and SLF4J bridging of Grizzly's java.util.logging
+* [Hibernate Validator](http://hibernate.org/validator/)
+* [Jackson](http://jackson.codehaus.org/) for YAML and JSON support]
+* [Logback](http://logback.qos.ch/) and SLF4J(http://www.slf4j.org/) for bridging of Grizzly's java.util.logging
 * An Apache based HTTPClient and a Jersey 2.5 client
 
 ### Using Ursus
@@ -58,8 +58,11 @@ module to your pom.xml as a dependency.
 ```
 
 #### Quick Start
-Let's take a look at the ```ursus-example-application``` project a simple HelloWorld service. Ursus applications require 2 classes, a subclass
-of ```UrsusApplication``` and a subclass of ```UrsusApplicationConfiguration```. The com.aceevo.ursus.example package contains both.
+Let's take a look at the ```ursus-example-application``` project a simple HelloWorld service. It's fully implemented, but we're going
+to walk through the steps it took to build this project. If it helps you might want to clone the Ursus repro, [https://github.com/rjenkins/ursus.git](https://github.com/rjenkins/ursus.git)
+and modify ```ursus-example-application``` as we progress through the quick start building up the application yourself.
+
+Ursus applications require 2 classes, a subclass of ```UrsusApplication``` and a subclass of ```UrsusApplicationConfiguration```. The com.aceevo.ursus.example package contains both.
 Let's start by looking at the ```ExampleApplicationConfiguration``` class.
 
 ```java
@@ -107,10 +110,10 @@ Great! Let's move on to creating our first application.
 
 #### Creating an UrsusApplication
 
-We'll name our UrsusApplication ```ExampleApplication``` and subclass ```UrsusApplication``` we also need to parameterize
-it with the type of our UrsusApplicationConfiguration class, that's named ```ExampleApplicationConfiguration```. If you're
-using an IDE like IntelliJ you can select implement methods and you'll get the shell of our application. You'll also
-need to add a ```public static void main(String[] args)``` method and instantiate our instance of ExampleApplication.
+We'll name our application ```ExampleApplication``` and subclass ```UrsusApplication``` we also need to parameterize
+ExampleApplication with the type of our UrsusApplicationConfiguration class, that's named ```ExampleApplicationConfiguration```.
+If your using an IDE like IntelliJ you can select implement methods and you'll get the shell of our application. We also
+need to add a ```public static void main(String[] args)``` method and instantiate an instance of ExampleApplication.
 
 ```java
 package com.aceevo.ursus.example;
@@ -139,7 +142,11 @@ public class ExampleApplication extends UrsusApplication<ExampleApplicationConfi
     }
 ```
 
-#### Building A Fat Jar
+ExampleApplication in the ```ursus-example-application``` project is filled out and have more data than this, but let's ignore that for now.
+If you like you can always overwrite ```ExampleApplication``` with the above and follow
+
+
+#### Building our first artifact and running our application.
 
 Just like Dropwizard Ursus recommends building a "fat" jar that contains all the ```.class``` files needed to run our service.
 For the ```ursus-example-application``` we've already added this to the pom.xml, here's the relavent parts of our configuration.
