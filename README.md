@@ -86,7 +86,7 @@ public class ExampleApplicationConfiguration extends UrsusApplicationConfigurati
 ```
 Just like Dropwizard we will specify our environment specific configuration parameters in a [YAML](http://www.yaml.org/) configuration
 file and these parameters will be deserialized by Jackson and validated. By default Ursus will look for a file whose name is the class name of
-your application with a ```.yml``` extension, for this example application that's file is named ```exampleapplication.yml```.
+your application with a ```.yml``` extension, for this example application that file is named ```exampleapplication.yml```.
 
 In addition to your own environment specific configuration parameters [UrsusApplicationConfiguration](https://github.com/rjenkins/ursus/blob/master/ursus-config/src/main/java/com/aceevo/ursus/config/UrsusApplicationConfiguration.java)
 defines a large set of configuration properties that allow you to modify all of the granular configuration options available with Grizzly and many of the other
@@ -94,8 +94,8 @@ included libraries simply by adding a line or two of YAML (more on that later).
 
 #### Creating our YAML File
 
-This ExampleApplication  wants to allow you to be able to specify who you'd like to say Hello to, not just some dumb old World. Let's looks
-at how we can set our environment specific configuration parameters in ```exampleapplication.yml```
+Let's allow our ExampleApplication the ability to specify who it should say Hello to, not just some dumb old World. For this
+we'll the the name property we created in ```ExampleApplicationConfiguration now we can define this parameter in ```exampleapplication.yml```
 
 ```yaml
 httpServer:
