@@ -384,9 +384,7 @@ public class HelloWorldResource {
 
 There's a few things going on in this resource, so let's watch through them step by step.
 
-* We define the path and media type at the class level with
-..*```@Path("hello")```
-..*```@Produces(MediaType.APPLICATION_JSON)```
+* We define the path and media type at the class level with ```@Path("hello") and @Produces(MediaType.APPLICATION_JSON)```
 * We create an ExecutorService for our AsyncResponse resource with ```java private final ExecutorService executorService = Executors.newSingleThreadExecutor();```
 * We @Inject an instance of  ```ExampleApplicationConfiguration```
 
