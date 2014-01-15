@@ -250,10 +250,14 @@ protected void startWithShutdownHook(final HttpServer httpServer) {
 Let's add that to our ExampleApplication run method, build again and retry.
 
 ```java
+...
+
 @Override
 protected void run(HttpServer httpServer) {
     startWithShutdownHook(httpServer);
 }
+
+...
 ```
 
 ```java -jar ./target/ursus-example-application-0.2-SNAPSHOT.jar```
@@ -377,6 +381,16 @@ public class HelloWorldResource {
     }
 }
 ```
+
+There's a few things going on in this resource, so let's watch through them step by step.
+
+* We define the path and media type at the class level with ```@Path("hello")``` and  ```@Produces(MediaType.APPLICATION_JSON)```
+* We create an ExecutorService for our AsyncResponse resource with ```java private final ExecutorService executorService = Executors.newSingleThreadExecutor();```
+* We @Inject our ```ExampleApplicationConfiguration```
+
+The first ```@GET``` and ```@POST``` methods are pretty standard, let's take a look at the ```@PATH("/async") sayHelloAsync``` resource method.
+
+
 
 
 
