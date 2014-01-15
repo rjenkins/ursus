@@ -206,53 +206,53 @@ boundray:ursus-example-application rayjenkins$
 
 ### Starting the HttpServer
 
-We need to start our HttpServer instance to start our application. The ```protected void run(HttpServer httpServer)``` run method passes us
-our configured HttpServer (after bootstrap has been called) allowing us to make any additional modifications to the Grizzly Http Server before
-we start our application. When we're ready to start Ursus provides a helper method ```protected void startWithShutdownHook(final HttpServer httpServer)```
-that handles registering a shutdown hook for our application.
+We need to start our HttpServer instance to start our application. ```protected void run(HttpServer httpServer)``` method passes us
+a configured HttpServer (after bootstrap has been called) allowing us to make any additional modifications to the Grizzly Http Server before
+we start our application. When we're ready to start our application Ursus provides a helper method ```protected void startWithShutdownHook(final HttpServer httpServer)```
+that handles starting the HttpServer and registering a shutdown hook for our application.
 
 ```java
-    /**
-     * Convenience method for starting this Grizzly HttpServer
-     *
-     * @param httpServer
-     */
-    protected void startWithShutdownHook(final HttpServer httpServer) {
+/**
+ * Convenience method for starting this Grizzly HttpServer
+ *
+ * @param httpServer
+ */
+protected void startWithShutdownHook(final HttpServer httpServer) {
 
-        Runtime.getRuntime().addShutdownHook(new Thread(new Runnable() {
-            @Override
-            public void run() {
-                LOGGER.info("Stopping Grizzly HttpServer...");
-                httpServer.stop();
-                LOGGER.info("Stopping all managed services...");
-                for (Service service : managedServices) {
-                    service.stopAsync();
-                }
-            }
-        }, "shutdownHook"));
-
-        try {
-            LOGGER.info("Starting all managed services...");
+    Runtime.getRuntime().addShutdownHook(new Thread(new Runnable() {
+        @Override
+        public void run() {
+            LOGGER.info("Stopping Grizzly HttpServer...");
+            httpServer.stop();
+            LOGGER.info("Stopping all managed services...");
             for (Service service : managedServices) {
-                service.startAsync();
+                service.stopAsync();
             }
-            httpServer.start();
-            printBanner(getClass().getSimpleName());
-            LOGGER.info("Press CTRL^C to exit..");
-            Thread.currentThread().join();
-        } catch (Exception e) {
-            LOGGER.error("There was an error while starting Grizzly HTTP server.", e);
         }
+    }, "shutdownHook"));
+
+    try {
+        LOGGER.info("Starting all managed services...");
+        for (Service service : managedServices) {
+            service.startAsync();
+        }
+        httpServer.start();
+        printBanner(getClass().getSimpleName());
+        LOGGER.info("Press CTRL^C to exit..");
+        Thread.currentThread().join();
+    } catch (Exception e) {
+        LOGGER.error("There was an error while starting Grizzly HTTP server.", e);
     }
+}
 ```
 
 Let's add that to our ExampleApplication run method, build again and retry.
 
 ```java
- @Override
-    protected void run(HttpServer httpServer) {
-        startWithShutdownHook(httpServer);
-    }
+@Override
+protected void run(HttpServer httpServer) {
+    startWithShutdownHook(httpServer);
+}
 ```
 
 ```java -jar ./target/ursus-example-application-0.2-SNAPSHOT.jar```
