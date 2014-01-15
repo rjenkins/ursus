@@ -93,7 +93,7 @@ your application with a ```.yml``` extension, for this example application that 
 
 In addition to your own environment specific configuration parameters [UrsusApplicationConfiguration](https://github.com/rjenkins/ursus/blob/master/ursus-config/src/main/java/com/aceevo/ursus/config/UrsusApplicationConfiguration.java)
 defines a large set of configuration properties that allow you to modify all of the granular configuration options available with Grizzly and many of the other
-included libraries simply by adding a line or two of YAML (more on that later).
+included libraries simply by adding lines of YAML (more on that later).
 
 #### Creating our YAML File
 
@@ -191,6 +191,9 @@ For the ```ursus-example-application``` we've already added this to the pom.xml,
             ...
 ```
 
+If you've cloned the ursus git repo and have modified the ```ursus-example-application``` we should be able to build and test
+our project, build by running ```mvn clean; mvn package``` from the ursus root director. Now we can ```cd ursus-example-application``` and
+start our server with the following command ```java -jar ./target/ursus-example-application-0.2-SNAPSHOT.jar ```
 
 
 
