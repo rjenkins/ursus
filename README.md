@@ -43,7 +43,7 @@ Ursus also includes many libraries found in Dropwizard and other frameworks to h
 * [Logback](http://logback.qos.ch/) and [SLF4J](http://www.slf4j.org/) for bridging of Grizzly's java.util.logging
 * An [Apache HTTPClient](http://hc.apache.org/httpclient-3.x/) and a [Jersey 2.5 client](https://jersey.java.net/documentation/latest/user-guide.html#client)
 
-### Using Ursus
+#### Using Ursus
 Ursus releases artifacts are hosted on the central repository, to get started with ursus simply add the ```ursus-core```
 module to your pom.xml as a dependency.
 
@@ -57,7 +57,7 @@ module to your pom.xml as a dependency.
  </dependencies>
 ```
 
-#### Quick Start
+### Quick Start
 Let's take a look at the ```ursus-example-application``` project a simple HelloWorld service. It's fully implemented, but we're going
 to walk through the steps it took to build this project. If it helps you might want to clone the Ursus repro, [https://github.com/rjenkins/ursus.git](https://github.com/rjenkins/ursus.git)
 and modify ```ursus-example-application``` as we progress through the quick start building up the application yourself.
@@ -205,7 +205,7 @@ boundray:ursus-example-application rayjenkins$ java -jar ./target/ursus-example-
 boundray:ursus-example-application rayjenkins$
 ```
 
-### Starting the HttpServer
+#### Starting the HttpServer
 
 We need to start our HttpServer instance to start our application. ```protected void run(HttpServer httpServer)``` method passes us
 a configured HttpServer (after bootstrap has been called) allowing us to make any additional modifications to the Grizzly Http Server before
@@ -280,7 +280,7 @@ boundray:ursus-example-application rayjenkins$ java -jar ./target/ursus-example-
 W00t! success, now it's time to move on to implementing our service.
 
 ### Representations and Resources
-We've got our application started but we need to provide some APIs and some representations. As previously mentioned
+We've got our application started but we need to provide some resources and some representations. As previously mentioned
 this Hello World application is going to support specifiying exactly who we're going to say hello to. Let's create a model
 class to represent a Hello.
 
