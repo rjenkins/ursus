@@ -1,13 +1,5 @@
 package com.aceevo.ursus.example.api;
 
-/**
- * Created with IntelliJ IDEA.
- * User: rayjenkins
- * Date: 12/28/13
- * Time: 9:17 PM
- * To change this template use File | Settings | File Templates.
- */
-
 import com.aceevo.ursus.example.ExampleApplicationConfiguration;
 import com.aceevo.ursus.example.model.Hello;
 
