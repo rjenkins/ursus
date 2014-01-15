@@ -40,8 +40,8 @@ Ursus also includes many libraries found in Dropwizard and other frameworks to h
 * [Joda time](www.joda.org/joda-time/)
 * [Hibernate Validator](http://hibernate.org/validator/)
 * [Jackson](http://jackson.codehaus.org/) for YAML and JSON support]
-* [Logback](http://logback.qos.ch/) and SLF4J(http://www.slf4j.org/) for bridging of Grizzly's java.util.logging
-* An Apache based HTTPClient and a Jersey 2.5 client
+* [Logback](http://logback.qos.ch/) and [SLF4J](http://www.slf4j.org/) for bridging of Grizzly's java.util.logging
+* An [Apache HTTPClient](http://hc.apache.org/httpclient-3.x/) and a [Jersey 2.5 client](https://jersey.java.net/documentation/latest/user-guide.html#client)
 
 ### Using Ursus
 Ursus releases artifacts are hosted on the central repository, to get started with ursus simply add the ```ursus-core```
