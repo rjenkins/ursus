@@ -5,20 +5,29 @@ import com.aceevo.ursus.example.ExampleApplicationConfiguration;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import javax.inject.Inject;
-import javax.websocket.OnMessage;
-import javax.websocket.Session;
-import javax.websocket.server.ServerEndpoint;
+import javax.websocket.*;
+import java.io.IOException;
 
-@ServerEndpoint(value = "/echo")
-public class EchoEndpointResource {
+public class EchoEndpointResource extends Endpoint {
 
     Logger logger = LoggerFactory.getLogger(EchoEndpointResource.class);
+    private ExampleApplicationConfiguration exampleApplicationConfiguration;
 
-    @OnMessage
-    public String onMessage(String message, Session session) {
-        logger.info("Received message from client: " + message);
-        return message;
+    @OnOpen
+    public void onOpen(final Session session, EndpointConfig config) {
+        exampleApplicationConfiguration = (ExampleApplicationConfiguration) config.getUserProperties().get("exampleApplicationConfiguration");
+        session.addMessageHandler(new MessageHandler.Whole<String>() {
+
+            @Override
+            public void onMessage(String message) {
+                logger.info("exampleApplicationConfiguration.getName is: " + exampleApplicationConfiguration.getName());
+                logger.info("Received message from client: " + message);
+                try {
+                    session.getBasicRemote().sendText(message);
+                } catch (IOException e) {
+                    e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+                }
+            }
+        });
     }
-
 }

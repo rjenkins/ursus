@@ -43,7 +43,7 @@ Ursus also includes many libraries found in Dropwizard and other frameworks to h
 * Logback and SLF4J bridging of Grizzly's java.util.logging
 * An Apache based HTTPClient and a Jersey 2.5 client
 
-### Quick Start
+### Using Ursus
 Ursus releases artifacts are hosted on the central repository, to get started with ursus simply add the ```ursus-core```
 module to your pom.xml as a dependency.
 
@@ -57,7 +57,7 @@ module to your pom.xml as a dependency.
  </dependencies>
 ```
 
-#### Our First Application
+#### Quick Start
 Let's take a look at the ```ursus-example-application``` project a simple HelloWorld service. Ursus applications require 2 classes, a subclass
 of ```UrsusApplication``` and a subclass of ```UrsusApplicationConfiguration```. The com.aceevo.ursus.example package contains both.
 Let's start by looking at the ```ExampleApplicationConfiguration``` class.
@@ -94,7 +94,7 @@ included libraries simply by adding a line or two of YAML (more on that later).
 
 #### Creating our YAML File
 
-This ExampleApplication is fancy and wants to allow you to be able to specify who you'd like to say Hello to, not just some dumb old World. Let's looks
+This ExampleApplication  wants to allow you to be able to specify who you'd like to say Hello to, not just some dumb old World. Let's looks
 at how we can set our environment specific configuration parameters in ```exampleapplication.yml```
 
 ```yaml
@@ -102,6 +102,8 @@ httpServer:
   host: localhost
 name: Ray
 ```
+
+
 
 
 

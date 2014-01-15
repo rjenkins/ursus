@@ -33,7 +33,6 @@ import java.util.concurrent.Future;
 public class HelloWorldResource {
 
     private final ExecutorService executorService = Executors.newSingleThreadExecutor();
-    private final Logger LOGGER = LoggerFactory.getLogger(HelloWorldResource.class);
 
     @Inject
     ExampleApplicationConfiguration exampleApplicationConfiguration;
@@ -41,7 +40,6 @@ public class HelloWorldResource {
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     public Response hello() {
-        LOGGER.info("exampleApplicationConfiguration is: " + exampleApplicationConfiguration);
         return Response.ok(new Hello(exampleApplicationConfiguration.getName())).build();
     }
 
@@ -61,7 +59,7 @@ public class HelloWorldResource {
             @Override
             public Hello call() throws Exception {
                 Thread.currentThread().sleep(5000);
-                return new Hello("Ray");
+                return new Hello(exampleApplicationConfiguration.getName());
             }
         });
 

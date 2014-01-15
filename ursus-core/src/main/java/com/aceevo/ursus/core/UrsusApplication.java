@@ -43,11 +43,14 @@ import org.slf4j.LoggerFactory;
 import org.slf4j.bridge.SLF4JBridgeHandler;
 
 import javax.websocket.DeploymentException;
+import javax.websocket.Endpoint;
 import javax.websocket.server.ServerEndpoint;
+import javax.websocket.server.ServerEndpointConfig;
 import javax.ws.rs.ext.ExceptionMapper;
 import java.io.IOException;
 import java.lang.reflect.ParameterizedType;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
 
 /**
@@ -64,7 +67,7 @@ public abstract class UrsusApplication<T extends UrsusApplicationConfiguration> 
     private final T configuration;
     private final Set<Service> managedServices = new HashSet<Service>();
     private final String[] args;
-    private final Set<Object> serverEndpointInstances = new HashSet<Object>();
+    private final Set<ServerEndpointConfig> serverEndpointConfigs = new HashSet<ServerEndpointConfig>();
 
     final Logger LOGGER = LoggerFactory.getLogger(UrsusApplication.class);
 
@@ -149,8 +152,24 @@ public abstract class UrsusApplication<T extends UrsusApplicationConfiguration> 
         return (T) ursusConfigurationFactory.getConfiguration();
     }
 
-    private void registerEndpoint(Object object) {
-        serverEndpointInstances.add(object);
+    /**
+     *
+     * @param serverEndpointConfig
+     */
+    public void registerEndpoint(ServerEndpointConfig serverEndpointConfig) {
+        serverEndpointConfigs.add(serverEndpointConfig);
+    }
+
+    /**
+     * Register a WebSocket endpoint passing in a path and a {@link Map} of UserProperties
+     * @param clazz the websocket endpoint
+     * @param path the path
+     * @param userProperties out user properties.
+     */
+    public void registerEndpoint(Class<? extends Endpoint> clazz, String path, Map<String, Object> userProperties) {
+        ServerEndpointConfig serverEndpointConfig = ServerEndpointConfig.Builder.create(clazz, path).build();
+        serverEndpointConfig.getUserProperties().putAll(userProperties);
+        registerEndpoint(serverEndpointConfig);
     }
 
     /**
@@ -319,6 +338,7 @@ public abstract class UrsusApplication<T extends UrsusApplicationConfiguration> 
     private void configureTyrus(T configuration, NetworkListener listener) {
 
         Set<Class<?>> classes = getClasses();
+
         Set<Class<?>> tyrusEndpoints = new HashSet<Class<?>>();
         for (Class<?> clazz : classes) {
             if (clazz.isAnnotationPresent(ServerEndpoint.class)) {
@@ -326,17 +346,14 @@ public abstract class UrsusApplication<T extends UrsusApplicationConfiguration> 
             }
         }
 
-        if (tyrusEndpoints.size() > 0) {
-            UrsusTyrusServerContainer ursusTyrusServerContainer = null;
-            try {
-
-                ursusTyrusServerContainer = new UrsusTyrusServerContainer(tyrusEndpoints,
-                        configuration.getHttpServer().getRootContext(), configuration.getTyrus().getIncomingBufferSize());
-                GrizzlyServerFilter grizzlyServerFilter = new GrizzlyServerFilter(ursusTyrusServerContainer);
-                listener.registerAddOn(new TyrusAddOn(grizzlyServerFilter));
-            } catch (DeploymentException e) {
-                throw new RuntimeException("Unable to deploy WebSocket endpoints", e);
-            }
+        UrsusTyrusServerContainer ursusTyrusServerContainer = null;
+        try {
+            ursusTyrusServerContainer = new UrsusTyrusServerContainer(tyrusEndpoints, serverEndpointConfigs,
+                    configuration.getHttpServer().getRootContext(), configuration.getTyrus().getIncomingBufferSize());
+            GrizzlyServerFilter grizzlyServerFilter = new GrizzlyServerFilter(ursusTyrusServerContainer);
+            listener.registerAddOn(new TyrusAddOn(grizzlyServerFilter));
+        } catch (DeploymentException e) {
+            throw new RuntimeException("Unable to deploy WebSocket endpoints", e);
         }
     }
 

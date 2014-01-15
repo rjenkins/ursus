@@ -31,6 +31,7 @@ public class UrsusTyrusServerContainer extends TyrusServerContainer {
     private final Set<Class<?>> classes;
     private final WebSocketEngine engine;
     private final String contextPath;
+    private Set<ServerEndpointConfig> serverEndpointConfigs;
 
     public UrsusTyrusServerContainer(Set<Class<?>> classes, String contextPath, int incomingBufferSize) throws DeploymentException {
         super(classes);
@@ -39,6 +40,17 @@ public class UrsusTyrusServerContainer extends TyrusServerContainer {
         this.engine = new TyrusWebSocketEngine(this, incomingBufferSize);
         init();
     }
+
+    public UrsusTyrusServerContainer(Set<Class<?>> classes, Set<ServerEndpointConfig> serverEndpointConfigs, String contextPath,
+                                     int incomingBufferSize) throws DeploymentException {
+        super(classes);
+        this.classes = classes;
+        this.contextPath = contextPath;
+        this.engine = new TyrusWebSocketEngine(this, incomingBufferSize);
+        this.serverEndpointConfigs = serverEndpointConfigs;
+        init();
+    }
+
 
     @Override
     public void register(Class<?> endpointClass) throws DeploymentException {
@@ -59,6 +71,10 @@ public class UrsusTyrusServerContainer extends TyrusServerContainer {
         // deploy all the annotated endpoints
         for (Class<?> endpointClass : classes) {
             register(endpointClass);
+        }
+
+        for(ServerEndpointConfig serverEndpointConfig : serverEndpointConfigs) {
+            register(serverEndpointConfig);
         }
     }
 

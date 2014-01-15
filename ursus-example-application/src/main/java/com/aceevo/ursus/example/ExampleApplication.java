@@ -2,7 +2,11 @@ package com.aceevo.ursus.example;
 
 import com.aceevo.ursus.core.UrsusApplication;
 import com.aceevo.ursus.example.api.EchoEndpointResource;
+import com.google.common.collect.ImmutableMap;
+import com.google.common.collect.Maps;
 import org.glassfish.grizzly.http.server.HttpServer;
+
+import javax.websocket.server.ServerEndpointConfig;
 
 public class ExampleApplication extends UrsusApplication<ExampleApplicationConfiguration> {
 
@@ -19,9 +23,12 @@ public class ExampleApplication extends UrsusApplication<ExampleApplicationConfi
     protected void boostrap(ExampleApplicationConfiguration exampleApplicationConfiguration) {
         packages("com.aceevo.ursus.example.api");
 
-        // We have to either manually register @ServerEndpoint classes in our ResourceConfig or annotate them
-        // with @Provider because they are not picked up by the ResourceConfig scanner
-        register(EchoEndpointResource.class);
+//        ServerEndpointConfig serverEndpointConfig = ServerEndpointConfig.Builder.create(EchoEndpointResource.class, "/echo").build();
+//        serverEndpointConfig.getUserProperties().put("exampleApplicationConfiguration", exampleApplicationConfiguration);
+//        registerEndpoint(serverEndpointConfig);
+
+        registerEndpoint(EchoEndpointResource.class, "/echo",
+                ImmutableMap.<String, Object>of("exampleApplicationConfiguration", exampleApplicationConfiguration));
 
     }
 
