@@ -281,7 +281,7 @@ boundray:ursus-example-application rayjenkins$ java -jar ./target/ursus-example-
 19:32:05.570 [main] INFO  c.aceevo.ursus.core.UrsusApplication - Press CTRL^C to exit..
 ```
 
-W00t! success, now it's time to move on to implementing our service.
+Success! Now it's time to move on to implementing our service.
 
 ### Representations and Resources
 We've got our application started but we need to provide some resources and some representations. As previously mentioned
@@ -389,7 +389,9 @@ There's a few things going on in this resource, so let's walk through them step 
 * We @Inject an instance of  ```ExampleApplicationConfiguration```
 
 The first ```@GET``` and ```@POST``` methods are pretty standard, let's take a look at the ```@PATH("/async") sayHelloAsync``` resource method. This method
-uses the ```@Suspend``` annotation and allows us to suspect the current request and submit a Callable
+uses the ```@Suspend``` annotation and allows us to suspend the current request releasing the thread responsible for handling the request and resume
+asynchronously once we're ready to response.
+
 
 
 
