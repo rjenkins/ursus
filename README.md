@@ -107,6 +107,11 @@ Great! Let's move on to creating our first application.
 
 #### Creating an UrsusApplication
 
+We'll name our UrsusApplication ```ExampleApplication``` and subclass ```UrsusApplication``` we also need to parameterize
+it with the type of our UrsusApplicationConfiguration class, that's named ```ExampleApplicationConfiguration```. If you're
+using an IDE like IntelliJ you can select implement methods and you'll get the shell of our application. You'll also
+need to add a ```public static void main(String[] args)``` method and instantiate our instance of ExampleApplication.
+
 ```java
 package com.aceevo.ursus.example;
 
@@ -133,6 +138,52 @@ public class ExampleApplication extends UrsusApplication<ExampleApplicationConfi
         //To change body of implemented methods use File | Settings | File Templates.
     }
 ```
+
+#### Building A Fat Jar
+
+Just like Dropwizard Ursus recommends building a "fat" jar that contains all the ```.class``` files needed to run our service.
+For the ```ursus-example-application``` we've already added this to the pom.xml, here's the relavent parts of our configuration.
+
+```xml
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-shade-plugin</artifactId>
+                <version>2.1</version>
+                <configuration>
+                    <createDependencyReducedPom>true</createDependencyReducedPom>
+                    <filters>
+                        <filter>
+                            <artifact>*:*</artifact>
+                            <excludes>
+                                <exclude>META-INF/*.SF</exclude>
+                                <exclude>META-INF/*.DSA</exclude>
+                                <exclude>META-INF/*.RSA</exclude>
+                            </excludes>
+                        </filter>
+                    </filters>
+                </configuration>
+                <executions>
+                    <execution>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>shade</goal>
+                        </goals>
+                        <configuration>
+                            <transformers>
+                                <transformer implementation="org.apache.maven.plugins.shade.resource.ServicesResourceTransformer" />
+                                <transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
+                                    <mainClass>com.aceevo.ursus.example.ExampleApplication</mainClass>
+                                </transformer>
+                            </transformers>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            ...
+```
+
 
 
 

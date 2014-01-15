@@ -181,7 +181,7 @@ public abstract class UrsusApplication<T extends UrsusApplicationConfiguration> 
         //Register Jackson support
         packages("org.glassfish.jersey.examples.jackson").register(JacksonFeature.class);
 
-        //Add Grizzled ExceptionMapper
+        //Add ExceptionMapper and create Container
         register(exceptionMapperClass);
         GrizzlyHttpContainer grizzlyHttpContainer = ContainerFactory.createContainer(GrizzlyHttpContainer.class, this);
 
