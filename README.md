@@ -274,9 +274,45 @@ boundray:ursus-example-application rayjenkins$ java -jar ./target/ursus-example-
    \:\_\:\ \\ \ `\ \ \ /____\:\\:\_\:\ \ /____\:\
     \_____\/ \_\/ \_\/ \_____\/ \_____\/ \_____\/
 
-
 19:32:05.570 [main] INFO  c.aceevo.ursus.core.UrsusApplication - Press CTRL^C to exit..
 ```
+
+W00t! Success, now it's time to move on to implementing our service.
+
+### Representations and Resources
+
+Well we've got our application started but we need to provide some APIs and some representations. As previously mentioned
+this Hello World application is going to support specifiying exactly who we're going to say hello to. Let's create a model
+class to represent a Hello.
+
+```java
+package com.aceevo.ursus.example.model;
+
+import org.codehaus.jackson.annotate.JsonProperty;
+
+public class Hello {
+
+    @JsonProperty
+    private String name;
+
+    public Hello(String name) {
+        this.name = name;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    void setName(String name) {
+        this.name = name;
+    }
+}
+```
+
+O.K. now that we've created a representation we can create a Jersey Resource class for representing this resource.
+
+### Resource Classes.
+
 
 
 
