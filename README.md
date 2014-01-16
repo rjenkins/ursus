@@ -3,7 +3,7 @@
 ### Overview
 
 Ursus is a [Dropwizard](http://dropwizard.codahale.com/) inspired framework for developing lightweight
-production-ready web services on the JVM and [Grizzly](https://grizzly.java.net/). Ursus combines Grizzly's
+web services on the JVM and [Grizzly](https://grizzly.java.net/). Ursus combines Grizzly's
 NIO/Event Driven framework and popular libraries such as [Jersey 2.5](https://jersey.java.net/) and
 [Project Tyrus - JSR 356: Java API for WebSocket - Reference Implementation](https://tyrus.java.net/) with
 the simple conventions found in Dropwizard, allowing you to focus on developing your services rather
@@ -298,6 +298,10 @@ public class Hello {
     @JsonProperty
     private String name;
 
+    public Hello() {
+
+    }
+
     public Hello(String name) {
         this.name = name;
     }
@@ -391,6 +395,130 @@ There's a few things going on in this resource, so let's walk through them step 
 The first ```@GET``` and ```@POST``` methods are pretty standard, let's take a look at the ```@PATH("/async") sayHelloAsync``` resource method. This method
 uses the ```@Suspend``` annotation and allows us to suspend the current request releasing the thread responsible for handling the request and resume
 asynchronously once we're ready to response.
+
+#### Registering Resources
+
+Now that we've created our first resource we need to register then with our Jersey ResourceConfig, there are many ways to do this (more on this later)
+but for our example application let's use Jersey's built in resource discovery and specify the package where are resources exist. We'll do this in bootstrap
+method of ```ExampleApplication```.
+
+```java
+package com.aceevo.ursus.example;
+
+import com.aceevo.ursus.core.UrsusApplication;
+import com.aceevo.ursus.example.api.EchoEndpointResource;
+import com.google.common.collect.ImmutableMap;
+import com.google.common.collect.Maps;
+import org.glassfish.grizzly.http.server.HttpServer;
+
+import javax.websocket.server.ServerEndpointConfig;
+
+public class ExampleApplication extends UrsusApplication<ExampleApplicationConfiguration> {
+
+    ...
+
+    @Override
+    protected void boostrap(ExampleApplicationConfiguration exampleApplicationConfiguration) {
+        packages("com.aceevo.ursus.example.api");
+    }
+
+    @Override
+    protected void run(HttpServer httpServer) {
+        startWithShutdownHook(httpServer);
+    }
+}```
+
+Now we're ready to build and try out our resources.
+
+```
+boundray:ursus-example-application rayjenkins$ java -jar ./target/ursus-example-application-0.2-SNAPSHOT.jar
+21:27:58.901 [main] INFO  o.h.validator.internal.util.Version - HV000001: Hibernate Validator 5.0.1.Final
+21:27:59.901 [main] INFO  o.g.jersey.server.ApplicationHandler - Initiating Jersey application, version Jersey: 2.5 2013-12-18 14:27:29...
+21:28:00.290 [main] INFO  c.aceevo.ursus.core.UrsusApplication - Starting all managed services...
+21:28:00.342 [main] INFO  o.g.g.http.server.NetworkListener - Started listener bound to [localhost:8080]
+21:28:00.357 [main] INFO  o.g.grizzly.http.server.HttpServer - [HttpServer] Started.
+21:28:00.366 [main] INFO  c.aceevo.ursus.core.UrsusApplication - Starting ExampleApplication
+ __  __   ______    ______   __  __   ______
+/_/\/_/\ /_____/\  /_____/\ /_/\/_/\ /_____/\
+\:\ \:\ \\:::_ \ \ \::::_\/_\:\ \:\ \\::::_\/_
+ \:\ \:\ \\:(_) ) )_\:\/___/\\:\ \:\ \\:\/___/\
+  \:\ \:\ \\: __ `\ \\_::._\:\\:\ \:\ \\_::._\:\
+   \:\_\:\ \\ \ `\ \ \ /____\:\\:\_\:\ \ /____\:\
+    \_____\/ \_\/ \_\/ \_____\/ \_____\/ \_____\/
+
+21:28:00.366 [main] INFO  c.aceevo.ursus.core.UrsusApplication - Press CTRL^C to exit..
+^Z
+[1]+  Stopped                 java -jar ./target/ursus-example-application-0.2-SNAPSHOT.jar
+boundray:ursus-example-application rayjenkins$ bg
+[1]+ java -jar ./target/ursus-example-application-0.2-SNAPSHOT.jar &
+
+boundray:ursus-example-application rayjenkins$ curl -v -X GET -H "Accept: application/json" http://localhost:8080/hello
+* About to connect() to localhost port 8080 (#0)
+*   Trying ::1...
+* Connection refused
+*   Trying 127.0.0.1...
+* connected
+* Connected to localhost (127.0.0.1) port 8080 (#0)
+> GET /hello HTTP/1.1
+> User-Agent: curl/7.24.0 (x86_64-apple-darwin12.0) libcurl/7.24.0 OpenSSL/0.9.8y zlib/1.2.5
+> Host: localhost:8080
+> Accept: application/json
+>
+< HTTP/1.1 200 OK
+< Content-Type: application/json
+< Date: Thu, 16 Jan 2014 05:28:07 GMT
+< Content-Length: 14
+<
+* Connection #0 to host localhost left intact
+{"name":"Ray"}* Closing connection #0
+
+boundray:ursus-example-application rayjenkins$ curl -v -H "Content-Type: application/json" -X POST http://localhost:8080/hello -d '{ "name" : "Andrea" }'
+* About to connect() to localhost port 8080 (#0)
+*   Trying ::1...
+* Connection refused
+*   Trying 127.0.0.1...
+* connected
+* Connected to localhost (127.0.0.1) port 8080 (#0)
+> POST /hello HTTP/1.1
+> User-Agent: curl/7.24.0 (x86_64-apple-darwin12.0) libcurl/7.24.0 OpenSSL/0.9.8y zlib/1.2.5
+> Host: localhost:8080
+> Accept: */*
+> Content-Type: application/json
+> Content-Length: 21
+>
+* upload completely sent off: 21 out of 21 bytes
+< HTTP/1.1 201 Created
+< Location: http://localhost:8080/hello/Andrea
+< Date: Thu, 16 Jan 2014 05:28:11 GMT
+< Content-Length: 0
+<
+* Connection #0 to host localhost left intact
+* Closing connection #0
+
+boundray:ursus-example-application rayjenkins$ curl -v -X GET -H "Accept: application/json" http://localhost:8080/hello/async
+* About to connect() to localhost port 8080 (#0)
+*   Trying ::1...
+* Connection refused
+*   Trying 127.0.0.1...
+* connected
+* Connected to localhost (127.0.0.1) port 8080 (#0)
+> GET /hello/async HTTP/1.1
+> User-Agent: curl/7.24.0 (x86_64-apple-darwin12.0) libcurl/7.24.0 OpenSSL/0.9.8y zlib/1.2.5
+> Host: localhost:8080
+> Accept: application/json
+>
+< HTTP/1.1 200 OK
+< Content-Type: application/json
+< Date: Thu, 16 Jan 2014 05:28:53 GMT
+< Content-Length: 14
+<
+* Connection #0 to host localhost left intact
+{"name":"Ray"}* Closing connection #0
+
+
+
+
+
 
 
 

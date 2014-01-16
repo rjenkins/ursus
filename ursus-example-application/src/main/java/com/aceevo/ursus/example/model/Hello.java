@@ -7,6 +7,10 @@ public class Hello {
     @JsonProperty
     private String name;
 
+    public Hello() {
+
+    }
+
     public Hello(String name) {
         this.name = name;
     }
