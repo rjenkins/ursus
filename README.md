@@ -514,20 +514,9 @@ boundray:ursus-example-application rayjenkins$ curl -v -X GET -H "Accept: applic
 <
 * Connection #0 to host localhost left intact
 {"name":"Ray"}* Closing connection #0
+```
 
+Ursus of course supports full content negotiation via Jersey, so if your resource class consumes application/json but the client sends a text/plain entity,
+Jersey will automatically reply with a 406 Not Acceptable.
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+```

@@ -49,6 +49,7 @@ import javax.websocket.server.ServerEndpointConfig;
 import javax.ws.rs.ext.ExceptionMapper;
 import java.io.IOException;
 import java.lang.reflect.ParameterizedType;
+import java.lang.reflect.Type;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;

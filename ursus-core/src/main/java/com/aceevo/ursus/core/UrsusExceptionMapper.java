@@ -22,6 +22,7 @@ import org.glassfish.grizzly.utils.Exceptions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.ext.ExceptionMapper;
 import javax.ws.rs.ext.Provider;
@@ -36,7 +37,9 @@ public class UrsusExceptionMapper implements ExceptionMapper<Exception> {
     public Response toResponse(Exception ex) {
         if (ex instanceof org.codehaus.jackson.map.exc.UnrecognizedPropertyException) {
             logger.info("unrecognized property", ex);
-            return Response.status(400).entity(Exceptions.getStackTraceAsString(ex)).type("text/plain").build();
+            return Response.status(400).entity(Exceptions.getStackTraceAsString(ex)).type(MediaType.TEXT_PLAIN_TYPE).build();
+        } else if (ex instanceof javax.ws.rs.NotAcceptableException) {
+            return Response.status(406).entity(Exceptions.getStackTraceAsString(ex)).type(MediaType.TEXT_PLAIN_TYPE).build();
         } else {
             logger.info("handling unknown exception type returning 500: ", ex);
             return Response.status(500).entity(Exceptions.getStackTraceAsString(ex)).type("text/plain")
