@@ -516,7 +516,52 @@ boundray:ursus-example-application rayjenkins$ curl -v -X GET -H "Accept: applic
 {"name":"Ray"}* Closing connection #0
 ```
 
-Ursus of course supports full content negotiation via Jersey, so if your resource class consumes application/json but the client sends a text/plain entity,
+Ursus supports full content negotiation via Jersey, so if your resource class produces ```application/json``` but the client accepts ```text/plain``` entity,
 Jersey will automatically reply with a 406 Not Acceptable.
 
+```
+boundray:ursus-example-application rayjenkins$ curl -v -H "Accept: vext/plain" -X GET http://localhost:8080/hello
+* About to connect() to localhost port 8080 (#0)
+*   Trying ::1...
+* Connection refused
+*   Trying 127.0.0.1...
+* connected
+* Connected to localhost (127.0.0.1) port 8080 (#0)
+> GET /hello HTTP/1.1
+> User-Agent: curl/7.24.0 (x86_64-apple-darwin12.0) libcurl/7.24.0 OpenSSL/0.9.8y zlib/1.2.5
+> Host: localhost:8080
+> Accept: vext/plain
+>
+< HTTP/1.1 406 Not Acceptable
+< Content-Type: text/plain
+< Date: Thu, 16 Jan 2014 07:56:36 GMT
+< Content-Length: 2122
+<
+javax.ws.rs.NotAcceptableException: HTTP 406 Not Acceptable
+	at org.glassfish.jersey.server.internal.routing.MethodSelectingRouter.getMethodRouter(MethodSelectingRouter.java:573)
+	at org.glassfish.jersey.server.internal.routing.MethodSelectingRouter.access$400(MethodSelectingRouter.java:97)
+	at org.glassfish.jersey.server.internal.routing.MethodSelectingRouter$4.apply(MethodSelectingRouter.java:813)
+	at org.glassfish.jersey.server.internal.routing.MethodSelectingRouter.apply(MethodSelectingRouter.java:420)
+	at org.glassfish.jersey.server.internal.routing.RoutingStage._apply(RoutingStage.java:128)
+	at org.glassfish.jersey.server.internal.routing.RoutingStage._apply(RoutingStage.java:131)
+	at org.glassfish.jersey.server.internal.routing.RoutingStage._apply(RoutingStage.java:131)
+	at org.glassfish.jersey.server.internal.routing.RoutingStage.apply(RoutingStage.java:110)
+	at org.glassfish.jersey.server.internal.routing.RoutingStage.apply(RoutingStage.java:65)
+	at org.glassfish.jersey.process.internal.Stages.process(Stages.java:197)
+	at org.glassfish.jersey.server.ServerRuntime$1.run(ServerRuntime.java:250)
+	at org.glassfish.jersey.internal.Errors$1.call(Errors.java:271)
+	at org.glassfish.jersey.internal.Errors$1.call(Errors.java:267)
+	at org.glassfish.jersey.internal.Errors.process(Errors.java:315)
+	at org.glassfish.jersey.internal.Errors.process(Errors.java:297)
+	at org.glassfish.jersey.internal.Errors.process(Errors.java:267)
+	at org.glassfish.jersey.process.internal.RequestScope.runInScope(RequestScope.java:318)
+	at org.glassfish.jersey.server.ServerRuntime.process(ServerRuntime.java:236)
+	at org.glassfish.jersey.server.ApplicationHandler.handle(ApplicationHandler.java:1010)
+	at org.glassfish.jersey.grizzly2.httpserver.GrizzlyHttpContainer.service(GrizzlyHttpContainer.java:363)
+	at org.glassfish.grizzly.http.server.HttpHandler$1.run(HttpHandler.java:217)
+	at org.glassfish.grizzly.threadpool.AbstractThreadPool$Worker.doWork(AbstractThreadPool.java:565)
+	at org.glassfish.grizzly.threadpool.AbstractThreadPool$Worker.run(AbstractThreadPool.java:545)
+	at java.lang.Thread.run(Thread.java:744)
+* Connection #0 to host localhost left intact
+* Closing connection #0
 ```
