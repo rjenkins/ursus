@@ -73,7 +73,6 @@ public abstract class UrsusApplication<T extends UrsusApplicationConfiguration> 
     final Logger LOGGER = LoggerFactory.getLogger(UrsusApplication.class);
 
     protected UrsusApplication(String[] args) {
-
         this.args = args;
 
         // Bridge j.u.l in Grizzly with SLF4J
@@ -154,7 +153,6 @@ public abstract class UrsusApplication<T extends UrsusApplicationConfiguration> 
     }
 
     /**
-     *
      * @param serverEndpointConfig
      */
     public void registerEndpoint(ServerEndpointConfig serverEndpointConfig) {
@@ -163,8 +161,9 @@ public abstract class UrsusApplication<T extends UrsusApplicationConfiguration> 
 
     /**
      * Register a WebSocket endpoint passing in a path and a {@link Map} of UserProperties
-     * @param clazz the websocket endpoint
-     * @param path the path
+     *
+     * @param clazz          the websocket endpoint
+     * @param path           the path
      * @param userProperties out user properties.
      */
     public void registerEndpoint(Class<? extends Endpoint> clazz, String path, Map<String, Object> userProperties) {

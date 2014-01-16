@@ -8,14 +8,17 @@ import static org.junit.Assert.assertNotNull;
 
 public class UrsusApplicationTest {
 
+    private static class TestApplicationConfiguration extends UrsusApplicationConfiguration {}
+
     @Test
     public void testCreateApplication() {
         TestUrsusApplication testUrsusApplication = new TestUrsusApplication(new String[]{"server", "src/test/resources/testursusapplication.yml"});
         assertNotNull(testUrsusApplication);
     }
 
+
     class TestUrsusApplication extends UrsusApplication<TestApplicationConfiguration> {
-        protected TestUrsusApplication(String[] args) {
+        public TestUrsusApplication(String[] args) {
             super(args);
         }
 
@@ -30,6 +33,4 @@ public class UrsusApplicationTest {
         }
     }
 
-    static class TestApplicationConfiguration extends UrsusApplicationConfiguration {
-    }
 }
