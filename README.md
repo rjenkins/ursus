@@ -426,8 +426,8 @@ public class ExampleApplication extends UrsusApplication<ExampleApplicationConfi
     protected void run(HttpServer httpServer) {
         startWithShutdownHook(httpServer);
     }
-}```
-
+}
+```
 Now we're ready to build and try out our resources.
 
 ```
