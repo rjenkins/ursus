@@ -451,7 +451,8 @@ boundray:ursus-example-application rayjenkins$ java -jar ./target/ursus-example-
 [1]+  Stopped                 java -jar ./target/ursus-example-application-0.2-SNAPSHOT.jar
 boundray:ursus-example-application rayjenkins$ bg
 [1]+ java -jar ./target/ursus-example-application-0.2-SNAPSHOT.jar &
-
+```
+```
 boundray:ursus-example-application rayjenkins$ curl -v -X GET -H "Accept: application/json" http://localhost:8080/hello
 * About to connect() to localhost port 8080 (#0)
 *   Trying ::1...
@@ -471,7 +472,9 @@ boundray:ursus-example-application rayjenkins$ curl -v -X GET -H "Accept: applic
 <
 * Connection #0 to host localhost left intact
 {"name":"Ray"}* Closing connection #0
+```
 
+```
 boundray:ursus-example-application rayjenkins$ curl -v -H "Content-Type: application/json" -X POST http://localhost:8080/hello -d '{ "name" : "Andrea" }'
 * About to connect() to localhost port 8080 (#0)
 *   Trying ::1...
@@ -494,7 +497,9 @@ boundray:ursus-example-application rayjenkins$ curl -v -H "Content-Type: applica
 <
 * Connection #0 to host localhost left intact
 * Closing connection #0
+```
 
+```
 boundray:ursus-example-application rayjenkins$ curl -v -X GET -H "Accept: application/json" http://localhost:8080/hello/async
 * About to connect() to localhost port 8080 (#0)
 *   Trying ::1...
@@ -516,11 +521,11 @@ boundray:ursus-example-application rayjenkins$ curl -v -X GET -H "Accept: applic
 {"name":"Ray"}* Closing connection #0
 ```
 
-Ursus supports full content negotiation via Jersey, so if your resource class produces ```application/json``` but the client accepts ```text/plain``` entity,
-Jersey will automatically reply with a 406 Not Acceptable.
+Ursus supports full content negotiation via Jersey, so if your resource class produces ```application/json``` but the client accepts ```text/plain```,
+Jersey will reply with a ```406 Not Acceptable```.
 
 ```
-boundray:ursus-example-application rayjenkins$ curl -v -H "Accept: vext/plain" -X GET http://localhost:8080/hello
+boundray:ursus-example-application rayjenkins$ curl -v -H "Accept: text/plain" -X GET http://localhost:8080/hello
 * About to connect() to localhost port 8080 (#0)
 *   Trying ::1...
 * Connection refused
