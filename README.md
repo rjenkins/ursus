@@ -89,7 +89,10 @@ public class ExampleApplicationConfiguration extends UrsusApplicationConfigurati
 ```
 Just like Dropwizard we will specify our environment specific configuration parameters in a [YAML](http://www.yaml.org/) configuration
 file and these parameters will be deserialized by Jackson and validated. By default Ursus will look for a file whose name is the class name of
-your application with a ```.yml``` extension, for this example application that file is named ```exampleapplication.yml```.
+your application with a ```.yml``` extension, for this example application that file is named ```exampleapplication.yml```. If you wish to specify
+a different location for you configuration you can specify that on that with arguments.
+
+```java -jar <path to jar file> server <path to your YAML file>
 
 In addition to your own environment specific configuration parameters [UrsusApplicationConfiguration](https://github.com/rjenkins/ursus/blob/master/ursus-config/src/main/java/com/aceevo/ursus/config/UrsusApplicationConfiguration.java)
 defines a large set of configuration properties that allow you to modify all of the granular configuration options available with Grizzly and many of the other
@@ -283,7 +286,7 @@ boundray:ursus-example-application rayjenkins$ java -jar ./target/ursus-example-
 
 Success! Now it's time to move on to implementing our service.
 
-### Representations and Resources
+#### Representations and Resources
 We've got our application started but we need to provide some resources and some representations. As previously mentioned
 this Hello World application is going to support specifiying exactly who we're going to say hello to. Let's create a model
 class to represent a Hello.
@@ -318,7 +321,7 @@ public class Hello {
 
 Now that we've created a representation we can create a Jersey Resource class for representing this resource.
 
-### Creating Resources
+#### Creating Resources
 
 Let's create a simple Jersey resource that represents our Hello representation. In this Resource we'll add support for the
 [GET](http://tools.ietf.org/search/rfc2616#section-9.3) and [POST](http://tools.ietf.org/search/rfc2616#section-9.5) methods as well as support for
