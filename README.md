@@ -717,4 +717,71 @@ Tests run: 3, Failures: 0, Errors: 0, Skipped: 0
 In addition to Jersey, Ursus includes [Tyrus](https://tyrus.java.net/) is the open source JSR 356 - Java API for WebSocket
 reference implementation for easy development of WebSocket applications. You can create Annotated EndPoints and register
 them within your Ursus application or create them programatically. If you need to pass dependencies to EndPoints you'll
-need to do that programmatically and make use of the EndPoint's [UserProperties](http://docs.oracle.com/javaee/7/api/javax/websocket/EndpointConfig.html#getUserProperties())
+need to do that programmatically and make use of the EndPoint's [UserProperties](http://docs.oracle.com/javaee/7/api/javax/websocket/EndpointConfig.html#getUserProperties)
+
+Let's create a simple programmatic EndPoint for ```ursus-example-application```. We'll pass in our ```ExampleApplicationConfiguration```
+in the onOpen method. Now we can use our ```name``` property to respond to clients.
+
+```java
+package com.aceevo.ursus.example.api;
+
+import com.aceevo.ursus.example.ExampleApplicationConfiguration;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import javax.websocket.*;
+import java.io.IOException;
+
+public class EchoEndpointResource extends Endpoint {
+
+    private final Logger logger = LoggerFactory.getLogger(EchoEndpointResource.class);
+    private ExampleApplicationConfiguration exampleApplicationConfiguration;
+
+    @OnOpen
+    public void onOpen(final Session session, EndpointConfig config) {
+        exampleApplicationConfiguration = (ExampleApplicationConfiguration) config.getUserProperties().get("exampleApplicationConfiguration");
+        session.addMessageHandler(new MessageHandler.Whole<String>() {
+
+            @Override
+            public void onMessage(String message) {
+                logger.info("Received message from client: " + message);
+                try {
+                    session.getBasicRemote().sendText("Hello " + exampleApplicationConfiguration.getName());
+                } catch (IOException e) {
+                    e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+                }
+            }
+        });
+    }
+
+    @OnClose
+    public void onClose(final Session session) {
+        logger.info("Close session");
+    }
+}
+```
+
+#### Registering EndPoints
+
+Ursus provides some short cuts that allow you to quickly register your endpoints and pass any dependencies to your endpoint.
+Let's modify our bootstrap method and use the ```registerEndPoint``` method to add ```EchoEndPointResouce```. We simple need
+to pass our endpoint class, the path, and a key for our UserProperties, that key will be "exampleApplicationConfiguration"
+and the value is the instance of our ```ExampleApplicationConfiguration``` class.
+
+```java
+public class ExampleApplication extends UrsusApplication<ExampleApplicationConfiguration> {
+
+    ...
+
+    @Override
+    protected void boostrap(ExampleApplicationConfiguration exampleApplicationConfiguration) {
+        packages("com.aceevo.ursus.example.api");
+        registerEndpoint(EchoEndpointResource.class, "/echo", "exampleApplicationConfiguration", exampleApplicationConfiguration);
+    }
+
+    @Override
+    protected void run(HttpServer httpServer) {
+        startWithShutdownHook(httpServer);
+    }
+}
+```
