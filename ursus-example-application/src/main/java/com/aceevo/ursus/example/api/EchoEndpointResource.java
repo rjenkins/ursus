@@ -1,6 +1,5 @@
 package com.aceevo.ursus.example.api;
 
-
 import com.aceevo.ursus.example.ExampleApplicationConfiguration;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

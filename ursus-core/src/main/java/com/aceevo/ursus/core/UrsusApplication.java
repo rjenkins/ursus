@@ -24,6 +24,7 @@ import com.aceevo.ursus.websockets.GrizzlyServerFilter;
 import com.aceevo.ursus.websockets.TyrusAddOn;
 import com.aceevo.ursus.websockets.UrsusTyrusServerContainer;
 import com.google.common.base.Charsets;
+import com.google.common.collect.ImmutableMap;
 import com.google.common.io.Resources;
 import com.google.common.util.concurrent.Service;
 import org.glassfish.grizzly.http.CompressionConfig;
@@ -37,7 +38,6 @@ import org.glassfish.jersey.grizzly2.httpserver.GrizzlyHttpContainer;
 import org.glassfish.jersey.jackson.JacksonFeature;
 import org.glassfish.jersey.server.ContainerFactory;
 import org.glassfish.jersey.server.ResourceConfig;
-import org.glassfish.tyrus.server.Server;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.slf4j.bridge.SLF4JBridgeHandler;
@@ -47,9 +47,7 @@ import javax.websocket.Endpoint;
 import javax.websocket.server.ServerEndpoint;
 import javax.websocket.server.ServerEndpointConfig;
 import javax.ws.rs.ext.ExceptionMapper;
-import java.io.IOException;
 import java.lang.reflect.ParameterizedType;
-import java.lang.reflect.Type;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
@@ -171,6 +169,11 @@ public abstract class UrsusApplication<T extends UrsusApplicationConfiguration> 
         serverEndpointConfig.getUserProperties().putAll(userProperties);
         registerEndpoint(serverEndpointConfig);
     }
+
+    public void registerEndpoint(Class<? extends Endpoint> clazz, String path, String key, Object userObject) {
+        registerEndpoint(clazz, path, ImmutableMap.<String, Object>of(key, userObject));
+    }
+
 
     /**
      * Starts Grizzly HTTP server exposing JAX-RS resources and UrsusWebSocketApplication defined

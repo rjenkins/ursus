@@ -22,14 +22,7 @@ public class ExampleApplication extends UrsusApplication<ExampleApplicationConfi
     @Override
     protected void boostrap(ExampleApplicationConfiguration exampleApplicationConfiguration) {
         packages("com.aceevo.ursus.example.api");
-
-//        ServerEndpointConfig serverEndpointConfig = ServerEndpointConfig.Builder.create(EchoEndpointResource.class, "/echo").build();
-//        serverEndpointConfig.getUserProperties().put("exampleApplicationConfiguration", exampleApplicationConfiguration);
-//        registerEndpoint(serverEndpointConfig);
-
-//        registerEndpoint(EchoEndpointResource.class, "/echo",
-//                ImmutableMap.<String, Object>of("exampleApplicationConfiguration", exampleApplicationConfiguration));
-
+        registerEndpoint(EchoEndpointResource.class, "/echo", "exampleApplicationConfiguration", exampleApplicationConfiguration);
     }
 
     @Override
