@@ -13,11 +13,12 @@ import java.util.concurrent.TimeUnit;
 
 public class SimpleWebSocketClient {
     private CountDownLatch messageLatch;
-    private static final String SENT_MESSAGE = "Hello World";
+    private static final String SENT_MESSAGE = "Hello WebSocket";
 
     final Logger logger = LoggerFactory.getLogger(SimpleWebSocketClient.class);
 
     public SimpleWebSocketClient() {
+
         // Bridge j.u.l in Grizzly with SLF4J
         SLF4JBridgeHandler.removeHandlersForRootLogger();
         SLF4JBridgeHandler.install();
@@ -31,22 +32,26 @@ public class SimpleWebSocketClient {
 
     public void run() {
         try {
-
             messageLatch = new CountDownLatch(1);
 
             final ClientEndpointConfig cec = ClientEndpointConfig.Builder.create().build();
-
             ClientManager client = ClientManager.createClient();
             client.connectToServer(new Endpoint() {
 
                 @Override
-                public void onOpen(Session session, EndpointConfig config) {
+                public void onOpen(final Session session, EndpointConfig config) {
                     try {
                         session.addMessageHandler(new MessageHandler.Whole<String>() {
                             @Override
                             public void onMessage(String message) {
                                 logger.info("Server replied with : " + message);
-                                messageLatch.countDown();
+                                try {
+                                    session.close();
+                                    messageLatch.countDown();
+                                } catch (IOException ex) {
+                                    logger.debug(ex.getMessage(), ex);
+                                }
+
                             }
                         });
                         session.getBasicRemote().sendText(SENT_MESSAGE);

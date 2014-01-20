@@ -9,7 +9,7 @@ import java.io.IOException;
 
 public class EchoEndpointResource extends Endpoint {
 
-    Logger logger = LoggerFactory.getLogger(EchoEndpointResource.class);
+    private final Logger logger = LoggerFactory.getLogger(EchoEndpointResource.class);
     private ExampleApplicationConfiguration exampleApplicationConfiguration;
 
     @OnOpen
@@ -19,14 +19,18 @@ public class EchoEndpointResource extends Endpoint {
 
             @Override
             public void onMessage(String message) {
-                logger.info("exampleApplicationConfiguration.getName is: " + exampleApplicationConfiguration.getName());
                 logger.info("Received message from client: " + message);
                 try {
-                    session.getBasicRemote().sendText(message);
+                    session.getBasicRemote().sendText("Hello " + exampleApplicationConfiguration.getName());
                 } catch (IOException e) {
                     e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
                 }
             }
         });
+    }
+
+    @OnClose
+    public void onClose(final Session session) {
+        logger.info("Close session");
     }
 }

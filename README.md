@@ -711,3 +711,10 @@ Tests run: 3, Failures: 0, Errors: 0, Skipped: 0
 [INFO] Final Memory: 17M/439M
 [INFO] ------------------------------------------------------------------------
 ```
+
+#### WebSocket EndPoints
+
+In addition to Jersey, Ursus includes [Tyrus](https://tyrus.java.net/) is the open source JSR 356 - Java API for WebSocket
+reference implementation for easy development of WebSocket applications. You can create Annotated EndPoints and register
+them within your Ursus application or create them programatically. If you need to pass dependencies to EndPoints you'll
+need to do that programmatically and make use of the EndPoint's [UserProperties](http://docs.oracle.com/javaee/7/api/javax/websocket/EndpointConfig.html#getUserProperties())

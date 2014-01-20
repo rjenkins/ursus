@@ -10,7 +10,6 @@ import javax.websocket.server.ServerEndpointConfig;
 
 public class ExampleApplication extends UrsusApplication<ExampleApplicationConfiguration> {
 
-
     public ExampleApplication(String[] args) {
         super(args);
     }
