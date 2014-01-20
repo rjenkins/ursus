@@ -399,7 +399,7 @@ asynchronously once we're ready to response.
 #### Registering Resources
 
 Now that we've created our first resource we need to register then with our Jersey ResourceConfig, there are many ways to do this (more on this later)
-but for our example application let's use Jersey's built in resource discovery and specify the package where are resources exist. We'll do this in bootstrap
+but for our example application let's use Jersey's built in resource discovery and specify the package where our resources exist. We'll do this in bootstrap
 method of ```ExampleApplication```.
 
 ```java
@@ -569,4 +569,142 @@ javax.ws.rs.NotAcceptableException: HTTP 406 Not Acceptable
 	at java.lang.Thread.run(Thread.java:744)
 * Connection #0 to host localhost left intact
 * Closing connection #0
+```
+
+#### Writing Resource Tests
+
+Jersey comes with a testframework provider for Grizzly, let's add that to our pom.xml so we can write some tests.
+
+```xml
+<dependency>
+    <groupId>org.glassfish.jersey.test-framework.providers</groupId>
+    <artifactId>jersey-test-framework-provider-grizzly2</artifactId>
+    <version>2.5</version>
+</dependency>
+<dependency>
+    <groupId>org.glassfish.jersey.test-framework</groupId>
+    <artifactId>jersey-test-framework-core</artifactId>
+    <version>2.5</version>
+    <exclusions>
+        <exclusion>
+            <groupId>com.google.guava</groupId>
+            <artifactId>guava</artifactId>
+        </exclusion>
+    </exclusions>
+</dependency>
+```
+
+We can extend JerseyTest and override the configure method to create a new grizzly/jersey test environment. We'll
+create a dummy ```ExampleApplicationConfiguration``` class and register an UrsusApplicationBinder to support injection
+of our configuration as well as register our HelloWordResource class.
+
+```java
+package com.aceevo.ursus.example.api;
+
+import com.aceevo.ursus.core.UrsusApplicationBinder;
+import com.aceevo.ursus.example.ExampleApplicationConfiguration;
+import com.aceevo.ursus.example.model.Hello;
+import org.glassfish.jersey.server.ResourceConfig;
+import org.glassfish.jersey.test.JerseyTest;
+import org.junit.Test;
+
+import javax.ws.rs.client.Entity;
+import javax.ws.rs.core.Application;
+import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
+
+import static junit.framework.Assert.assertEquals;
+
+public class HelloWorldTest extends JerseyTest {
+
+    @Override
+    protected Application configure() {
+        ResourceConfig resourceConfig = new ResourceConfig();
+        ExampleApplicationConfiguration exampleApplicationConfiguration = new ExampleApplicationConfiguration();
+        exampleApplicationConfiguration.setName("Ray");
+        resourceConfig.registerInstances(new UrsusApplicationBinder(exampleApplicationConfiguration));
+        resourceConfig.register(HelloWorldResource.class);
+        return resourceConfig;
+    }
+
+    @Test
+    public void helloTest() {
+        Response response =  target("/hello").request().get();
+        assertEquals(200, response.getStatus());
+        assertEquals("Ray", response.readEntity(Hello.class).getName());
+    }
+
+    @Test
+    public void sayHello() {
+        Entity<Hello> helloEntity = Entity.entity(new Hello("Bob"), MediaType.APPLICATION_JSON_TYPE);
+        Response response = target("/hello").request().post(helloEntity);
+        assertEquals(201, response.getStatus());
+        assertEquals("http://localhost:9998/hello/Bob", response.getLocation().toString());
+    }
+
+    @Test
+    public void helloAsyncTest() throws Exception {
+        Response response = target("/hello").request().async().get().get();
+        assertEquals(200, response.getStatus());
+        assertEquals("Ray", response.readEntity(Hello.class).getName());
+    }
+}
+```
+
+Now let's run ```mvn test``` and verify our resource class works as intended
+
+```
+-------------------------------------------------------
+ T E S T S
+-------------------------------------------------------
+Running com.aceevo.ursus.example.api.HelloWorldTest
+Jan 19, 2014 8:36:39 PM org.glassfish.jersey.server.ApplicationHandler initialize
+INFO: Initiating Jersey application, version Jersey: 2.5 2013-12-18 14:27:29...
+Jan 19, 2014 8:36:40 PM org.glassfish.jersey.test.grizzly.GrizzlyTestContainerFactory$GrizzlyTestContainer start
+INFO: Starting GrizzlyTestContainer...
+Jan 19, 2014 8:36:40 PM org.glassfish.grizzly.http.server.NetworkListener start
+INFO: Started listener bound to [localhost:9998]
+Jan 19, 2014 8:36:40 PM org.glassfish.grizzly.http.server.HttpServer start
+INFO: [HttpServer] Started.
+Jan 19, 2014 8:36:40 PM org.glassfish.jersey.test.grizzly.GrizzlyTestContainerFactory$GrizzlyTestContainer stop
+INFO: Stopping GrizzlyTestContainer...
+Jan 19, 2014 8:36:40 PM org.glassfish.grizzly.http.server.NetworkListener shutdownNow
+INFO: Stopped listener bound to [localhost:9998]
+Jan 19, 2014 8:36:40 PM org.glassfish.jersey.server.ApplicationHandler initialize
+INFO: Initiating Jersey application, version Jersey: 2.5 2013-12-18 14:27:29...
+Jan 19, 2014 8:36:40 PM org.glassfish.jersey.test.grizzly.GrizzlyTestContainerFactory$GrizzlyTestContainer start
+INFO: Starting GrizzlyTestContainer...
+Jan 19, 2014 8:36:40 PM org.glassfish.grizzly.http.server.NetworkListener start
+INFO: Started listener bound to [localhost:9998]
+Jan 19, 2014 8:36:40 PM org.glassfish.grizzly.http.server.HttpServer start
+INFO: [HttpServer-1] Started.
+Jan 19, 2014 8:36:40 PM org.glassfish.jersey.test.grizzly.GrizzlyTestContainerFactory$GrizzlyTestContainer stop
+INFO: Stopping GrizzlyTestContainer...
+Jan 19, 2014 8:36:40 PM org.glassfish.grizzly.http.server.NetworkListener shutdownNow
+INFO: Stopped listener bound to [localhost:9998]
+Jan 19, 2014 8:36:40 PM org.glassfish.jersey.server.ApplicationHandler initialize
+INFO: Initiating Jersey application, version Jersey: 2.5 2013-12-18 14:27:29...
+Jan 19, 2014 8:36:40 PM org.glassfish.jersey.test.grizzly.GrizzlyTestContainerFactory$GrizzlyTestContainer start
+INFO: Starting GrizzlyTestContainer...
+Jan 19, 2014 8:36:40 PM org.glassfish.grizzly.http.server.NetworkListener start
+INFO: Started listener bound to [localhost:9998]
+Jan 19, 2014 8:36:40 PM org.glassfish.grizzly.http.server.HttpServer start
+INFO: [HttpServer-2] Started.
+Jan 19, 2014 8:36:40 PM org.glassfish.jersey.test.grizzly.GrizzlyTestContainerFactory$GrizzlyTestContainer stop
+INFO: Stopping GrizzlyTestContainer...
+Jan 19, 2014 8:36:40 PM org.glassfish.grizzly.http.server.NetworkListener shutdownNow
+INFO: Stopped listener bound to [localhost:9998]
+Tests run: 3, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 1.628 sec
+
+Results :
+
+Tests run: 3, Failures: 0, Errors: 0, Skipped: 0
+
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD SUCCESS
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time: 5.103s
+[INFO] Finished at: Sun Jan 19 20:36:40 CST 2014
+[INFO] Final Memory: 17M/439M
+[INFO] ------------------------------------------------------------------------
 ```
