@@ -40,4 +40,12 @@ public class HelloWorldTest extends JerseyTest {
         assertEquals(201, response.getStatus());
         assertEquals("http://localhost:9998/hello/Bob", response.getLocation().toString());
     }
+
+    @Test
+    public void helloAsyncTest() throws Exception {
+        Response response = target("/hello").request().async().get().get();
+        assertEquals(200, response.getStatus());
+        assertEquals("Ray", response.readEntity(Hello.class).getName());
+
+    }
 }

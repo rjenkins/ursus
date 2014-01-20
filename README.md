@@ -149,7 +149,7 @@ If you like you can always overwrite ```ExampleApplication``` with the above and
 
 #### Building our first artifact and running our application.
 
-Just like Dropwizard Ursus recommends building a "fat" jar that contains all the ```.class``` files needed to run our service.
+Like Dropwizard Ursus recommends building a "fat" jar that contains all the ```.class``` files needed to run our service.
 For the ```ursus-example-application``` we've already added this to the pom.xml, here's the relavent parts of our configuration.
 
 ```xml
