@@ -28,9 +28,4 @@ public class EchoEndpointResource extends Endpoint {
             }
         });
     }
-
-    @OnClose
-    public void onClose(final Session session) {
-        logger.info("Close session");
-    }
 }
