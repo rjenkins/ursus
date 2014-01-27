@@ -1,6 +1,5 @@
 package com.aceevo.ursus.example;
 
-import com.google.protobuf.MessageLite;
 import org.glassfish.grizzly.Connection;
 import org.glassfish.grizzly.filterchain.*;
 import org.glassfish.grizzly.nio.transport.TCPNIOTransport;
@@ -11,6 +10,7 @@ import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.nio.charset.Charset;
+import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ExecutionException;
 
 /**
@@ -20,17 +20,18 @@ import java.util.concurrent.ExecutionException;
  * Time: 3:08 PM
  * To change this template use File | Settings | File Templates.
  */
-public class ProtobufExampleClient {
+public class NIOExampleClient {
 
-    private Logger LOGGER = LoggerFactory.getLogger(ProtobufExampleClient.class);
+    private Logger LOGGER = LoggerFactory.getLogger(NIOExampleClient.class);
+    private final CountDownLatch countDownLatch = new CountDownLatch(1);
 
-    public ProtobufExampleClient() {
+    public NIOExampleClient() {
         Thread clientRunnerThread = new Thread(new ClientRunner());
         clientRunnerThread.start();
     }
 
     public static void main(String[] args) {
-        new ProtobufExampleClient();
+        new NIOExampleClient();
     }
 
 
@@ -43,7 +44,8 @@ public class ProtobufExampleClient {
 
                 final FilterChainBuilder clientFilterBuilder = FilterChainBuilder.stateless()
                         .add(new TransportFilter())
-                        .add(new StringFilter(Charset.forName("UTF-8")));
+                        .add(new StringFilter(Charset.forName("UTF-8")))
+                        .add(new HelloClientFilter(countDownLatch));
 
 
                 final TCPNIOTransport transport = TCPNIOTransportBuilder.newInstance()
@@ -58,6 +60,7 @@ public class ProtobufExampleClient {
                     e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
                 }
 
+                countDownLatch.await();
                 if (connection != null)
                     connection.close();
 
@@ -78,6 +81,11 @@ public class ProtobufExampleClient {
 
     private static class HelloClientFilter extends BaseFilter {
 
+        private final CountDownLatch countDownLatch;
+
+        public HelloClientFilter(CountDownLatch countDownLatch) {
+            this.countDownLatch = countDownLatch;
+        }
         /**
          * A storage queue to send the read messages to.
          */
@@ -87,9 +95,11 @@ public class ProtobufExampleClient {
             try {
                 String message = context.getMessage();
                 LOGGER.info("received message from server: " + message);
+                countDownLatch.countDown();
             } catch (Exception ex) {
                 LOGGER.debug("exception handle read", ex);
             }
+
             return context.getStopAction();
         }
 
