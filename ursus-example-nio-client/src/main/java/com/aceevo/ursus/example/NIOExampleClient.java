@@ -34,7 +34,6 @@ public class NIOExampleClient {
         new NIOExampleClient();
     }
 
-
     private class ClientRunner implements Runnable {
 
         @Override
@@ -82,14 +81,11 @@ public class NIOExampleClient {
     private static class HelloClientFilter extends BaseFilter {
 
         private final CountDownLatch countDownLatch;
+        private Logger LOGGER = LoggerFactory.getLogger(HelloClientFilter.class);
 
         public HelloClientFilter(CountDownLatch countDownLatch) {
             this.countDownLatch = countDownLatch;
         }
-        /**
-         * A storage queue to send the read messages to.
-         */
-        private Logger LOGGER = LoggerFactory.getLogger(HelloClientFilter.class);
 
         public NextAction handleRead(final FilterChainContext context) {
             try {
