@@ -1,3 +1,2 @@
 logging:
   level: info
-  fileName: ray.out
