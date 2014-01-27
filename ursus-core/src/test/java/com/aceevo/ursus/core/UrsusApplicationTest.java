@@ -1,6 +1,6 @@
 package com.aceevo.ursus.core;
 
-import com.aceevo.ursus.config.UrsusApplicationConfiguration;
+import com.aceevo.ursus.config.UrsusJerseyApplicationConfiguration;
 import org.glassfish.grizzly.http.server.HttpServer;
 import org.junit.Test;
 
@@ -8,7 +8,7 @@ import static org.junit.Assert.assertNotNull;
 
 public class UrsusApplicationTest {
 
-    private static class TestApplicationConfiguration extends UrsusApplicationConfiguration {}
+    private static class TestApplicationConfiguration extends UrsusJerseyApplicationConfiguration {}
 
     @Test
     public void testCreateApplication() {
@@ -17,7 +17,7 @@ public class UrsusApplicationTest {
     }
 
 
-    class TestUrsusApplication extends UrsusApplication<TestApplicationConfiguration> {
+    class TestUrsusApplication extends UrsusJerseyApplication<TestApplicationConfiguration> {
         public TestUrsusApplication(String[] args) {
             super(args);
         }

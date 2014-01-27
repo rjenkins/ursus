@@ -1,14 +1,10 @@
 package com.aceevo.ursus.example;
 
-import com.aceevo.ursus.core.UrsusApplication;
+import com.aceevo.ursus.core.UrsusJerseyApplication;
 import com.aceevo.ursus.example.api.EchoEndpointResource;
-import com.google.common.collect.ImmutableMap;
-import com.google.common.collect.Maps;
 import org.glassfish.grizzly.http.server.HttpServer;
 
-import javax.websocket.server.ServerEndpointConfig;
-
-public class ExampleApplication extends UrsusApplication<ExampleApplicationConfiguration> {
+public class ExampleApplication extends UrsusJerseyApplication<ExampleApplicationConfiguration> {
 
     public ExampleApplication(String[] args) {
         super(args);

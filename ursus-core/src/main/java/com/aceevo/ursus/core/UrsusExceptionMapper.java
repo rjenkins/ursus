@@ -30,7 +30,7 @@ import javax.ws.rs.ext.Provider;
 @Provider
 public class UrsusExceptionMapper implements ExceptionMapper<Exception> {
 
-    final Logger logger = LoggerFactory.getLogger(UrsusApplication.class);
+    final Logger logger = LoggerFactory.getLogger(UrsusJerseyApplication.class);
 
 
     @Override

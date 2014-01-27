@@ -1,13 +1,13 @@
 package com.aceevo.ursus.core;
 
-import com.aceevo.ursus.config.UrsusApplicationConfiguration;
+import com.aceevo.ursus.config.UrsusJerseyApplicationConfiguration;
 import org.glassfish.hk2.utilities.binding.AbstractBinder;
 
 public class UrsusApplicationBinder extends AbstractBinder {
 
-    private final UrsusApplicationConfiguration ursusApplicationConfiguration;
+    private final UrsusJerseyApplicationConfiguration ursusApplicationConfiguration;
 
-    public UrsusApplicationBinder(UrsusApplicationConfiguration ursusApplicationConfiguration) {
+    public UrsusApplicationBinder(UrsusJerseyApplicationConfiguration ursusApplicationConfiguration) {
         this.ursusApplicationConfiguration = ursusApplicationConfiguration;
     }
 

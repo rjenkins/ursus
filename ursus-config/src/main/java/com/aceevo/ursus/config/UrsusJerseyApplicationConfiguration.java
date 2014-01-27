@@ -27,7 +27,7 @@ import java.util.List;
 /**
  * Our base class for UrsusApplication configuration
  */
-public class UrsusApplicationConfiguration {
+public class UrsusJerseyApplicationConfiguration extends UrsusConfiguration {
 
     @JsonProperty(required = true)
     private HttpServer httpServer;
@@ -35,8 +35,6 @@ public class UrsusApplicationConfiguration {
     @JsonProperty(required = false)
     private UrsusHttpClientConfiguration ursusHttpClient;
 
-    @JsonProperty(required = false)
-    private Logging logging;
 
     @JsonProperty(required = false)
     private Tyrus tyrus = new Tyrus();
@@ -55,14 +53,6 @@ public class UrsusApplicationConfiguration {
 
     public void setUrsusHttpClient(UrsusHttpClientConfiguration ursusHttpClient) {
         this.ursusHttpClient = ursusHttpClient;
-    }
-
-    public Logging getLogging() {
-        return logging;
-    }
-
-    public void setLogging(Logging logging) {
-        this.logging = logging;
     }
 
     public Tyrus getTyrus() {
@@ -476,30 +466,6 @@ public class UrsusApplicationConfiguration {
         }
     }
 
-    public static class Logging {
-
-        @JsonProperty
-        private Level level = Level.INFO;
-
-        @JsonProperty(required = false)
-        private String fileName;
-
-        public Level getLevel() {
-            return level;
-        }
-
-        public void setLevel(Level level) {
-            this.level = level;
-        }
-
-        public String getFileName() {
-            return fileName;
-        }
-
-        public void setFileName(String fileName) {
-            this.fileName = fileName;
-        }
-    }
 
     public static class Tyrus {
 

@@ -24,6 +24,8 @@
         <module>ursus-example-http-client</module>
         <module>ursus-example-jersey-client</module>
         <module>ursus-example-websocket-client</module>
+        <module>ursus-example-nio-application</module>
+        <module>ursus-example-nio-client</module>
     </modules>
 
     <licenses>

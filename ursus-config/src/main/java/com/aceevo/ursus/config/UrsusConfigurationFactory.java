@@ -28,11 +28,11 @@ import java.io.*;
 import java.util.Set;
 
 /**
- * Factory for parsing yaml and generating a UrsusApplicationConfiguration
+ * Factory for parsing yaml and generating a UrsusJerseyApplicationConfiguration
  *
- * @param <T> our type of UrsusApplicationConfiguration
+ * @param <T> our type of UrsusJerseyApplicationConfiguration
  */
-public class UrsusConfigurationFactory<T extends UrsusApplicationConfiguration> {
+public class UrsusConfigurationFactory<T extends UrsusConfiguration> {
 
     private final String configurationFile;
     private final Class<T> clazz;

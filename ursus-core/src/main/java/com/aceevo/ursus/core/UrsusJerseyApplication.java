@@ -18,7 +18,7 @@
 package com.aceevo.ursus.core;
 
 import ch.qos.logback.core.FileAppender;
-import com.aceevo.ursus.config.UrsusApplicationConfiguration;
+import com.aceevo.ursus.config.UrsusJerseyApplicationConfiguration;
 import com.aceevo.ursus.config.UrsusConfigurationFactory;
 import com.aceevo.ursus.websockets.GrizzlyServerFilter;
 import com.aceevo.ursus.websockets.TyrusAddOn;
@@ -53,35 +53,33 @@ import java.util.Map;
 import java.util.Set;
 
 /**
- * UrsusApplication is the base class for our application
+ * UrsusJerseyApplication is the base class for our application
  *
  * @param <T> our type of configuration class
  */
-public abstract class UrsusApplication<T extends UrsusApplicationConfiguration> extends ResourceConfig {
+public abstract class UrsusJerseyApplication<T extends UrsusJerseyApplicationConfiguration> extends ResourceConfig {
 
+    private final HttpServer httpServer = new HttpServer();
     private Class exceptionMapperClass = UrsusExceptionMapper.class;
-    final HttpServer httpServer = new HttpServer();
     private String configurationFile;
     private final Class<T> configurationClass;
     private final T configuration;
     private final Set<Service> managedServices = new HashSet<Service>();
-    private final String[] args;
     private final Set<ServerEndpointConfig> serverEndpointConfigs = new HashSet<ServerEndpointConfig>();
 
-    final Logger LOGGER = LoggerFactory.getLogger(UrsusApplication.class);
+    final Logger LOGGER = LoggerFactory.getLogger(UrsusJerseyApplication.class);
 
-    protected UrsusApplication(String[] args) {
-        this.args = args;
+    protected UrsusJerseyApplication(String[] args) {
 
         // Bridge j.u.l in Grizzly with SLF4J
         SLF4JBridgeHandler.removeHandlersForRootLogger();
         SLF4JBridgeHandler.install();
 
-        // Use reflection to find our UrsusApplicationConfiguration Class
+        // Use reflection to find our UrsusJerseyApplicationConfiguration Class
         this.configurationClass = (Class<T>) ((ParameterizedType) getClass()
                 .getGenericSuperclass()).getActualTypeArguments()[0];
 
-        parseArguments();
+        parseArguments(args);
         this.configuration = parseConfiguration();
         registerInstances(new UrsusApplicationBinder(this.configuration));
 
@@ -93,7 +91,7 @@ public abstract class UrsusApplication<T extends UrsusApplicationConfiguration> 
     /**
      * Parse command line arguments for handling
      */
-    private void parseArguments() {
+    private void parseArguments(String[] args) {
         if (args == null || args.length == 0)
             return;
 
@@ -105,12 +103,12 @@ public abstract class UrsusApplication<T extends UrsusApplicationConfiguration> 
     /**
      * Bootstrap method for configuring resources required for this application.
      *
-     * @param t an instance of our @{link UrsusApplicationConfiguration<T>} type
+     * @param t an instance of our @{link UrsusJerseyApplicationConfiguration<T>} type
      */
     protected abstract void boostrap(T t);
 
     /**
-     * Hands an UrsusApplication a fully initialized and configured @{link HttpServer} instance for any additional
+     * Hands an UrsusJerseyApplication a fully initialized and configured @{link HttpServer} instance for any additional
      * programmatic configuration user may with to perform prior to starting.
      *
      * @param httpServer a fully initialized @{link HttpServer} instance with our applications configuration.
@@ -140,7 +138,7 @@ public abstract class UrsusApplication<T extends UrsusApplicationConfiguration> 
     /**
      * Determine our default YAML configuration file name and parse
      *
-     * @return and instance of type T which extends {@link UrsusApplicationConfiguration}
+     * @return and instance of type T which extends {@link com.aceevo.ursus.config.UrsusJerseyApplicationConfiguration}
      */
     private T parseConfiguration() {
 
@@ -248,14 +246,14 @@ public abstract class UrsusApplication<T extends UrsusApplicationConfiguration> 
 
 
     /**
-     * Configures the NetworkListener from properties defined in the UrsusApplicationConfiguration
+     * Configures the NetworkListener from properties defined in the UrsusJerseyApplicationConfiguration
      *
      * @param listener
      */
     private void configureListener(NetworkListener listener) {
 
-        // Fetch our UrsusApplicationConfiguration for NetworkListener and configure
-        UrsusApplicationConfiguration.NetworkListener networkListenerConfig = configuration.getHttpServer().getNetworkListener();
+        // Fetch our UrsusJerseyApplicationConfiguration for NetworkListener and configure
+        UrsusJerseyApplicationConfiguration.NetworkListener networkListenerConfig = configuration.getHttpServer().getNetworkListener();
 
         if (networkListenerConfig != null) {
             listener.setAuthPassThroughEnabled(networkListenerConfig.isAuthPassThroughEnabled());
@@ -275,8 +273,8 @@ public abstract class UrsusApplication<T extends UrsusApplicationConfiguration> 
         }
     }
 
-    private void configureCompressionForListener(UrsusApplicationConfiguration.NetworkListener networkListenerConfig, NetworkListener listener) {
-        UrsusApplicationConfiguration.Compression compression = networkListenerConfig.getCompression();
+    private void configureCompressionForListener(UrsusJerseyApplicationConfiguration.NetworkListener networkListenerConfig, NetworkListener listener) {
+        UrsusJerseyApplicationConfiguration.Compression compression = networkListenerConfig.getCompression();
         CompressionConfig compressionConfig = listener.getCompressionConfig();
 
         compressionConfig.setCompressionMode(CompressionConfig.CompressionMode.fromString(compression.getCompressionMode()));
@@ -285,7 +283,7 @@ public abstract class UrsusApplication<T extends UrsusApplicationConfiguration> 
         compressionConfig.setNoCompressionUserAgents(new HashSet(compression.getNoCompressionUserAgents()));
     }
 
-    private void configureSSLForListener(UrsusApplicationConfiguration.NetworkListener networkListenerConfig, NetworkListener listener) {
+    private void configureSSLForListener(UrsusJerseyApplicationConfiguration.NetworkListener networkListenerConfig, NetworkListener listener) {
 
         if (networkListenerConfig.getSslContext() == null) {
             throw new RuntimeException("Ursus Application Configuration error: secure set to true and SSLContext is null");
@@ -303,7 +301,7 @@ public abstract class UrsusApplication<T extends UrsusApplicationConfiguration> 
             // Use defaults
             listener.setSSLEngineConfig(new SSLEngineConfigurator(sslContext));
         } else {
-            UrsusApplicationConfiguration.SSLEngine sslEngine =
+            UrsusJerseyApplicationConfiguration.SSLEngine sslEngine =
                     networkListenerConfig.getSslEngine();
 
             SSLEngineConfigurator sslEngineConfigurator = new SSLEngineConfigurator(sslContext);

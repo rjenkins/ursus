@@ -1,11 +1,11 @@
 package com.aceevo.ursus.example;
 
-import com.aceevo.ursus.config.UrsusApplicationConfiguration;
+import com.aceevo.ursus.config.UrsusJerseyApplicationConfiguration;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import javax.validation.constraints.NotNull;
 
-public class ExampleApplicationConfiguration extends UrsusApplicationConfiguration {
+public class ExampleApplicationConfiguration extends UrsusJerseyApplicationConfiguration {
 
     @NotNull
     @JsonProperty

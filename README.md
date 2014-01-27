@@ -68,7 +68,7 @@ Let's start by looking at the ```ExampleApplicationConfiguration``` class.
 ```java
 package com.aceevo.ursus.example;
 
-import com.aceevo.ursus.config.UrsusApplicationConfiguration;
+import com.aceevo.ursus.config.UrsusJerseyApplicationConfiguration;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import org.hibernate.validator.constraints.NotEmpty;
 
@@ -121,7 +121,7 @@ need to add a ```public static void main(String[] args)``` method and instantiat
 ```java
 package com.aceevo.ursus.example;
 
-import com.aceevo.ursus.core.UrsusApplication;
+import com.aceevo.ursus.core.UrsusJerseyApplication;
 import org.glassfish.grizzly.http.server.HttpServer;
 
 public class ExampleApplication extends UrsusApplication<ExampleApplicationConfiguration> {
@@ -408,7 +408,7 @@ method of ```ExampleApplication```.
 ```java
 package com.aceevo.ursus.example;
 
-import com.aceevo.ursus.core.UrsusApplication;
+import com.aceevo.ursus.core.UrsusJerseyApplication;
 import com.aceevo.ursus.example.api.EchoEndpointResource;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Maps;
