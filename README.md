@@ -57,7 +57,7 @@ module to your pom.xml as a dependency.
  </dependencies>
 ```
 
-### UrsusJerseyApplication Quick Start
+### Jersey Application Quick Start
 Let's take a look at the ```ursus-example-application``` project a simple HelloWorld service. It's fully implemented, but we're going
 to walk through the steps it took to build this project. If it helps you might want to clone the Ursus repro, [https://github.com/rjenkins/ursus.git](https://github.com/rjenkins/ursus.git)
 and modify ```ursus-example-application``` as we progress through the quick start building up the application yourself.
@@ -115,7 +115,7 @@ Great! Let's move on to creating our first application.
 
 We'll name our application ```ExampleApplication``` and subclass ```UrsusJerseyApplication``` we also need to parameterize
 ExampleApplication with the type of our UrsusJerseyApplicationConfiguration class, that's named ```ExampleApplicationConfiguration```.
-If your using an IDE like IntelliJ you can select implement methods and you'll get the shell of our application. We also
+If your using an IDE like IntelliJ you can select implement methods and you'll get the skeleton of our application. We also
 need to add a ```public static void main(String[] args)``` method and instantiate an instance of ExampleApplication.
 
 ```java
@@ -402,8 +402,7 @@ asynchronously once we're ready to response.
 #### Registering Resources
 
 Now that we've created our first resource we need to register then with our Jersey ResourceConfig, there are many ways to do this (more on this later)
-but for our example application let's use Jersey's built in resource discovery and specify the package where our resources exist. We'll do this in bootstrap
-method of ```ExampleApplication```.
+but for our example application let's use Jersey's built in resource discovery and specify the package where our resources exist. We'll do this in the bootstrap method of ```ExampleApplication```.
 
 ```java
 package com.aceevo.ursus.example;
