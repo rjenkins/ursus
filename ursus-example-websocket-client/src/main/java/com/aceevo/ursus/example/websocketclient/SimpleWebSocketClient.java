@@ -27,10 +27,14 @@ public class SimpleWebSocketClient {
 
     public static void main(String[] args) {
         SimpleWebSocketClient simpleWebSocketClient = new SimpleWebSocketClient();
-        simpleWebSocketClient.run();
+
+        if (args.length > 0 && "annotated".equals(args[0]))
+            simpleWebSocketClient.run("ws://localhost:8080/annotatedEcho");
+        else
+            simpleWebSocketClient.run("ws://localhost:8080/echo");
     }
 
-    public void run() {
+    public void run(String uri) {
         try {
             messageLatch = new CountDownLatch(1);
 
@@ -59,7 +63,7 @@ public class SimpleWebSocketClient {
                         e.printStackTrace();
                     }
                 }
-            }, cec, new URI("ws://localhost:8080/echo"));
+            }, cec, new URI(uri));
             messageLatch.await(100, TimeUnit.SECONDS);
         } catch (Exception e) {
             e.printStackTrace();

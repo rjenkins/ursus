@@ -779,3 +779,63 @@ public class ExampleApplication extends UrsusJerseyApplication<ExampleApplicatio
     }
 }
 ```
+
+#### Tyrus Annotated EndPoints
+
+Tyrus provides support for annotated EndPoints using the ```@OnOpen``` ```@OnClose``` ```@OnError``` ```@OnMessage```. You
+can't pass arguments into these endpoints as the lifecycle of these resources are controlled by Tyrus (though you can control that
+by overriding a class, more on that later). Let's create an annotation based ```EndPoint``` and register it with our application.
+
+```java
+
+package com.aceevo.ursus.example.api;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import javax.websocket.OnMessage;
+import javax.websocket.Session;
+import javax.websocket.server.ServerEndpoint;
+
+/**
+ * Created with IntelliJ IDEA.
+ * User: rayjenkins
+ * Date: 1/29/14
+ * Time: 9:28 PM
+ * To change this template use File | Settings | File Templates.
+ */
+
+@ServerEndpoint(value = "/annotatedEcho")
+public class AnnotatedEndPointResource {
+
+    private final Logger LOGGER = LoggerFactory.getLogger(AnnotatedEndPointResource.class);
+
+    @OnMessage
+    public String sayHello(String message, Session session) {
+        LOGGER.info("Received message from client: " + message);
+        return message;
+    }
+}
+
+```
+
+```java
+
+...
+
+public class ExampleApplication extends UrsusJerseyApplication<ExampleApplicationConfiguration> {
+
+   ...
+
+    @Override
+    protected void boostrap(ExampleApplicationConfiguration exampleApplicationConfiguration) {
+        packages("com.aceevo.ursus.example.api");
+        register(AnnotatedEndPointResource.class);
+        registerEndpoint(EchoEndpointResource.class, "/echo", "exampleApplicationConfiguration", exampleApplicationConfiguration);
+    }
+
+    @Override
+    protected void run(HttpServer httpServer) {
+        startWithShutdownHook(httpServer);
+    }
+}```
