@@ -821,8 +821,6 @@ public class AnnotatedEndPointResource {
 
 ```java
 
-...
-
 public class ExampleApplication extends UrsusJerseyApplication<ExampleApplicationConfiguration> {
 
    ...
@@ -838,4 +836,5 @@ public class ExampleApplication extends UrsusJerseyApplication<ExampleApplicatio
     protected void run(HttpServer httpServer) {
         startWithShutdownHook(httpServer);
     }
-}```
+}
+```
