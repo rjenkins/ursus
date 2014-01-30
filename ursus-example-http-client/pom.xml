@@ -3,7 +3,7 @@
     <parent>
         <artifactId>ursus-parent</artifactId>
         <groupId>com.aceevo</groupId>
-        <version>0.2</version>
+        <version>0.3-SNAPSHOT</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
@@ -13,12 +13,12 @@
         <dependency>
             <groupId>com.aceevo</groupId>
             <artifactId>ursus-config</artifactId>
-            <version>0.2</version>
+            <version>0.3-SNAPSHOT</version>
         </dependency>
         <dependency>
             <groupId>com.aceevo</groupId>
             <artifactId>ursus-client</artifactId>
-            <version>0.2</version>
+            <version>0.3-SNAPSHOT</version>
         </dependency>
     </dependencies>
     <build>
