@@ -52,17 +52,17 @@ module to your pom.xml as a dependency.
     <dependency>
         <groupId>com.aceevo</groupId>
         <artifactId>ursus-core</artifactId>
-        <version>0.1</version>
+        <version>0.2</version>
     </dependency>
  </dependencies>
 ```
 
-### Quick Start
+### UrsusJerseyApplication Quick Start
 Let's take a look at the ```ursus-example-application``` project a simple HelloWorld service. It's fully implemented, but we're going
 to walk through the steps it took to build this project. If it helps you might want to clone the Ursus repro, [https://github.com/rjenkins/ursus.git](https://github.com/rjenkins/ursus.git)
 and modify ```ursus-example-application``` as we progress through the quick start building up the application yourself.
 
-Ursus applications require 2 classes, a subclass of ```UrsusApplication``` and a subclass of ```UrsusApplicationConfiguration```. The com.aceevo.ursus.example package contains both.
+Ursus applications require 2 classes, a subclass of ```UrsusJerseyApplication``` and a subclass of ```UrsusJerseyApplicationConfiguration```. The com.aceevo.ursus.example package contains both.
 Let's start by looking at the ```ExampleApplicationConfiguration``` class.
 
 ```java
@@ -72,7 +72,7 @@ import com.aceevo.ursus.config.UrsusJerseyApplicationConfiguration;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import org.hibernate.validator.constraints.NotEmpty;
 
-public class ExampleApplicationConfiguration extends UrsusApplicationConfiguration {
+public class ExampleApplicationConfiguration extends UrsusJerseyApplicationConfiguration {
 
     @NotEmpty
     @JsonProperty
@@ -94,7 +94,7 @@ a different location for you configuration you can specify that on that with arg
 
 ```java -jar <path to jar file> server <path to your YAML file```
 
-In addition to your own environment specific configuration parameters [UrsusApplicationConfiguration](https://github.com/rjenkins/ursus/blob/master/ursus-config/src/main/java/com/aceevo/ursus/config/UrsusApplicationConfiguration.java)
+In addition to your own environment specific configuration parameters [UrsusJerseyApplicationConfiguration](https://github.com/rjenkins/ursus/blob/master/ursus-config/src/main/java/com/aceevo/ursus/config/UrsusJerseyApplicationConfiguration.java)
 defines a large set of configuration properties that allow you to modify all of the granular configuration options available with Grizzly and many of the other
 included libraries simply by adding lines of YAML (more on that later).
 
@@ -111,10 +111,10 @@ name: Ray
 
 Great! Let's move on to creating our first application.
 
-#### Creating an UrsusApplication
+#### Creating an UrsusJerseyApplication
 
-We'll name our application ```ExampleApplication``` and subclass ```UrsusApplication``` we also need to parameterize
-ExampleApplication with the type of our UrsusApplicationConfiguration class, that's named ```ExampleApplicationConfiguration```.
+We'll name our application ```ExampleApplication``` and subclass ```UrsusJerseyApplication``` we also need to parameterize
+ExampleApplication with the type of our UrsusJerseyApplicationConfiguration class, that's named ```ExampleApplicationConfiguration```.
 If your using an IDE like IntelliJ you can select implement methods and you'll get the shell of our application. We also
 need to add a ```public static void main(String[] args)``` method and instantiate an instance of ExampleApplication.
 
@@ -124,7 +124,7 @@ package com.aceevo.ursus.example;
 import com.aceevo.ursus.core.UrsusJerseyApplication;
 import org.glassfish.grizzly.http.server.HttpServer;
 
-public class ExampleApplication extends UrsusApplication<ExampleApplicationConfiguration> {
+public class ExampleApplication extends UrsusJerseyApplication<ExampleApplicationConfiguration> {
 
     protected ExampleApplication(String[] args) {
         super(args);
@@ -269,10 +269,10 @@ protected void run(HttpServer httpServer) {
 boundray:ursus-example-application rayjenkins$ java -jar ./target/ursus-example-application-0.2-SNAPSHOT.jar
 19:32:04.643 [main] INFO  o.h.validator.internal.util.Version - HV000001: Hibernate Validator 5.0.1.Final
 19:32:05.150 [main] INFO  o.g.jersey.server.ApplicationHandler - Initiating Jersey application, version Jersey: 2.5 2013-12-18 14:27:29...
-19:32:05.504 [main] INFO  c.aceevo.ursus.core.UrsusApplication - Starting all managed services...
+19:32:05.504 [main] INFO  c.aceevo.ursus.core.UrsusJerseyApplication - Starting all managed services...
 19:32:05.557 [main] INFO  o.g.g.http.server.NetworkListener - Started listener bound to [localhost:8080]
 19:32:05.561 [main] INFO  o.g.grizzly.http.server.HttpServer - [HttpServer] Started.
-19:32:05.570 [main] INFO  c.aceevo.ursus.core.UrsusApplication - Starting ExampleApplication
+19:32:05.570 [main] INFO  c.aceevo.ursus.core.UrsusJerseyApplication - Starting ExampleApplication
  __  __   ______    ______   __  __   ______
 /_/\/_/\ /_____/\  /_____/\ /_/\/_/\ /_____/\
 \:\ \:\ \\:::_ \ \ \::::_\/_\:\ \:\ \\::::_\/_
@@ -281,7 +281,7 @@ boundray:ursus-example-application rayjenkins$ java -jar ./target/ursus-example-
    \:\_\:\ \\ \ `\ \ \ /____\:\\:\_\:\ \ /____\:\
     \_____\/ \_\/ \_\/ \_____\/ \_____\/ \_____\/
 
-19:32:05.570 [main] INFO  c.aceevo.ursus.core.UrsusApplication - Press CTRL^C to exit..
+19:32:05.570 [main] INFO  c.aceevo.ursus.core.UrsusJerseyApplication - Press CTRL^C to exit..
 ```
 
 Success! Now it's time to move on to implementing our service.
@@ -416,7 +416,7 @@ import org.glassfish.grizzly.http.server.HttpServer;
 
 import javax.websocket.server.ServerEndpointConfig;
 
-public class ExampleApplication extends UrsusApplication<ExampleApplicationConfiguration> {
+public class ExampleApplication extends UrsusJerseyApplication<ExampleApplicationConfiguration> {
 
     ...
 
@@ -437,10 +437,10 @@ Now we're ready to build and try out our resources.
 boundray:ursus-example-application rayjenkins$ java -jar ./target/ursus-example-application-0.2-SNAPSHOT.jar
 21:27:58.901 [main] INFO  o.h.validator.internal.util.Version - HV000001: Hibernate Validator 5.0.1.Final
 21:27:59.901 [main] INFO  o.g.jersey.server.ApplicationHandler - Initiating Jersey application, version Jersey: 2.5 2013-12-18 14:27:29...
-21:28:00.290 [main] INFO  c.aceevo.ursus.core.UrsusApplication - Starting all managed services...
+21:28:00.290 [main] INFO  c.aceevo.ursus.core.UrsusJerseyApplication - Starting all managed services...
 21:28:00.342 [main] INFO  o.g.g.http.server.NetworkListener - Started listener bound to [localhost:8080]
 21:28:00.357 [main] INFO  o.g.grizzly.http.server.HttpServer - [HttpServer] Started.
-21:28:00.366 [main] INFO  c.aceevo.ursus.core.UrsusApplication - Starting ExampleApplication
+21:28:00.366 [main] INFO  c.aceevo.ursus.core.UrsusJerseyApplication - Starting ExampleApplication
  __  __   ______    ______   __  __   ______
 /_/\/_/\ /_____/\  /_____/\ /_/\/_/\ /_____/\
 \:\ \:\ \\:::_ \ \ \::::_\/_\:\ \:\ \\::::_\/_
@@ -449,7 +449,7 @@ boundray:ursus-example-application rayjenkins$ java -jar ./target/ursus-example-
    \:\_\:\ \\ \ `\ \ \ /____\:\\:\_\:\ \ /____\:\
     \_____\/ \_\/ \_\/ \_____\/ \_____\/ \_____\/
 
-21:28:00.366 [main] INFO  c.aceevo.ursus.core.UrsusApplication - Press CTRL^C to exit..
+21:28:00.366 [main] INFO  c.aceevo.ursus.core.UrsusJerseyApplication - Press CTRL^C to exit..
 ^Z
 [1]+  Stopped                 java -jar ./target/ursus-example-application-0.2-SNAPSHOT.jar
 boundray:ursus-example-application rayjenkins$ bg
@@ -764,7 +764,7 @@ to pass our endpoint class, the path, and a key for our UserProperties, that key
 and the value is the instance of our ```ExampleApplicationConfiguration``` class.
 
 ```java
-public class ExampleApplication extends UrsusApplication<ExampleApplicationConfiguration> {
+public class ExampleApplication extends UrsusJerseyApplication<ExampleApplicationConfiguration> {
 
     ...
 
