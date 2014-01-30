@@ -147,7 +147,47 @@ public class ExampleApplication extends UrsusJerseyApplication<ExampleApplicatio
 ```
 
 ExampleApplication in the ```ursus-example-application``` project is filled out and have more data than this, but let's ignore that for now.
-If you like you can always overwrite ```ExampleApplication``` with the above and follow
+If you like you can always overwrite ```ExampleApplication``` with the above and follow along.
+
+#### Setting up Logging
+
+Ursus includes [Logback](http://logback.qos.ch/) for logging, wee need to setup a ```logback.xml``` file for our project and because
+we're using maven we'll put this file in ```src/main/resources```. Our logback.xml should include an appender named ```FILE```.
+
+```xml
+<configuration>
+    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <outputPatternAsHeader>false</outputPatternAsHeader>
+            <pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</pattern>
+        </encoder>
+    </appender>
+    <appender name="FILE" class="ch.qos.logback.core.FileAppender">
+        <file>./ursus-example-application.log</file>
+        <encoder>
+            <outputPatternAsHeader>false</outputPatternAsHeader>
+            <pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</pattern>
+        </encoder>
+    </appender>
+    <root level="INFO">
+        <appender-ref ref="FILE" />
+        <appender-ref ref="STDOUT"/>
+    </root>
+    <contextListener class="ch.qos.logback.classic.jul.LevelChangePropagator">
+        <resetJUL>true</resetJUL>
+    </contextListener>
+</configuration>
+```
+
+Now we can override logging parameters like level and fileName in our exampleapplication.yml
+
+```yaml
+httpServer:
+  host: localhost
+logging:
+  level: INFO
+name: Ray
+```
 
 
 #### Building our first artifact and running our application.
