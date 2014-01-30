@@ -1,11 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0"
-         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <parent>
         <artifactId>ursus-parent</artifactId>
         <groupId>com.aceevo</groupId>
-        <version>0.2-SNAPSHOT</version>
+        <version>0.2</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
@@ -15,7 +13,7 @@
         <dependency>
             <groupId>com.aceevo</groupId>
             <artifactId>ursus-core</artifactId>
-            <version>0.2-SNAPSHOT</version>
+            <version>0.2</version>
         </dependency>
         <dependency>
             <groupId>me.cmoz.grizzly</groupId>
@@ -73,10 +71,10 @@
                         <phase>generate-sources</phase>
                         <configuration>
                             <tasks>
-                                <mkdir dir="target/generated-sources"/>
+                                <mkdir dir="target/generated-sources" />
                                 <exec executable="protoc">
-                                    <arg value="--java_out=src/main/java"/>
-                                    <arg value="src/main/messages.proto"/>
+                                    <arg value="--java_out=src/main/java" />
+                                    <arg value="src/main/messages.proto" />
                                 </exec>
                             </tasks>
                             <sourceRoot>target/generated-sources</sourceRoot>
