@@ -20,24 +20,18 @@ package com.aceevo.ursus.core;
 
 import ch.qos.logback.core.FileAppender;
 import com.aceevo.ursus.config.UrsusConfigurationFactory;
-import com.aceevo.ursus.config.UrsusJerseyApplicationConfiguration;
 import com.aceevo.ursus.config.UrsusNIOApplicationConfiguration;
 import com.google.common.base.Charsets;
 import com.google.common.io.Resources;
 import com.google.common.util.concurrent.Service;
 import org.glassfish.grizzly.filterchain.FilterChain;
 import org.glassfish.grizzly.filterchain.FilterChainBuilder;
-import org.glassfish.grizzly.http.CompressionConfig;
-import org.glassfish.grizzly.http.server.NetworkListener;
 import org.glassfish.grizzly.nio.NIOTransport;
 import org.glassfish.grizzly.nio.transport.TCPNIOTransportBuilder;
-import org.glassfish.grizzly.ssl.SSLContextConfigurator;
-import org.glassfish.grizzly.ssl.SSLEngineConfigurator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.slf4j.bridge.SLF4JBridgeHandler;
 
-import javax.ws.rs.ext.ExceptionMapper;
 import java.io.IOException;
 import java.lang.reflect.ParameterizedType;
 import java.util.HashSet;
