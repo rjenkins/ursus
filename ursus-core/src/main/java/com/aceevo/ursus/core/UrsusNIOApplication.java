@@ -97,7 +97,7 @@ public abstract class UrsusNIOApplication<T extends UrsusNIOApplicationConfigura
      *
      * @param transport a fully initialized @{link HttpServer} instance with our applications configuration.
      */
-    protected abstract void run(NIOTransport transport);
+    protected abstract void run(N transport);
 
     /**
      * Determine our default YAML configuration file name and parse
