@@ -234,8 +234,6 @@ public class GrizzlyServerFilter extends BaseFilter {
      */
     private NextAction handleHandshake(final FilterChainContext ctx, HttpContent content) {
         final UpgradeRequest upgradeRequest = createWebSocketRequest(content);
-        upgradeRequest.getHeaders().put(Header.ProxyConnection.toString(), Arrays.asList(new String[]{"keep-alive"}));
-        upgradeRequest.getHeaders().put(Header.Connection.toString(), Arrays.asList(new String[]{"keep-alive"}));
 
         // TODO: final UpgradeResponse upgradeResponse = GrizzlyUpgradeResponse(HttpResponsePacket)
         final UpgradeResponse upgradeResponse = new TyrusUpgradeResponse();
