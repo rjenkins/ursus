@@ -38,7 +38,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 
-public abstract class UrsusNIOApplication<T extends UrsusNIOApplicationConfiguration> {
+public abstract class UrsusNIOApplication<T extends UrsusNIOApplicationConfiguration, N extends NIOTransport> {
 
     /**
      * UrsusNIOApplication is the base class for our application
@@ -50,7 +50,7 @@ public abstract class UrsusNIOApplication<T extends UrsusNIOApplicationConfigura
     private final Class<T> configurationClass;
     private final T configuration;
     private final Set<Service> managedServices = new HashSet<Service>();
-    private NIOTransport transport;
+    protected N transport;
 
     final Logger LOGGER = LoggerFactory.getLogger(UrsusNIOApplication.class);
 
@@ -116,12 +116,7 @@ public abstract class UrsusNIOApplication<T extends UrsusNIOApplicationConfigura
      * Starts Grizzly HTTP server exposing JAX-RS resources and UrsusWebSocketApplication defined
      * in this application.
      */
-    private NIOTransport initializeServer(FilterChain filterChain) {
-        transport = TCPNIOTransportBuilder.newInstance()
-                .setProcessor(filterChain)
-                .build();
-        return transport;
-    }
+    protected abstract N initializeServer(FilterChain filterChain);
 
     /**
      * Convenience method for starting this Grizzly HttpServer

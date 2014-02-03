@@ -1,6 +1,6 @@
 package com.aceevo.ursus.example;
 
-import com.aceevo.ursus.core.UrsusNIOApplication;
+import com.aceevo.ursus.core.UrsusTCPNIOApplication;
 import org.glassfish.grizzly.filterchain.*;
 import org.glassfish.grizzly.nio.NIOTransport;
 import org.glassfish.grizzly.utils.StringFilter;
@@ -9,7 +9,7 @@ import org.slf4j.LoggerFactory;
 
 import java.nio.charset.Charset;
 
-public class NIOExampleApplication extends UrsusNIOApplication<NIOExampleConfiguration> {
+public class NIOExampleApplication extends UrsusTCPNIOApplication<NIOExampleConfiguration> {
 
     public static void main(String[] args) {
         new NIOExampleApplication(args);
@@ -18,6 +18,7 @@ public class NIOExampleApplication extends UrsusNIOApplication<NIOExampleConfigu
     protected NIOExampleApplication(String[] args) {
         super(args);
     }
+
 
     @Override
     protected FilterChain boostrap(NIOExampleConfiguration nioExampleConfiguration, FilterChainBuilder filterChainBuilder) {
