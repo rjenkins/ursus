@@ -207,6 +207,17 @@ public class UrsusJerseyApplicationConfiguration extends UrsusConfiguration {
         @JsonProperty(required = false)
         private Compression compression = null;
 
+        // KeepAlive
+        @JsonProperty(required = false)
+        private long idleTimeout;
+
+        @JsonProperty(required = false)
+        private int maxRequests;
+
+        @JsonProperty(required = false)
+        private int transactionTimeout;
+
+
         public NetworkListener() {
 
         }
@@ -273,6 +284,30 @@ public class UrsusJerseyApplicationConfiguration extends UrsusConfiguration {
 
         public void setCompression(Compression compression) {
             this.compression = compression;
+        }
+
+        public long getIdleTimeout() {
+            return idleTimeout;
+        }
+
+        public void setIdleTimeout(long idleTimeout) {
+            this.idleTimeout = idleTimeout;
+        }
+
+        public int getMaxRequests() {
+            return maxRequests;
+        }
+
+        public void setMaxRequests(int maxRequests) {
+            this.maxRequests = maxRequests;
+        }
+
+        public int getTransactionTimeout() {
+            return transactionTimeout;
+        }
+
+        public void setTransactionTimeout(int transactionTimeout) {
+            this.transactionTimeout = transactionTimeout;
         }
     }
 

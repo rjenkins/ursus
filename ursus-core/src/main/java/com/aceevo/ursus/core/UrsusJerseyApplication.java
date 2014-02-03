@@ -203,6 +203,8 @@ public abstract class UrsusJerseyApplication<T extends UrsusJerseyApplicationCon
         final NetworkListener listener = new NetworkListener("grizzly",
                 configuration.getHttpServer().getHost(), configuration.getHttpServer().getPort());
 
+        listener.getKeepAlive().setIdleTimeoutInSeconds(-1);
+
         configureListener(listener);
         configureTyrus(configuration, listener);
 

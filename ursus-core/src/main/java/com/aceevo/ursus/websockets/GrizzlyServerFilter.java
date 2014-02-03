@@ -43,6 +43,7 @@ package com.aceevo.ursus.websockets;
 import java.io.IOException;
 import java.net.URI;
 import java.nio.ByteBuffer;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.Queue;
@@ -52,6 +53,7 @@ import java.util.logging.Logger;
 
 import javax.websocket.CloseReason;
 
+import org.glassfish.grizzly.http.util.Header;
 import org.glassfish.tyrus.container.grizzly.client.GrizzlyWriter;
 import org.glassfish.tyrus.container.grizzly.client.TaskProcessor;
 import org.glassfish.tyrus.core.RequestContext;
@@ -232,6 +234,9 @@ public class GrizzlyServerFilter extends BaseFilter {
      */
     private NextAction handleHandshake(final FilterChainContext ctx, HttpContent content) {
         final UpgradeRequest upgradeRequest = createWebSocketRequest(content);
+        upgradeRequest.getHeaders().put(Header.ProxyConnection.toString(), Arrays.asList(new String[]{"keep-alive"}));
+        upgradeRequest.getHeaders().put(Header.Connection.toString(), Arrays.asList(new String[]{"keep-alive"}));
+
         // TODO: final UpgradeResponse upgradeResponse = GrizzlyUpgradeResponse(HttpResponsePacket)
         final UpgradeResponse upgradeResponse = new TyrusUpgradeResponse();
         final WebSocketEngine.UpgradeInfo upgradeInfo = serverContainer.getWebSocketEngine().upgrade(upgradeRequest, upgradeResponse);
