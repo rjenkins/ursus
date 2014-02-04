@@ -1069,9 +1069,9 @@ public class NIOExampleConfiguration extends UrsusNIOApplicationConfiguration {
 }
 ```
 
-#### Bootstrap and Run Methods
+#### NIOTransport Bootstrap and Run Methods
 
-UrsusNIOApplications follow the same semantics as ```UrsusJerseyApplications``` we create a constructor and call ```super(args)`` and create a public static void main method
+UrsusNIOApplications follow the same semantics as ```UrsusJerseyApplications``` we create a constructor and call ```super(args)``` and creates a public static void main method
 which instantiates our ```UrsusNIOApplication``` and passes our command line arguments. But the bootstrap and run methods differ in the arguments they take. Let's inspect
 these more closely.
 
@@ -1088,11 +1088,11 @@ these more closely.
     }
 ```
 
-Our bootrap methods takes an instance of ```NIOExampleConfiguration``` and a ```FilterChainBuilder``` for arguments. In addition the bootstrap method returns
-and instance of ```FilterChain```. ```NIOExampleApplication``` creates a new FilterChain with a single ```StringFilter``` followed by our custom ```HelloFilter```.
+The bootrap method takes an instance of ```NIOExampleConfiguration``` and a ```FilterChainBuilder``` for arguments. In addition the bootstrap method returns
+and instance of ```FilterChain```. The bootstrap method creates a new FilterChain with a single ```StringFilter``` followed by our custom ```HelloFilter```.
 
-The run method takes a ```TCPNIOTransport``` as an argument and like our ```UrsusJerseyApplucation``` we call ```startWithShutdownHook``` if we have not more programmatic
-changes to make to our ```TCPNIOTransport```.
+The run method takes a ```TCPNIOTransport``` as an argument and like our ```UrsusJerseyApplucation``` we call ```startWithShutdownHook``` if we do not have any
+more programmatic changes to make to our ```TCPNIOTransport```.
 
 
 
