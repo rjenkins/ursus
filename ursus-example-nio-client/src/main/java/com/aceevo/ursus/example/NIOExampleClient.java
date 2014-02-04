@@ -54,7 +54,7 @@ public class NIOExampleClient {
                 try {
                     transport.start();
                     connection = transport.connect("localhost", 20389).get();
-                    connection.write("foo");
+                    connection.write("Hello Ursus");
                 } catch (IOException e) {
                     e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
                 }

@@ -1123,7 +1123,7 @@ to build NIO applications with Grizzly (more on that later). The ```Filter``` in
 ```
 
 For our simple application ```HelloFilter``` will extend ```BasicFilter``` and override the ```handleRead``` method. We will use the ```FilterChainContext```
-to retrieve the message sent from the client and write that message back to the ```FilterChainContext``` while returning a ```NextAction```.
+to retrieve the message sent from the client and write that message back to the ```FilterChainContext``` while returning a   ```NextAction```.
 
 ```java
 
@@ -1147,6 +1147,10 @@ to retrieve the message sent from the client and write that message back to the 
         }
     }
 ```
+
+#### Implementing an Ursus NIO Client
+
+
 
 
 
