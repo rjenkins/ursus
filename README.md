@@ -1311,6 +1311,30 @@ client initiates the conversation in the ```ClientRunner``` class by writing to 
     } catch (IOException e) {
         e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
     }
+
+    ...
+
+    private static class HelloClientFilter extends BaseFilter {
+
+        private final CountDownLatch countDownLatch;
+        private Logger LOGGER = LoggerFactory.getLogger(HelloClientFilter.class);
+
+        public HelloClientFilter(CountDownLatch countDownLatch) {
+            this.countDownLatch = countDownLatch;
+        }
+
+        public NextAction handleRead(final FilterChainContext context) {
+            try {
+                String message = context.getMessage();
+                LOGGER.info("received message from server: " + message);
+                countDownLatch.countDown();
+            } catch (Exception ex) {
+                LOGGER.debug("exception handle read", ex);
+            }
+
+            return context.getStopAction();
+        }
+    }
 ```
 
 #### Running an example NIOTransport application
@@ -1319,7 +1343,7 @@ Let's use the ```ursus-example-nio-application``` project to start our server. O
 and watch it connect to our [NIOTransport](https://grizzly.java.net/docs/2.3/apidocs/org/glassfish/grizzly/nio/NIOTransport.html) application, say "Hello Ursus" and
 verify that the server has responded.
 
-```java
+```
 boundray:ursus rayjenkins$ cd ursus-example-nio-application/
 boundray:ursus-example-nio-application rayjenkins$ java -jar ./target/ursus-example-nio-application-0.2.4-SNAPSHOT.jar
 23:21:27.332 [main] INFO  o.h.validator.internal.util.Version - HV000001: Hibernate Validator 5.0.1.Final
