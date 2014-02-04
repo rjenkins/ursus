@@ -361,7 +361,7 @@ public class Hello {
 }
 ```
 
-Now that we've created a representation we can create a Jersey Resource class for representing this resource.
+Now that we've created a representation we can create a Jersey Resource class for serving this representation.
 
 #### Creating Resources
 
