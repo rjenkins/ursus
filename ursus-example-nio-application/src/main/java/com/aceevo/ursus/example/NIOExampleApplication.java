@@ -2,7 +2,6 @@ package com.aceevo.ursus.example;
 
 import com.aceevo.ursus.core.UrsusTCPNIOApplication;
 import org.glassfish.grizzly.filterchain.*;
-import org.glassfish.grizzly.nio.NIOTransport;
 import org.glassfish.grizzly.nio.transport.TCPNIOTransport;
 import org.glassfish.grizzly.utils.StringFilter;
 import org.slf4j.Logger;

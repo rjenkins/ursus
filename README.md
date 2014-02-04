@@ -3,7 +3,7 @@
 ### Overview
 
 Ursus is a [Dropwizard](http://dropwizard.codahale.com/) inspired framework for developing lightweight
-web services on the JVM and [Grizzly](https://grizzly.java.net/). Ursus combines Grizzly's
+web services and NIO applications on the JVM and [Grizzly](https://grizzly.java.net/). Ursus combines Grizzly's
 NIO/Event Driven framework and popular libraries such as [Jersey 2.5](https://jersey.java.net/) and
 [Project Tyrus - JSR 356: Java API for WebSocket - Reference Implementation](https://tyrus.java.net/) with
 the simple conventions found in Dropwizard, allowing you to focus on developing your services rather
@@ -441,8 +441,9 @@ asynchronously once we're ready to response.
 
 #### Registering Resources
 
-Now that we've created our first resource we need to register then with our Jersey ResourceConfig, there are many ways to do this (more on this later)
-but for our example application let's use Jersey's built in resource discovery and specify the package where our resources exist. We'll do this in the bootstrap method of ```ExampleApplication```.
+Now that we've created our first resource we need to register then with our Jersey ResourceConfig, there are many ways to do this (more on this later, you can also
+register instance of Resource classes with ```register(Object components)```). For our example application let's use Jersey's built in resource discovery and
+specify the package where our resources exist. We'll do this in the bootstrap method of ```ExampleApplication```.
 
 ```java
 package com.aceevo.ursus.example;

@@ -1,5 +1,7 @@
 httpServer:
   host: localhost
+  staticResourceDirectory: assets
+  staticResourceContextRoot: /ursus
 logging:
   level: INFO
 name: Ray

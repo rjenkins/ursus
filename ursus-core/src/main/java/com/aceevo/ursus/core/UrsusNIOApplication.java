@@ -27,7 +27,6 @@ import com.google.common.util.concurrent.Service;
 import org.glassfish.grizzly.filterchain.FilterChain;
 import org.glassfish.grizzly.filterchain.FilterChainBuilder;
 import org.glassfish.grizzly.nio.NIOTransport;
-import org.glassfish.grizzly.nio.transport.TCPNIOTransportBuilder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.slf4j.bridge.SLF4JBridgeHandler;
@@ -38,13 +37,14 @@ import java.util.HashSet;
 import java.util.Set;
 
 
+/**
+ * UrsusNIOApplication is the base class for our {@link NIOTransport} application
+ * @param <T> type which extends {@link UrsusNIOApplication}
+ * @param <N> type which extends {@link NIOTransport}
+ */
+
 public abstract class UrsusNIOApplication<T extends UrsusNIOApplicationConfiguration, N extends NIOTransport> {
 
-    /**
-     * UrsusNIOApplication is the base class for our application
-     *
-     * @param <T> our type of configuration class
-     */
 
     private String configurationFile;
     private final Class<T> configurationClass;
@@ -87,22 +87,22 @@ public abstract class UrsusNIOApplication<T extends UrsusNIOApplicationConfigura
     /**
      * Bootstrap method for configuring resources required for this application.
      *
-     * @param t an instance of our @{link UrsusJerseyApplicationConfiguration<T>} type
+     * @param t an instance of our @{link UrsusNIOApplicationConfiguration <T>} type
      */
     protected abstract FilterChain boostrap(T t, FilterChainBuilder filterChainBuilder);
 
     /**
-     * Hands an UrsusJerseyApplication a fully initialized and configured @{link HttpServer} instance for any additional
-     * programmatic configuration user may with to perform prior to starting.
+     * Hands an NIOTransport instance initialized and configured ready for any additional
+     * programmatic changes user may with to perform prior to starting.
      *
-     * @param transport a fully initialized @{link HttpServer} instance with our applications configuration.
+     * @param transport a fully initialized @{link NIOTransport} instance with our applications configuration.
      */
     protected abstract void run(N transport);
 
     /**
      * Determine our default YAML configuration file name and parse
      *
-     * @return and instance of type T which extends {@link com.aceevo.ursus.config.UrsusJerseyApplicationConfiguration}
+     * @return and instance of type T which extends {@link com.aceevo.ursus.config.UrsusNIOApplicationConfiguration}
      */
     private T parseConfiguration() {
 
@@ -113,8 +113,9 @@ public abstract class UrsusNIOApplication<T extends UrsusNIOApplicationConfigura
     }
 
     /**
-     * Starts Grizzly HTTP server exposing JAX-RS resources and UrsusWebSocketApplication defined
-     * in this application.
+     * Hands a {@link FilterChain} and return a new instance of {@link N extends NIOTransport}
+     * @param filterChain The {@link FilterChain} to be set as the processor for this {@link NIOTransport}
+     * @return {@link N extends NIOTransport}
      */
     protected abstract N initializeServer(FilterChain filterChain);
 
