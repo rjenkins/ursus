@@ -238,7 +238,7 @@ For the ```ursus-example-application``` we've already added this to the pom.xml,
 ```
 
 If you've cloned the ursus git repo and have modified the ```ursus-example-application``` you should be able to build and test
-the project, build by running ```mvn clean; mvn package``` from the ursus director. Now we can cd into ursus-example-application and
+the project, build by running ```mvn clean; mvn package``` from the ursus directory. Now we can cd into ursus-example-application and
 start our server with the following command ```java -jar ./target/ursus-example-application-0.2.4-SNAPSHOT.jar```
 
 Unfortunately our application starts and then quickly exists, what's up?
