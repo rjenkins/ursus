@@ -443,7 +443,7 @@ asynchronously once we're ready to response.
 
 #### Registering Resources
 
-Now that we've created our first resource we need to register then with our Jersey ResourceConfig, there are many ways to do this (more on this later, you can also
+Now that we've created our first resource we need to register them with our Jersey ResourceConfig, there are many ways to do this (more on this later, you can also
 register instance of Resource classes with ```register(Object components)```). For our example application let's use Jersey's built in resource discovery and
 specify the package where our resources exist. We'll do this in the bootstrap method of ```ExampleApplication```.
 
