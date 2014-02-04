@@ -186,6 +186,7 @@ httpServer:
   host: localhost
 logging:
   level: INFO
+  fileName: ray.out
 name: Ray
 ```
 
@@ -1094,7 +1095,7 @@ and instance of ```FilterChain```. The bootstrap method creates a new FilterChai
 The run method takes a ```TCPNIOTransport``` as an argument and like our ```UrsusJerseyApplication``` we call ```startWithShutdownHook``` if we do not have any
 more programmatic changes to make to our ```TCPNIOTransport```.
 
-#### Hello Filter
+#### HelloFilter implementing a BasicFilter
 
 [Grizzly](https://grizzly.java.net/) provides several [examples](https://grizzly.java.net/quickstart.html) of how to use FilterChains and [Filters](https://grizzly.java.net/docs/2.3/apidocs/org/glassfish/grizzly/filterchain/Filter.html)
 to build NIO applications with Grizzly (more on that later). The ```Filter``` interface is as follows
@@ -1122,7 +1123,7 @@ to build NIO applications with Grizzly (more on that later). The ```Filter``` in
 ```
 
 For our simple application ```HelloFilter``` will extend ```BasicFilter``` and override the ```handleRead``` method. We will use the ```FilterChainContext```
-to retrieve the message sent from the client, and write that message back to the ```FilterChainContext``` and return a ```NextAction```.
+to retrieve the message sent from the client and write that message back to the ```FilterChainContext``` while returning a ```NextAction```.
 
 ```java
 
