@@ -1031,6 +1031,16 @@ Now we can launch our client ```java -jar ./target/ursus-example-websocket-clien
 21:02:40.232 [Grizzly(2)] INFO  c.a.u.e.w.SimpleWebSocketClient - Server replied with : Hello Ray
 ```
 
+... And with the annotated command line argument
+
+```
+boundray:ursus-example-websocket-client rayjenkins$ java -jar ./target/ursus-example-websocket-client-0.2.4-SNAPSHOT.jar annotated
+01:09:20.213 [main] INFO  c.a.u.e.w.SimpleWebSocketClient - starting
+01:09:20.569 [Grizzly(2) SelectorRunner] INFO  c.a.u.e.a.AnnotatedEndPointResource - Received message from client: Hello WebSocket
+01:09:20.573 [Grizzly(2)] INFO  c.a.u.e.w.SimpleWebSocketClient - Server replied with : Hello WebSocket
+boundray:ursus-example-websocket-client rayjenkins$
+```
+
 We can see the server side ```EchoEndpointResource``` received the message ```Hello WebSocket``` from our WebSocket Client and replied with
 the message ```Hello Ray``` which was received by ```SimpleWebSocketClient```.
 
