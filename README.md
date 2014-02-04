@@ -1227,7 +1227,6 @@ public class NIOExampleClient {
         }
     }
 
-
     private static class HelloClientFilter extends BaseFilter {
 
         private final CountDownLatch countDownLatch;
@@ -1250,9 +1249,7 @@ public class NIOExampleClient {
         }
 
     }
-
-
-}
+}```
 
 
 
