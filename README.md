@@ -1121,7 +1121,8 @@ to build NIO applications with Grizzly (more on that later). The ```Filter``` in
     void  onRemoved(FilterChain filterChain)
 ```
 
-For out simple application ```HelloFilter``` will extend ```BasicFilter``` and override the ```handleRead``` method.
+For our simple application ```HelloFilter``` will extend ```BasicFilter``` and override the ```handleRead``` method. We will use the ```FilterChainContext```
+to retrieve the message sent from the client, and write that message back to the ```FilterChainContext and return ```context.getStopAction```.
 
 ```java
 
@@ -1145,6 +1146,8 @@ For out simple application ```HelloFilter``` will extend ```BasicFilter``` and o
         }
     }
 ```
+
+
 
 
 
