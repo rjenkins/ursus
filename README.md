@@ -841,7 +841,7 @@ public class EchoEndpointResource extends Endpoint {
 #### Registering EndPoints
 
 Ursus provides some short cuts that allow you to quickly register your endpoints and pass any dependencies to your endpoint.
-Let's modify our bootstrap method and use the ```registerEndPoint``` method to add ```EchoEndPointResouce```. We simple need
+Let's modify our bootstrap method and use the ```registerEndPoint``` method to add ```EchoEndPointResouce```. We simply need
 to pass our endpoint class, the path, and a key for our UserProperties, that key will be "exampleApplicationConfiguration"
 and the value is the instance of our ```ExampleApplicationConfiguration``` class.
 
@@ -1149,7 +1149,7 @@ more programmatic changes to make to our ```TCPNIOTransport```.
 #### HelloFilter implementing a BasicFilter
 
 [Grizzly](https://grizzly.java.net/) provides several [examples](https://grizzly.java.net/quickstart.html) of how to use FilterChains and [Filters](https://grizzly.java.net/docs/2.3/apidocs/org/glassfish/grizzly/filterchain/Filter.html)
-to build NIO applications with Grizzly (more on that later). The ```Filter``` interface is as follows
+to build NIO applications (more on that later). The ```Filter``` interface is as follows
 
 ```java
 
