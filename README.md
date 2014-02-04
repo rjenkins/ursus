@@ -618,7 +618,7 @@ javax.ws.rs.NotAcceptableException: HTTP 406 Not Acceptable
 
 #### Serving Static Assets
 
-With Ursus you can service static assets such as HTML or Javascript files. Simply add the staticResourceDirectory and staticResourceContextRoot options
+With Ursus you can serve static assets such as HTML or Javascript files. Simply add the staticResourceDirectory and staticResourceContextRoot options
 to the ```httpServer``` section of the ```exampleapplication.yml``` file.
 
 ```yaml
@@ -798,7 +798,7 @@ Tests run: 3, Failures: 0, Errors: 0, Skipped: 0
 
 #### WebSocket EndPoints
 
-In addition to Jersey, Ursus includes [Tyrus](https://tyrus.java.net/) is the open source JSR 356 - Java API for WebSocket
+In addition to Jersey, Ursus includes [Tyrus](https://tyrus.java.net/) the open source JSR 356 - Java API for WebSocket
 reference implementation for easy development of WebSocket applications. You can create Annotated EndPoints and register
 them within your Ursus application or create them programatically. If you need to pass dependencies to EndPoints you'll
 need to do that programmatically and make use of the EndPoint's [UserProperties](http://docs.oracle.com/javaee/7/api/javax/websocket/EndpointConfig.html#getUserProperties)
@@ -867,7 +867,7 @@ public class ExampleApplication extends UrsusJerseyApplication<ExampleApplicatio
 
 #### Tyrus Annotated EndPoints
 
-Tyrus provides support for annotated EndPoints using the ```@OnOpen``` ```@OnClose``` ```@OnError``` ```@OnMessage```. You
+Tyrus also provides support for annotated EndPoints using the ```@OnOpen``` ```@OnClose``` ```@OnError``` ```@OnMessage```. You
 can't pass arguments into these endpoints as the lifecycle of these resources are controlled by Tyrus (though you can control that
 by overriding a class, more on that later). Let's create an annotation based ```EndPoint``` and register it with our application.
 
@@ -1133,9 +1133,9 @@ these more closely.
 ```
 
 The bootstrap method takes an instance of ```NIOExampleConfiguration``` and a ```FilterChainBuilder``` for arguments. In addition the bootstrap method returns
-and instance of ```FilterChain```. The bootstrap method creates a new FilterChain with a single ```StringFilter``` followed by our custom ```HelloFilter```.
+an instance of ```FilterChain```. The bootstrap method creates a new FilterChain with a single ```StringFilter``` followed by our custom ```HelloFilter```.
 
-The run method takes a ```TCPNIOTransport``` as an argument and like our ```UrsusJerseyApplication``` we call ```startWithShutdownHook``` if we do not have any
+The run method takes a ```TCPNIOTransport``` as an argument and like our ```UrsusJerseyApplication``` we'll call ```startWithShutdownHook``` if we do not have any
 more programmatic changes to make to our ```TCPNIOTransport```.
 
 #### HelloFilter implementing a BasicFilter
