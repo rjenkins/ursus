@@ -1339,7 +1339,6 @@ boundray:ursus-example-nio-application rayjenkins$ java -jar ./target/ursus-exam
 boundray:ursus-example-nio-application rayjenkins$ bg
 [1]+ java -jar ./target/ursus-example-nio-application-0.2.4-SNAPSHOT.jar &
 boundray:ursus-example-nio-application rayjenkins$ cd ../ursus-example-nio-client/
-(reverse-i-search)`j': java -jar ./target/ursus-example-nio-application-0.2.4-SNAPSHOT.jar
 boundray:ursus-example-nio-client rayjenkins$ java -jar ./target/ursus-example-nio-client-0.2.4-SNAPSHOT.jar
 23:21:49.485 [Grizzly-worker(1)] INFO  c.a.u.e.NIOExampleApplication$HelloFilter - received message Hello Ursus
 23:21:49.493 [Grizzly-worker(1)] INFO  c.a.u.e.NIOExampleClient$HelloClientFilter - received message from server: Hello Ursus
