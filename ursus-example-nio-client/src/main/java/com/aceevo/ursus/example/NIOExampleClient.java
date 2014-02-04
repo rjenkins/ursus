@@ -13,13 +13,6 @@ import java.nio.charset.Charset;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ExecutionException;
 
-/**
- * Created with IntelliJ IDEA.
- * User: rayjenkins
- * Date: 1/24/14
- * Time: 3:08 PM
- * To change this template use File | Settings | File Templates.
- */
 public class NIOExampleClient {
 
     private Logger LOGGER = LoggerFactory.getLogger(NIOExampleClient.class);
