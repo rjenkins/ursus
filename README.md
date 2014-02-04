@@ -1031,7 +1031,7 @@ Now we can launch our client ```java -jar ./target/ursus-example-websocket-clien
 21:02:40.232 [Grizzly(2)] INFO  c.a.u.e.w.SimpleWebSocketClient - Server replied with : Hello Ray
 ```
 
-... And with the annotated command line argument
+And with the annotated command line argument
 
 ```
 boundray:ursus-example-websocket-client rayjenkins$ java -jar ./target/ursus-example-websocket-client-0.2.4-SNAPSHOT.jar annotated
