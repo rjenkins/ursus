@@ -1252,6 +1252,27 @@ public class NIOExampleClient {
 }
 ```
 
+#### HelloClientFilter
+
+This is a basic echo application so our ```HelloClientFilter``` essentially mirrors the ```HelloFilter```. It's job is to receive responses
+from the server [NIOTransport](https://grizzly.java.net/docs/2.3/apidocs/org/glassfish/grizzly/nio/NIOTransport.html) filter and log the response. Our
+client initiates the conversation in the ```ClientRunner``` class by writing to our connection.
+
+```java
+    try {
+        transport.start();
+        connection = transport.connect("localhost", 20389).get();
+        connection.write("Hello Ursus");
+    } catch (IOException e) {
+        e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+    }
+```
+
+#### Running an example NIOTransport application
+
+
+
+
 
 
 
