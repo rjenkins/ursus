@@ -1101,24 +1101,16 @@ more programmatic changes to make to our ```TCPNIOTransport```.
 to build NIO applications with Grizzly (more on that later). The ```Filter``` interface is as follows
 
 ```java
+
     void  exceptionOccurred(FilterChainContext ctx, Throwable error)
-
     NextAction	handleAccept(FilterChainContext ctx)
-
     NextAction	handleClose(FilterChainContext ctx)
-
     NextAction	handleConnect(FilterChainContext ctx)
-
     NextAction	handleEvent(FilterChainContext ctx, FilterChainEvent event)
-
     NextAction	handleRead(FilterChainContext ctx)
-
     NextAction	handleWrite(FilterChainContext ctx)
-
     void  onAdded(FilterChain filterChain)
-
     void  onFilterChainChanged(FilterChain filterChain)
-
     void  onRemoved(FilterChain filterChain)
 ```
 
@@ -1301,14 +1293,3 @@ boundray:ursus-example-nio-client rayjenkins$ java -jar ./target/ursus-example-n
 boundray:ursus-example-nio-client rayjenkins$
 
  ```
-
-
-
-
-
-
-
-
-
-
-
