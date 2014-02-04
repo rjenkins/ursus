@@ -1270,7 +1270,7 @@ client initiates the conversation in the ```ClientRunner``` class by writing to 
 
 #### Running an example NIOTransport application
 
-Let's ```cd``` into the ```ursus-example-nio-application``` project and start our server. Once we've started our server we can launch the ```ursus-example-nio-client```
+Let's use the ```ursus-example-nio-application``` project to start our server. Once we've started our server we can launch the ```ursus-example-nio-client```
 and watch it connect to our [NIOTransport](https://grizzly.java.net/docs/2.3/apidocs/org/glassfish/grizzly/nio/NIOTransport.html) application, say "Hello Ursus" and
 verify that the server has responded.
 
