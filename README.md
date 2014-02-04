@@ -92,7 +92,7 @@ file and these parameters will be deserialized by Jackson and validated. By defa
 your application with a ```.yml``` extension, for this example application that file is named ```exampleapplication.yml```. If you wish to specify
 a different location for you configuration you can specify that on that with arguments.
 
-```java -jar <path to jar file> server <path to your YAML file```
+```java -jar <path to jar file> server <path to your YAML file>```
 
 In addition to your own environment specific configuration parameters [UrsusJerseyApplicationConfiguration](https://github.com/rjenkins/ursus/blob/master/ursus-config/src/main/java/com/aceevo/ursus/config/UrsusJerseyApplicationConfiguration.java)
 defines a large set of configuration properties that allow you to modify all of the granular configuration options available with Grizzly and many of the other
