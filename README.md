@@ -681,7 +681,7 @@ Jersey comes with a testframework provider for Grizzly, let's add that to our po
 </dependency>
 ```
 
-We can extend JerseyTest and override the configure method to create a new grizzly/jersey test environment. We'll
+We can extend JerseyTest and override the configure method to create a new [Jersey test environment](https://jersey.java.net/documentation/latest/test-framework.html). We'll
 create a dummy ```ExampleApplicationConfiguration``` class and register an UrsusApplicationBinder to support injection
 of our configuration as well as register our HelloWordResource class.
 
