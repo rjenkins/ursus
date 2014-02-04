@@ -44,7 +44,7 @@ Ursus also includes many libraries found in Dropwizard and other frameworks to h
 * An [Apache HTTPClient](http://hc.apache.org/httpclient-3.x/) and a [Jersey 2.5 client](https://jersey.java.net/documentation/latest/user-guide.html#client)
 
 #### Using Ursus
-Ursus releases artifacts are hosted on the central repository, to get started with ursus simply add the ```ursus-core```
+Ursus releases artifacts are hosted on the central repository, to get started with Ursus simply add the ```ursus-core```
 module to your pom.xml as a dependency.
 
 ```xml
