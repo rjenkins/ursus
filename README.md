@@ -615,6 +615,48 @@ javax.ws.rs.NotAcceptableException: HTTP 406 Not Acceptable
 * Closing connection #0
 ```
 
+#### Serving Static Assets
+
+With Ursus you can service static assets such as HTML or Javascript files. Simple add the staticResourceDirectory and staticResourceContextRoot options
+to the ```httpServer``` section of the ```exampleapplication.yml`` file.
+
+```yaml
+httpServer:
+  host: localhost
+  staticResourceDirectory: assets
+  staticResourceContextRoot: /ursus
+logging:
+  level: INFO
+name: Ray
+```
+
+If we add an index.html file to the ```assets``` directory our application.
+
+```html
+<!DOCTYPE html>
+<html>
+<head></head>
+<body>
+<p>Hello from Ursus!</p>
+</body>
+</html>
+```
+
+We can access static resources from the browser.
+
+```
+boundray:ursus-example-application rayjenkins$ curl -X GET http://localhost:8080/ursus/index.html
+<!DOCTYPE html>
+<html>
+<head></head>
+<body>
+<p>Hello from Ursus!</p>
+</body>
+</html>boundray:ursus-example-application rayjenkins$
+```
+
+
+
 #### Writing Resource Tests
 
 Jersey comes with a testframework provider for Grizzly, let's add that to our pom.xml so we can write some tests.
