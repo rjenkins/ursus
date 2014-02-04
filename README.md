@@ -365,7 +365,7 @@ Now that we've created a representation we can create a Jersey Resource class fo
 
 #### Creating Resources
 
-Let's create a simple Jersey resource that represents our Hello representation. In this Resource we'll add support for the
+Let's create a simple Jersey resource that serves our Hello representation. In this Resource we'll add support for the
 [GET](http://tools.ietf.org/search/rfc2616#section-9.3) and [POST](http://tools.ietf.org/search/rfc2616#section-9.5) methods as well as support for
 an [AsyncResponse](https://jersey.java.net/apidocs/latest/jersey/javax/ws/rs/container/AsyncResponse.html) GET.
 
