@@ -252,7 +252,7 @@ boundray:ursus-example-application rayjenkins$
 
 #### Starting the HttpServer
 
-We need to start our HttpServer instance to start our application. ```protected void run(HttpServer httpServer)``` method passes us
+We need to start our HttpServer instance to run our application. ```protected void run(HttpServer httpServer)``` method passes us
 a configured HttpServer (after bootstrap has been called) allowing us to make any additional modifications to the Grizzly Http Server before
 we start our application. When we're ready to start our application Ursus provides a helper method ```protected void startWithShutdownHook(final HttpServer httpServer)```
 that handles starting the HttpServer and registering a shutdown hook for our application.
