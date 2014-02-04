@@ -116,6 +116,7 @@ Great! Let's move on to creating our first application.
 We'll name our application ```ExampleApplication``` and subclass ```UrsusJerseyApplication``` we also need to parameterize
 ExampleApplication with the type of our ```UrsusJerseyApplicationConfiguration``` class, that's named ```ExampleApplicationConfiguration```.
 If you're using an IDE like IntelliJ you can select implement methods and you'll get the skeleton of our application. We also
+If you're using an IDE like IntelliJ you can select implement methods and you'll get the skeleton of our application. We also
 need to add a ```public static void main(String[] args)``` method and instantiate an instance of ExampleApplication.
 
 ```java
@@ -146,7 +147,7 @@ public class ExampleApplication extends UrsusJerseyApplication<ExampleApplicatio
 }
 ```
 
-ExampleApplication in the ```ursus-example-application``` project is filled out and have more data than this, but let's ignore that for now.
+ExampleApplication in the ```ursus-example-application``` project is filled out and has more data than this, but let's ignore that for now.
 If you like you can always overwrite ```ExampleApplication``` with the above and follow along.
 
 #### Setting up Logging
