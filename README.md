@@ -62,7 +62,7 @@ Let's take a look at the ```ursus-example-application``` project a simple HelloW
 to walk through the steps it took to build this project. If it helps you might want to clone the Ursus repro, [https://github.com/rjenkins/ursus.git](https://github.com/rjenkins/ursus.git)
 and modify ```ursus-example-application``` as we progress through the quick start building up the application yourself.
 
-Ursus applications require 2 classes, a subclass of ```UrsusJerseyApplication``` and a subclass of ```UrsusJerseyApplicationConfiguration```. The com.aceevo.ursus.example package contains both.
+Ursus Jersey applications require 2 classes, a subclass of ```UrsusJerseyApplication``` and a subclass of ```UrsusJerseyApplicationConfiguration```. The com.aceevo.ursus.example package contains both.
 Let's start by looking at the ```ExampleApplicationConfiguration``` class.
 
 ```java
