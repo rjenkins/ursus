@@ -1088,11 +1088,66 @@ these more closely.
     }
 ```
 
-The bootrap method takes an instance of ```NIOExampleConfiguration``` and a ```FilterChainBuilder``` for arguments. In addition the bootstrap method returns
+The bootstrap method takes an instance of ```NIOExampleConfiguration``` and a ```FilterChainBuilder``` for arguments. In addition the bootstrap method returns
 and instance of ```FilterChain```. The bootstrap method creates a new FilterChain with a single ```StringFilter``` followed by our custom ```HelloFilter```.
 
-The run method takes a ```TCPNIOTransport``` as an argument and like our ```UrsusJerseyApplucation``` we call ```startWithShutdownHook``` if we do not have any
+The run method takes a ```TCPNIOTransport``` as an argument and like our ```UrsusJerseyApplication``` we call ```startWithShutdownHook``` if we do not have any
 more programmatic changes to make to our ```TCPNIOTransport```.
+
+#### Hello Filter
+
+[Grizzly](https://grizzly.java.net/) provides several [examples](https://grizzly.java.net/quickstart.html) of how to use FilterChains and [Filters](https://grizzly.java.net/docs/2.3/apidocs/org/glassfish/grizzly/filterchain/Filter.html)
+to build NIO applications with Grizzly (more on that later). The ```Filter``` interface is as follows
+
+```java
+    void  exceptionOccurred(FilterChainContext ctx, Throwable error)
+
+    NextAction	handleAccept(FilterChainContext ctx)
+
+    NextAction	handleClose(FilterChainContext ctx)
+
+    NextAction	handleConnect(FilterChainContext ctx)
+
+    NextAction	handleEvent(FilterChainContext ctx, FilterChainEvent event)
+
+    NextAction	handleRead(FilterChainContext ctx)
+
+    NextAction	handleWrite(FilterChainContext ctx)
+
+    void  onAdded(FilterChain filterChain)
+
+    void  onFilterChainChanged(FilterChain filterChain)
+
+    void  onRemoved(FilterChain filterChain)
+```
+
+For out simple application ```HelloFilter``` will extend ```BasicFilter``` and override the ```handleRead``` method.
+
+```java
+
+    private static class HelloFilter extends BaseFilter {
+
+        private Logger LOGGER = LoggerFactory.getLogger(HelloFilter.class);
+
+        public NextAction handleRead(final FilterChainContext context) {
+
+            try {
+                String message = context.getMessage();
+                LOGGER.info("received message " + message);
+
+                // Echo back to client
+                context.write(message);
+            } catch (Exception ex) {
+                LOGGER.debug("exception handle read", ex);
+            }
+
+            return context.getStopAction();
+        }
+    }
+```
+
+
+
 
 
 
