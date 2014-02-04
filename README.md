@@ -50,7 +50,7 @@ module to your pom.xml as a dependency.
 ```xml
  <dependencies>
     <dependency>
-        <groupId>com.aceevo</groupId>
+        <groupId>com.aceevo.ursus</groupId>
         <artifactId>ursus-core</artifactId>
         <version>0.2.3</version>
     </dependency>
@@ -1069,7 +1069,30 @@ public class NIOExampleConfiguration extends UrsusNIOApplicationConfiguration {
 }
 ```
 
+#### Bootstrap and Run Methods
 
+UrsusNIOApplications follow the same semantics as ```UrsusJerseyApplications``` we create a constructor and call ```super(args)`` and create a public static void main method
+which instantiates our ```UrsusNIOApplication``` and passes our command line arguments. But the bootstrap and run methods differ in the arguments they take. Let's inspect
+these more closely.
+
+```java
+    protected FilterChain boostrap(NIOExampleConfiguration nioExampleConfiguration, FilterChainBuilder filterChainBuilder) {
+        return filterChainBuilder.add(new TransportFilter())
+                .add(new StringFilter(Charset.forName("UTF-8")))
+                .add(new HelloFilter()).build();
+    }
+
+    @Override
+    protected void run(TCPNIOTransport transport) {
+        startWithShutdownHook(transport);
+    }
+```
+
+Our bootrap methods takes an instance of ```NIOExampleConfiguration``` and a ```FilterChainBuilder for arguments. In addition the bootstrap method returns
+and instance of ```FilterChain```. ```NIOExampleApplication``` creates a new FilterChain with a single ```StringFilter``` followed by our custom ```HelloFilter```.
+
+The run method takes a ```TCPNIOTransport``` as an argument and like our ```UrsusJerseyApplucation``` we call ```startWithShutdownHook``` if we have not more programmatic
+changes to make to our ```TCPNIOTransport```.
 
 
 
