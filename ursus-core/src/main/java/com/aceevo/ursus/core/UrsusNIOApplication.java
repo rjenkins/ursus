@@ -60,7 +60,7 @@ public abstract class UrsusNIOApplication<T extends UrsusNIOApplicationConfigura
         SLF4JBridgeHandler.removeHandlersForRootLogger();
         SLF4JBridgeHandler.install();
 
-        // Use reflection to find our UrsusJerseyApplicationConfiguration Class
+        // Use reflection to find our UrsusNIOApplicationConfiguration Class
         this.configurationClass = (Class<T>) ((ParameterizedType) getClass()
                 .getGenericSuperclass()).getActualTypeArguments()[0];
 
@@ -93,7 +93,7 @@ public abstract class UrsusNIOApplication<T extends UrsusNIOApplicationConfigura
 
     /**
      * Hands an NIOTransport instance initialized and configured ready for any additional
-     * programmatic changes user may with to perform prior to starting.
+     * programmatic changes user may wish to perform prior to starting.
      *
      * @param transport a fully initialized @{link NIOTransport} instance with our applications configuration.
      */
@@ -120,7 +120,7 @@ public abstract class UrsusNIOApplication<T extends UrsusNIOApplicationConfigura
     protected abstract N initializeServer(FilterChain filterChain);
 
     /**
-     * Convenience method for starting this Grizzly HttpServer
+     * Convenience method for starting {@link NIOTransport}
      *
      * @param transport
      */
@@ -129,7 +129,7 @@ public abstract class UrsusNIOApplication<T extends UrsusNIOApplicationConfigura
         Runtime.getRuntime().addShutdownHook(new Thread(new Runnable() {
             @Override
             public void run() {
-                LOGGER.info("Stopping Grizzly HttpServer...");
+                LOGGER.info("Stopping Grizzly NIOTransport...");
                 try {
                     transport.stop();
                     LOGGER.info("Stopping all managed services...");

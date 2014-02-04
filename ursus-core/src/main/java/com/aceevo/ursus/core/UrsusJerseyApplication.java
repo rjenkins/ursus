@@ -109,7 +109,7 @@ public abstract class UrsusJerseyApplication<T extends UrsusJerseyApplicationCon
 
     /**
      * Hands an UrsusJerseyApplication a fully initialized and configured @{link HttpServer} instance for any additional
-     * programmatic configuration user may with to perform prior to starting.
+     * programmatic configuration user may wish to perform prior to starting.
      *
      * @param httpServer a fully initialized @{link HttpServer} instance with our applications configuration.
      */

@@ -52,7 +52,7 @@ module to your pom.xml as a dependency.
     <dependency>
         <groupId>com.aceevo</groupId>
         <artifactId>ursus-core</artifactId>
-        <version>0.2</version>
+        <version>0.2.3</version>
     </dependency>
  </dependencies>
 ```
@@ -953,3 +953,39 @@ public class SimpleWebSocketClient {
     }
 }
 ```
+
+#### Testing our WebSocket Client
+
+Now that we've created a WebSocket Endpoint we can test our WebSocket Client. Let's start the ```ExampleApplication``` with the following
+command ```java -jar ./target/ursus-example-application-0.2.4-SNAPSHOT.jar```
+
+```
+boundray:ursus-example-application rayjenkins$ java -jar ./target/ursus-example-application-0.2.4-SNAPSHOT.jar
+21:01:39.778 [main] INFO  o.h.validator.internal.util.Version - HV000001: Hibernate Validator 5.0.1.Final
+21:01:40.711 [main] INFO  o.g.jersey.server.ApplicationHandler - Initiating Jersey application, version Jersey: 2.5 2013-12-18 14:27:29...
+21:01:40.815 [main] WARN  o.g.jersey.internal.inject.Providers - A provider com.aceevo.ursus.example.api.AnnotatedEndPointResource registered in SERVER runtime does not implement any provider interfaces applicable in the SERVER runtime. Due to constraint configuration problems the provider com.aceevo.ursus.example.api.AnnotatedEndPointResource will be ignored.
+21:01:41.110 [main] INFO  c.a.u.core.UrsusJerseyApplication - Starting all managed services...
+21:01:41.162 [main] INFO  o.g.g.http.server.NetworkListener - Started listener bound to [localhost:8080]
+21:01:41.166 [main] INFO  o.g.grizzly.http.server.HttpServer - [HttpServer] Started.
+21:01:41.174 [main] INFO  c.a.u.core.UrsusJerseyApplication - Starting ExampleApplication
+ __  __   ______    ______   __  __   ______
+/_/\/_/\ /_____/\  /_____/\ /_/\/_/\ /_____/\
+\:\ \:\ \\:::_ \ \ \::::_\/_\:\ \:\ \\::::_\/_
+ \:\ \:\ \\:(_) ) )_\:\/___/\\:\ \:\ \\:\/___/\
+  \:\ \:\ \\: __ `\ \\_::._\:\\:\ \:\ \\_::._\:\
+   \:\_\:\ \\ \ `\ \ \ /____\:\\:\_\:\ \ /____\:\
+    \_____\/ \_\/ \_\/ \_____\/ \_____\/ \_____\/
+
+21:01:41.174 [main] INFO  c.a.u.core.UrsusJerseyApplication - Press CTRL^C to exit..
+```
+
+Now we can launch our client ```java -jar ./target/ursus-example-websocket-client-0.2.4-SNAPSHOT.jar```
+
+```
+21:02:39.943 [main] INFO  c.a.u.e.w.SimpleWebSocketClient - starting
+21:02:40.228 [Grizzly(2) SelectorRunner] INFO  c.a.u.e.api.EchoEndpointResource - Received message from client: Hello WebSocket
+21:02:40.232 [Grizzly(2)] INFO  c.a.u.e.w.SimpleWebSocketClient - Server replied with : Hello Ray
+```
+
+We can see the server side ```EchoEndpointResource``` received the message ```Hello WebSocket``` from our WebSocket Client and replied with
+the message ```Hello Ray``` which was received by ```SimpleWebSocketClient```.
