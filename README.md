@@ -90,7 +90,7 @@ public class ExampleApplicationConfiguration extends UrsusJerseyApplicationConfi
 Just like Dropwizard we will specify our environment specific configuration parameters in a [YAML](http://www.yaml.org/) configuration
 file and these parameters will be deserialized by Jackson and validated. By default Ursus will look for a file whose name is the class name of
 your application with a ```.yml``` extension, for this example application that file is named ```exampleapplication.yml```. If you wish to specify
-a different location for you configuration you can specify it with command line arguments.
+a different location for you configuration file you can pass that as a command line argument.
 
 ```java -jar <path to jar file> server <path to your YAML file>```
 
