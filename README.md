@@ -1088,7 +1088,7 @@ these more closely.
     }
 ```
 
-Our bootrap methods takes an instance of ```NIOExampleConfiguration``` and a ```FilterChainBuilder for arguments. In addition the bootstrap method returns
+Our bootrap methods takes an instance of ```NIOExampleConfiguration``` and a ```FilterChainBuilder``` for arguments. In addition the bootstrap method returns
 and instance of ```FilterChain```. ```NIOExampleApplication``` creates a new FilterChain with a single ```StringFilter``` followed by our custom ```HelloFilter```.
 
 The run method takes a ```TCPNIOTransport``` as an argument and like our ```UrsusJerseyApplucation``` we call ```startWithShutdownHook``` if we have not more programmatic
