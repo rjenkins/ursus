@@ -996,7 +996,7 @@ In addition to Jersey based Web Services Ursus allows you to rapidly create NIO 
 goal is to help developers to build scalable and robust servers using NIO as well as offering extended framework components: like HTTP and HTTPS.
 
 Creating NIOTransport applications in Ursus is easy and uses the same configuration and deployment semantics as Ursus Jersey based applications. Let's take a look
-at the ```ursus-example-nio-application``` and the ```NIOExampleApplication111 to get started on our first NIOTransport based service.
+at the ```ursus-example-nio-application``` and the ```NIOExampleApplication``` to get started on our first NIOTransport based service.
 
 ```java
 package com.aceevo.ursus.example;
