@@ -630,7 +630,7 @@ logging:
 name: Ray
 ```
 
-If we add an index.html file to the ```assets``` directory our application.
+If we add an index.html file to the ```assets``` directory of our application.
 
 ```html
 <!DOCTYPE html>
