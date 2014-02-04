@@ -237,12 +237,12 @@ For the ```ursus-example-application``` we've already added this to the pom.xml,
 
 If you've cloned the ursus git repo and have modified the ```ursus-example-application``` we should be able to build and test
 our project, build by running ```mvn clean; mvn package``` from the ursus director. Now we can cd into ursus-example-application and
-start our server with the following command ```java -jar ./target/ursus-example-application-0.2-SNAPSHOT.jar```
+start our server with the following command ```java -jar ./target/ursus-example-application-0.2.4-SNAPSHOT.jar```
 
 Unfortunately our application starts and then quickly exists, what's up?
 
 ```
-boundray:ursus-example-application rayjenkins$ java -jar ./target/ursus-example-application-0.2-SNAPSHOT.jar
+boundray:ursus-example-application rayjenkins$ java -jar ./target/ursus-example-application-0.2.4-SNAPSHOT.jar
 19:16:17.488 [main] INFO  o.h.validator.internal.util.Version - HV000001: Hibernate Validator 5.0.1.Final
 19:16:18.009 [main] INFO  o.g.jersey.server.ApplicationHandler - Initiating Jersey application, version Jersey: 2.5 2013-12-18 14:27:29...
 boundray:ursus-example-application rayjenkins$
@@ -303,10 +303,10 @@ protected void run(HttpServer httpServer) {
 ...
 ```
 
-```java -jar ./target/ursus-example-application-0.2-SNAPSHOT.jar```
+```java -jar ./target/ursus-example-application-0.2.4-SNAPSHOT.jar```
 
 ```
-boundray:ursus-example-application rayjenkins$ java -jar ./target/ursus-example-application-0.2-SNAPSHOT.jar
+boundray:ursus-example-application rayjenkins$ java -jar ./target/ursus-example-application-0.2.4-SNAPSHOT.jar
 19:32:04.643 [main] INFO  o.h.validator.internal.util.Version - HV000001: Hibernate Validator 5.0.1.Final
 19:32:05.150 [main] INFO  o.g.jersey.server.ApplicationHandler - Initiating Jersey application, version Jersey: 2.5 2013-12-18 14:27:29...
 19:32:05.504 [main] INFO  c.aceevo.ursus.core.UrsusJerseyApplication - Starting all managed services...
@@ -474,7 +474,7 @@ public class ExampleApplication extends UrsusJerseyApplication<ExampleApplicatio
 Now we're ready to build and try out our resources.
 
 ```
-boundray:ursus-example-application rayjenkins$ java -jar ./target/ursus-example-application-0.2-SNAPSHOT.jar
+boundray:ursus-example-application rayjenkins$ java -jar ./target/ursus-example-application-0.2.4-SNAPSHOT.jar
 21:27:58.901 [main] INFO  o.h.validator.internal.util.Version - HV000001: Hibernate Validator 5.0.1.Final
 21:27:59.901 [main] INFO  o.g.jersey.server.ApplicationHandler - Initiating Jersey application, version Jersey: 2.5 2013-12-18 14:27:29...
 21:28:00.290 [main] INFO  c.aceevo.ursus.core.UrsusJerseyApplication - Starting all managed services...
@@ -491,9 +491,9 @@ boundray:ursus-example-application rayjenkins$ java -jar ./target/ursus-example-
 
 21:28:00.366 [main] INFO  c.aceevo.ursus.core.UrsusJerseyApplication - Press CTRL^C to exit..
 ^Z
-[1]+  Stopped                 java -jar ./target/ursus-example-application-0.2-SNAPSHOT.jar
+[1]+  Stopped                 java -jar ./target/ursus-example-application-0.2.4-SNAPSHOT.jar
 boundray:ursus-example-application rayjenkins$ bg
-[1]+ java -jar ./target/ursus-example-application-0.2-SNAPSHOT.jar &
+[1]+ java -jar ./target/ursus-example-application-0.2.4-SNAPSHOT.jar &
 ```
 ```
 boundray:ursus-example-application rayjenkins$ curl -v -X GET -H "Accept: application/json" http://localhost:8080/hello
@@ -1071,7 +1071,7 @@ public class NIOExampleConfiguration extends UrsusNIOApplicationConfiguration {
 
 #### NIOTransport Bootstrap and Run Methods
 
-UrsusNIOApplications follow the same semantics as ```UrsusJerseyApplications``` we create a constructor and call ```super(args)``` and creates a public static void main method
+UrsusNIOApplications follow the same semantics as ```UrsusJerseyApplications``` we create a constructor and call ```super(args)``` and creates a ```public static void main``` method
 which instantiates our ```UrsusNIOApplication``` and passes our command line arguments. But the bootstrap and run methods differ in the arguments they take. Let's inspect
 these more closely.
 

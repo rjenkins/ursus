@@ -8,7 +8,7 @@
     <packaging>pom</packaging>
     <name>Ursus Project</name>
     <description>
-        A Java framework for developing lightweight RESTful web services and NIO application on the JVM
+        A Java framework for developing lightweight RESTful web services and NIO applications on the JVM
     </description>
     <url>https://github.com/rjenkins/ursus</url>
     <properties>
