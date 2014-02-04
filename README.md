@@ -993,8 +993,9 @@ the message ```Hello Ray``` which was received by ```SimpleWebSocketClient```.
 ### NIOTransport Applications Quick Start
 
 In addition to Jersey based Web Services Ursus allows you to rapidly create NIO based applications on the JVM, after all [Grizzly’s](https://grizzly.java.net/)
-goal is to help developers to build scalable and robust servers using NIO as well as offering extended framework components: like HTTP and HTTPS. Creating
-NIOTransport applications in Ursus is easy and uses the same configuration and deployment semantics as Ursus Jersey based applications. Let's take a look
+goal is to help developers to build scalable and robust servers using NIO as well as offering extended framework components: like HTTP and HTTPS.
+
+Creating NIOTransport applications in Ursus is easy and uses the same configuration and deployment semantics as Ursus Jersey based applications. Let's take a look
 at the ```ursus-example-nio-application``` and the ```NIOExampleApplication111 to get started on our first NIOTransport based service.
 
 ```java
@@ -1054,9 +1055,22 @@ public class NIOExampleApplication extends UrsusTCPNIOApplication<NIOExampleConf
 }
 ```
 
-Just like our ExampleApplication our ```NIOExampleApplication``` extends a base class. When creating an ```UrsusNIOApplication``` you have two choices
-for which base class you'd like to extend. ```UrsusTCPNIOApplication``` or ```UrsusUDPNIOApplication``` and like our ```UrsusJeryseyApplication``` we
+Just like our ExampleApplication ```NIOExampleApplication``` extends a base application class. When creating an ```UrsusNIOApplication``` you have two choices
+for which base class you'd like to extend. ```UrsusTCPNIOApplication``` or ```UrsusUDPNIOApplication``` and like UrsusJeryseyApplication we
 parameterize our application with a type that extends a ```Configuration``` class. For UrsusNIOApplications our base configuration class is ```UrsusNIOApplicationConfiguration```.
+
+```java
+
+package com.aceevo.ursus.example;
+
+import com.aceevo.ursus.config.UrsusNIOApplicationConfiguration;
+
+public class NIOExampleConfiguration extends UrsusNIOApplicationConfiguration {
+}
+```
+
+
+
 
 
 
