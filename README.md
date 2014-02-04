@@ -1152,7 +1152,7 @@ to retrieve the message sent from the client and write that message back to the 
 
 Implementing a Grizzly NIO client is very similar to implementing a server. We will need to build a [FilterChain](https://grizzly.java.net/docs/2.3/apidocs/org/glassfish/grizzly/filterchain/FilterChain.html)
 and create a [TCPNIOTransport](https://grizzly.java.net/docs/2.3/apidocs/org/glassfish/grizzly/nio/transport/jmx/TCPNIOTransport.html) that uses our ```FilterChain```. Let's take a look at
-the ```ursus-example-nio-client``` NIOExampleClient class.
+the ursus-example-nio-client project and the ```NIOExampleClient``` class.
 
 ```java
 package com.aceevo.ursus.example;
