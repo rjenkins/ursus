@@ -1270,7 +1270,37 @@ client initiates the conversation in the ```ClientRunner``` class by writing to 
 
 #### Running an example NIOTransport application
 
+Let's ```cd``` into the ```ursus-example-nio-application``` project and start our server. Once we've started our server we can launch the ```ursus-example-nio-client```
+and watch it connect to our [NIOTransport](https://grizzly.java.net/docs/2.3/apidocs/org/glassfish/grizzly/nio/NIOTransport.html) application, say "Hello Ursus" and
+verify that the server has responded.
 
+```java
+boundray:ursus rayjenkins$ cd ursus-example-nio-application/
+boundray:ursus-example-nio-application rayjenkins$ java -jar ./target/ursus-example-nio-application-0.2.4-SNAPSHOT.jar
+23:21:27.332 [main] INFO  o.h.validator.internal.util.Version - HV000001: Hibernate Validator 5.0.1.Final
+23:21:27.638 [main] INFO  c.a.ursus.core.UrsusNIOApplication - Starting all managed services...
+23:21:27.682 [main] INFO  c.a.ursus.core.UrsusNIOApplication - Starting NIOExampleApplication
+ __  __   ______    ______   __  __   ______
+/_/\/_/\ /_____/\  /_____/\ /_/\/_/\ /_____/\
+\:\ \:\ \\:::_ \ \ \::::_\/_\:\ \:\ \\::::_\/_
+ \:\ \:\ \\:(_) ) )_\:\/___/\\:\ \:\ \\:\/___/\
+  \:\ \:\ \\: __ `\ \\_::._\:\\:\ \:\ \\_::._\:\
+   \:\_\:\ \\ \ `\ \ \ /____\:\\:\_\:\ \ /____\:\
+    \_____\/ \_\/ \_\/ \_____\/ \_____\/ \_____\/
+
+23:21:27.682 [main] INFO  c.a.ursus.core.UrsusNIOApplication - Press CTRL^C to exit..
+^Z
+[1]+  Stopped                 java -jar ./target/ursus-example-nio-application-0.2.4-SNAPSHOT.jar
+boundray:ursus-example-nio-application rayjenkins$ bg
+[1]+ java -jar ./target/ursus-example-nio-application-0.2.4-SNAPSHOT.jar &
+boundray:ursus-example-nio-application rayjenkins$ cd ../ursus-example-nio-client/
+(reverse-i-search)`j': java -jar ./target/ursus-example-nio-application-0.2.4-SNAPSHOT.jar
+boundray:ursus-example-nio-client rayjenkins$ java -jar ./target/ursus-example-nio-client-0.2.4-SNAPSHOT.jar
+23:21:49.485 [Grizzly-worker(1)] INFO  c.a.u.e.NIOExampleApplication$HelloFilter - received message Hello Ursus
+23:21:49.493 [Grizzly-worker(1)] INFO  c.a.u.e.NIOExampleClient$HelloClientFilter - received message from server: Hello Ursus
+boundray:ursus-example-nio-client rayjenkins$
+
+ ```
 
 
 
