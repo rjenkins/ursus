@@ -114,7 +114,7 @@ Great! Let's move on to creating our first application.
 #### Creating an UrsusJerseyApplication
 
 We'll name our application ```ExampleApplication``` and subclass ```UrsusJerseyApplication``` we also need to parameterize
-ExampleApplication with the type of our UrsusJerseyApplicationConfiguration class, that's named ```ExampleApplicationConfiguration```.
+ExampleApplication with the type of our ```UrsusJerseyApplicationConfiguration``` class, that's named ```ExampleApplicationConfiguration```.
 If your using an IDE like IntelliJ you can select implement methods and you'll get the skeleton of our application. We also
 need to add a ```public static void main(String[] args)``` method and instantiate an instance of ExampleApplication.
 
