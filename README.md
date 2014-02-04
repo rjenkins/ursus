@@ -152,7 +152,7 @@ If you like you can always overwrite ```ExampleApplication``` with the above and
 
 #### Setting up Logging
 
-Ursus includes [Logback](http://logback.qos.ch/) for logging, wee need to setup a ```logback.xml``` file for our project and because
+Ursus includes [Logback](http://logback.qos.ch/) for logging, we need to setup a ```logback.xml``` file for our project and because
 we're using maven we'll put this file in ```src/main/resources```. Our logback.xml should include an appender named ```FILE```.
 
 ```xml
