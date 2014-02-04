@@ -956,7 +956,7 @@ public class SimpleWebSocketClient {
 
 #### Testing our WebSocket Client
 
-Now that we've created a WebSocket Endpoint we can test our WebSocket Client. Let's start the ```ExampleApplication``` with the following
+Now that we've created a WebSocket Endpoint we can test our WebSocket Client. Let's start ExampleApplication with the following
 command ```java -jar ./target/ursus-example-application-0.2.4-SNAPSHOT.jar```
 
 ```
@@ -989,3 +989,68 @@ Now we can launch our client ```java -jar ./target/ursus-example-websocket-clien
 
 We can see the server side ```EchoEndpointResource``` received the message ```Hello WebSocket``` from our WebSocket Client and replied with
 the message ```Hello Ray``` which was received by ```SimpleWebSocketClient```.
+
+### NIOTransport Applications Quick Start
+
+In addition to Jersey based Web Services Ursus is designed to allow you to rapidly create NIO based applications on the JVM, after all [Grizzly’s](https://grizzly.java.net/)
+goal is to help developers to build scalable and robust servers using NIO as well as offering extended framework components: like HTTP and HTTPS. Creating
+NIOTransport applications in Ursus is easy and uses the same configuration and deployment semantics as Ursus Jersey based applications. Let's take a look
+at the ```ursus-example-nio-application``` to get started on our first NIOTransport based service.
+
+```java
+package com.aceevo.ursus.example;
+
+import com.aceevo.ursus.core.UrsusTCPNIOApplication;
+import org.glassfish.grizzly.filterchain.*;
+import org.glassfish.grizzly.nio.transport.TCPNIOTransport;
+import org.glassfish.grizzly.utils.StringFilter;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.nio.charset.Charset;
+
+public class NIOExampleApplication extends UrsusTCPNIOApplication<NIOExampleConfiguration> {
+
+    public static void main(String[] args) {
+        new NIOExampleApplication(args);
+    }
+
+    protected NIOExampleApplication(String[] args) {
+        super(args);
+    }
+
+
+    @Override
+    protected FilterChain boostrap(NIOExampleConfiguration nioExampleConfiguration, FilterChainBuilder filterChainBuilder) {
+        return filterChainBuilder.add(new TransportFilter())
+                .add(new StringFilter(Charset.forName("UTF-8")))
+                .add(new HelloFilter()).build();
+    }
+
+    @Override
+    protected void run(TCPNIOTransport transport) {
+        startWithShutdownHook(transport);
+    }
+
+    private static class HelloFilter extends BaseFilter {
+
+        private Logger LOGGER = LoggerFactory.getLogger(HelloFilter.class);
+
+        public NextAction handleRead(final FilterChainContext context) {
+
+            try {
+                String message = context.getMessage();
+                LOGGER.info("received message " + message);
+
+                // Echo back to client
+                context.write(message);
+            } catch (Exception ex) {
+                LOGGER.debug("exception handle read", ex);
+            }
+
+            return context.getStopAction();
+        }
+    }
+}
+```
+
