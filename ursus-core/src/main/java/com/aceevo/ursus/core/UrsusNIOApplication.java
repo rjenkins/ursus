@@ -39,6 +39,7 @@ import java.util.Set;
 
 /**
  * UrsusNIOApplication is the base class for our {@link NIOTransport} application
+ *
  * @param <T> type which extends {@link UrsusNIOApplication}
  * @param <N> type which extends {@link NIOTransport}
  */
@@ -114,6 +115,7 @@ public abstract class UrsusNIOApplication<T extends UrsusNIOApplicationConfigura
 
     /**
      * Hands a {@link FilterChain} and return a new instance of {@link N extends NIOTransport}
+     *
      * @param filterChain The {@link FilterChain} to be set as the processor for this {@link NIOTransport}
      * @return {@link N extends NIOTransport}
      */
@@ -148,7 +150,7 @@ public abstract class UrsusNIOApplication<T extends UrsusNIOApplicationConfigura
                 service.startAsync();
             }
 
-            transport.bind("localhost", 20389);
+            transport.bind(configuration.getServer().getHost(), configuration.getServer().getPort());
             transport.start();
             printBanner(getClass().getSimpleName());
             LOGGER.info("Press CTRL^C to exit..");
