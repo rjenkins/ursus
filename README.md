@@ -617,8 +617,8 @@ javax.ws.rs.NotAcceptableException: HTTP 406 Not Acceptable
 
 #### Serving Static Assets
 
-With Ursus you can service static assets such as HTML or Javascript files. Simple add the staticResourceDirectory and staticResourceContextRoot options
-to the ```httpServer``` section of the ```exampleapplication.yml`` file.
+With Ursus you can service static assets such as HTML or Javascript files. Simply add the staticResourceDirectory and staticResourceContextRoot options
+to the ```httpServer``` section of the ```exampleapplication.yml``` file.
 
 ```yaml
 httpServer:
