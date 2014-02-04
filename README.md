@@ -39,7 +39,7 @@ Ursus also includes many libraries found in Dropwizard and other frameworks to h
 * [Guava](https://code.google.com/p/guava-libraries/)
 * [Joda time](www.joda.org/joda-time/)
 * [Hibernate Validator](http://hibernate.org/validator/)
-* [Jackson](http://jackson.codehaus.org/) for YAML and JSON support]
+* [Jackson](http://jackson.codehaus.org/) for YAML and JSON support
 * [Logback](http://logback.qos.ch/) and [SLF4J](http://www.slf4j.org/) for bridging of Grizzly's java.util.logging
 * An [Apache HTTPClient](http://hc.apache.org/httpclient-3.x/) and a [Jersey 2.5 client](https://jersey.java.net/documentation/latest/user-guide.html#client)
 
@@ -616,48 +616,6 @@ javax.ws.rs.NotAcceptableException: HTTP 406 Not Acceptable
 * Closing connection #0
 ```
 
-#### Serving Static Assets
-
-With Ursus you can serve static assets such as HTML or Javascript files. Simply add the staticResourceDirectory and staticResourceContextRoot options
-to the ```httpServer``` section of the ```exampleapplication.yml``` file.
-
-```yaml
-httpServer:
-  host: localhost
-  staticResourceDirectory: assets
-  staticResourceContextRoot: /ursus
-logging:
-  level: INFO
-name: Ray
-```
-
-If we add an index.html file to the ```assets``` directory of our application.
-
-```html
-<!DOCTYPE html>
-<html>
-<head></head>
-<body>
-<p>Hello from Ursus!</p>
-</body>
-</html>
-```
-
-We can access static resources from the browser.
-
-```
-boundray:ursus-example-application rayjenkins$ curl -X GET http://localhost:8080/ursus/index.html
-<!DOCTYPE html>
-<html>
-<head></head>
-<body>
-<p>Hello from Ursus!</p>
-</body>
-</html>boundray:ursus-example-application rayjenkins$
-```
-
-
-
 #### Writing Resource Tests
 
 Jersey comes with a testframework provider for Grizzly, let's add that to our pom.xml so we can write some tests.
@@ -794,6 +752,46 @@ Tests run: 3, Failures: 0, Errors: 0, Skipped: 0
 [INFO] Finished at: Sun Jan 19 20:36:40 CST 2014
 [INFO] Final Memory: 17M/439M
 [INFO] ------------------------------------------------------------------------
+```
+
+#### Serving Static Assets
+
+With Ursus you can serve static assets such as HTML or Javascript files. Simply add the staticResourceDirectory and staticResourceContextRoot options
+to the ```httpServer``` section of the ```exampleapplication.yml``` file.
+
+```yaml
+httpServer:
+  host: localhost
+  staticResourceDirectory: assets
+  staticResourceContextRoot: /ursus
+logging:
+  level: INFO
+name: Ray
+```
+
+If we add an index.html file to the ```assets``` directory of our application.
+
+```html
+<!DOCTYPE html>
+<html>
+<head></head>
+<body>
+<p>Hello from Ursus!</p>
+</body>
+</html>
+```
+
+We can access static resources from the browser.
+
+```
+boundray:ursus-example-application rayjenkins$ curl -X GET http://localhost:8080/ursus/index.html
+<!DOCTYPE html>
+<html>
+<head></head>
+<body>
+<p>Hello from Ursus!</p>
+</body>
+</html>boundray:ursus-example-application rayjenkins$
 ```
 
 #### WebSocket EndPoints
