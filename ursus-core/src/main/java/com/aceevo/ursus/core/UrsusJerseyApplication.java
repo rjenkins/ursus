@@ -66,6 +66,7 @@ public abstract class UrsusJerseyApplication<T extends UrsusJerseyApplicationCon
     private final T configuration;
     private final Set<Service> managedServices = new HashSet<Service>();
     private final Set<ServerEndpointConfig> serverEndpointConfigs = new HashSet<ServerEndpointConfig>();
+    private final UrsusApplicationHelper<T> ursusApplicationHelper = new UrsusApplicationHelper();
 
     final Logger LOGGER = LoggerFactory.getLogger(UrsusJerseyApplication.class);
 
@@ -80,10 +81,13 @@ public abstract class UrsusJerseyApplication<T extends UrsusJerseyApplicationCon
                 .getGenericSuperclass()).getActualTypeArguments()[0];
 
         parseArguments(args);
-        this.configuration = parseConfiguration();
+
+        configurationFile = configurationFile != null ? configurationFile : getClass().getSimpleName().toLowerCase() + ".yml";
+        this.configuration = ursusApplicationHelper.parseConfiguration(configurationFile, configurationClass);
+
         registerInstances(new UrsusApplicationBinder(this.configuration));
 
-        configureLogging(configuration);
+        ursusApplicationHelper.configureLogging(configuration);
         boostrap(configuration);
         run(initializeServer());
     }
@@ -133,19 +137,6 @@ public abstract class UrsusJerseyApplication<T extends UrsusJerseyApplicationCon
      */
     protected void register(Service service) {
         managedServices.add(service);
-    }
-
-    /**
-     * Determine our default YAML configuration file name and parse
-     *
-     * @return and instance of type T which extends {@link com.aceevo.ursus.config.UrsusJerseyApplicationConfiguration}
-     */
-    private T parseConfiguration() {
-
-        //Fetch Server Configuration
-        configurationFile = configurationFile != null ? configurationFile : getClass().getSimpleName().toLowerCase() + ".yml";
-        UrsusConfigurationFactory ursusConfigurationFactory = new UrsusConfigurationFactory(configurationFile, configurationClass);
-        return (T) ursusConfigurationFactory.getConfiguration();
     }
 
     /**
@@ -236,7 +227,7 @@ public abstract class UrsusJerseyApplication<T extends UrsusJerseyApplicationCon
                 service.startAsync();
             }
             httpServer.start();
-            printBanner(getClass().getSimpleName());
+            ursusApplicationHelper.printBanner(LOGGER, getClass().getSimpleName());
             LOGGER.info("Press CTRL^C to exit..");
             Thread.currentThread().join();
         } catch (Exception e) {
@@ -323,24 +314,6 @@ public abstract class UrsusJerseyApplication<T extends UrsusJerseyApplicationCon
         }
     }
 
-    private void configureLogging(T configuration) {
-
-        // set logging level and file programmatically if defined
-        if (configuration.getLogging() != null) {
-            ch.qos.logback.classic.Logger rootLogger = (ch.qos.logback.classic.Logger) LoggerFactory.getLogger(Logger.ROOT_LOGGER_NAME);
-            FileAppender fileAppender = (FileAppender) rootLogger.getAppender("FILE");
-
-            rootLogger.detachAppender(fileAppender);
-            rootLogger.setLevel(configuration.getLogging().getLevel());
-
-            if (configuration.getLogging().getFileName() != null) {
-                fileAppender.setFile(configuration.getLogging().getFileName());
-            }
-            rootLogger.addAppender(fileAppender);
-            fileAppender.start();
-        }
-    }
-
     private void configureTyrus(T configuration, NetworkListener listener) {
 
         Set<Class<?>> classes = getClasses();
@@ -360,18 +333,6 @@ public abstract class UrsusJerseyApplication<T extends UrsusJerseyApplicationCon
             listener.registerAddOn(new TyrusAddOn(grizzlyServerFilter));
         } catch (DeploymentException e) {
             throw new RuntimeException("Unable to deploy WebSocket endpoints", e);
-        }
-    }
-
-    protected void printBanner(String name) {
-        try {
-            final String banner = Resources.toString(Resources.getResource("banner.txt"),
-                    Charsets.UTF_8)
-                    .replace("\n", String.format("%n"));
-            LOGGER.info(String.format("Starting {}%n{}"), name, banner);
-        } catch (Exception ex) {
-            // don't display the banner if there isn't one
-            LOGGER.info("Starting {}", name);
         }
     }
 }

@@ -18,11 +18,7 @@
 
 package com.aceevo.ursus.core;
 
-import ch.qos.logback.core.FileAppender;
-import com.aceevo.ursus.config.UrsusConfigurationFactory;
 import com.aceevo.ursus.config.UrsusNIOApplicationConfiguration;
-import com.google.common.base.Charsets;
-import com.google.common.io.Resources;
 import com.google.common.util.concurrent.Service;
 import org.glassfish.grizzly.filterchain.FilterChain;
 import org.glassfish.grizzly.filterchain.FilterChainBuilder;
@@ -51,6 +47,7 @@ public abstract class UrsusNIOApplication<T extends UrsusNIOApplicationConfigura
     private final Class<T> configurationClass;
     private final T configuration;
     private final Set<Service> managedServices = new HashSet<Service>();
+    private final UrsusApplicationHelper<T> ursusApplicationHelper = new UrsusApplicationHelper();
     protected N transport;
 
     final Logger LOGGER = LoggerFactory.getLogger(UrsusNIOApplication.class);
@@ -66,9 +63,11 @@ public abstract class UrsusNIOApplication<T extends UrsusNIOApplicationConfigura
                 .getGenericSuperclass()).getActualTypeArguments()[0];
 
         parseArguments(args);
-        this.configuration = parseConfiguration();
 
-        configureLogging(configuration);
+        configurationFile = configurationFile != null ? configurationFile : getClass().getSimpleName().toLowerCase() + ".yml";
+        this.configuration = ursusApplicationHelper.parseConfiguration(configurationFile, configurationClass);
+
+        ursusApplicationHelper.configureLogging(configuration);
         FilterChain filterChain = boostrap(configuration, FilterChainBuilder.stateless());
         run(initializeServer(filterChain));
     }
@@ -99,19 +98,6 @@ public abstract class UrsusNIOApplication<T extends UrsusNIOApplicationConfigura
      * @param transport a fully initialized @{link NIOTransport} instance with our applications configuration.
      */
     protected abstract void run(N transport);
-
-    /**
-     * Determine our default YAML configuration file name and parse
-     *
-     * @return and instance of type T which extends {@link com.aceevo.ursus.config.UrsusNIOApplicationConfiguration}
-     */
-    private T parseConfiguration() {
-
-        //Fetch Server Configuration
-        configurationFile = configurationFile != null ? configurationFile : getClass().getSimpleName().toLowerCase() + ".yml";
-        UrsusConfigurationFactory ursusConfigurationFactory = new UrsusConfigurationFactory(configurationFile, configurationClass);
-        return (T) ursusConfigurationFactory.getConfiguration();
-    }
 
     /**
      * Hands a {@link FilterChain} and return a new instance of {@link N extends NIOTransport}
@@ -150,44 +136,14 @@ public abstract class UrsusNIOApplication<T extends UrsusNIOApplicationConfigura
                 service.startAsync();
             }
 
-            transport.bind(configuration.getServer().getHost(), configuration.getServer().getPort());
+            UrsusNIOApplicationConfiguration.Server server = configuration.getServer();
+            transport.bind(server.getHost(), server.getPort());
             transport.start();
-            printBanner(getClass().getSimpleName());
+            ursusApplicationHelper.printBanner(LOGGER, getClass().getSimpleName());
             LOGGER.info("Press CTRL^C to exit..");
             Thread.currentThread().join();
         } catch (Exception e) {
             LOGGER.error("There was an error while starting Grizzly HTTP server.", e);
-        }
-    }
-
-    private void configureLogging(T configuration) {
-
-        // set logging level and file programmatically if defined
-        if (configuration.getLogging() != null) {
-            ch.qos.logback.classic.Logger rootLogger = (ch.qos.logback.classic.Logger) LoggerFactory.getLogger(Logger.ROOT_LOGGER_NAME);
-            FileAppender fileAppender = (FileAppender) rootLogger.getAppender("FILE");
-
-            rootLogger.detachAppender(fileAppender);
-            rootLogger.setLevel(configuration.getLogging().getLevel());
-
-            if (configuration.getLogging().getFileName() != null) {
-                fileAppender.setFile(configuration.getLogging().getFileName());
-            }
-            rootLogger.addAppender(fileAppender);
-            fileAppender.start();
-        }
-    }
-
-
-    protected void printBanner(String name) {
-        try {
-            final String banner = Resources.toString(Resources.getResource("banner.txt"),
-                    Charsets.UTF_8)
-                    .replace("\n", String.format("%n"));
-            LOGGER.info(String.format("Starting {}%n{}"), name, banner);
-        } catch (Exception ex) {
-            // don't display the banner if there isn't one
-            LOGGER.info("Starting {}", name);
         }
     }
 }
