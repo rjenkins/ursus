@@ -1112,12 +1112,47 @@ for which base class you'd like to extend. ```UrsusTCPNIOApplication``` or ```Ur
 parameterize our application with a type that extends a ```Configuration``` class. For UrsusNIOApplications our base configuration class is ```UrsusNIOApplicationConfiguration```.
 
 ```java
+package com.aceevo.ursus.config;
 
-package com.aceevo.ursus.example;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
-import com.aceevo.ursus.config.UrsusNIOApplicationConfiguration;
+public class UrsusNIOApplicationConfiguration extends UrsusConfiguration {
 
-public class NIOExampleConfiguration extends UrsusNIOApplicationConfiguration {
+    @JsonProperty(required = true)
+    private Server server;
+
+    public Server getServer() {
+        return server;
+    }
+
+    public void setServer(Server server) {
+        this.server = server;
+    }
+
+    public static class Server {
+
+        @JsonProperty(required = true)
+        private String host;
+
+        @JsonProperty(required = false)
+        private int port = 8080;
+
+        public String getHost() {
+            return host;
+        }
+
+        public void setHost(String host) {
+            this.host = host;
+        }
+
+        public int getPort() {
+            return port;
+        }
+
+        public void setPort(int port) {
+            this.port = port;
+        }
+    }
 }
 ```
 
