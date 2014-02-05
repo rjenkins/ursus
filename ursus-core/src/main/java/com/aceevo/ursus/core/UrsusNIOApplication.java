@@ -69,7 +69,10 @@ public abstract class UrsusNIOApplication<T extends UrsusNIOApplicationConfigura
 
         ursusApplicationHelper.configureLogging(configuration);
         FilterChain filterChain = boostrap(configuration, FilterChainBuilder.stateless());
-        run(initializeServer(filterChain));
+        transport = initializeServer(filterChain, configuration);
+        run(transport);
+
+
     }
 
     /**
@@ -105,7 +108,7 @@ public abstract class UrsusNIOApplication<T extends UrsusNIOApplicationConfigura
      * @param filterChain The {@link FilterChain} to be set as the processor for this {@link NIOTransport}
      * @return {@link N extends NIOTransport}
      */
-    protected abstract N initializeServer(FilterChain filterChain);
+    protected abstract N initializeServer(FilterChain filterChain, T configuration);
 
     /**
      * Convenience method for starting {@link NIOTransport}

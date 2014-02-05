@@ -15,7 +15,8 @@ public abstract class UrsusUDPNIOApplication<T extends UrsusNIOApplicationConfig
      * Starts Grizzly HTTP server exposing JAX-RS resources and UrsusWebSocketApplication defined
      * in this application.
      */
-    protected UDPNIOTransport initializeServer(FilterChain filterChain) {
+    @Override
+    protected UDPNIOTransport initializeServer(FilterChain filterChain, T configuration) {
         transport = UDPNIOTransportBuilder.newInstance()
                 .setProcessor(filterChain)
                 .build();
