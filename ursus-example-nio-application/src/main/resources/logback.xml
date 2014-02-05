@@ -6,7 +6,7 @@
         </encoder>
     </appender>
     <appender name="FILE" class="ch.qos.logback.core.FileAppender">
-        <file>./simple-rest-application.log</file>
+        <file>./ursus-example-nio-application.log</file>
         <encoder>
             <outputPatternAsHeader>false</outputPatternAsHeader>
             <pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</pattern>

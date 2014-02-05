@@ -18,7 +18,6 @@
 
 package com.aceevo.ursus.config;
 
-import ch.qos.logback.classic.Level;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.util.ArrayList;
@@ -207,15 +206,15 @@ public class UrsusJerseyApplicationConfiguration extends UrsusConfiguration {
         @JsonProperty(required = false)
         private Compression compression = null;
 
-        // KeepAlive
+        // KeepAlive in seconds
         @JsonProperty(required = false)
-        private long idleTimeout;
+        private int idleTimeout = 30;
 
         @JsonProperty(required = false)
-        private int maxRequests;
+        private int maxRequests = 256;
 
         @JsonProperty(required = false)
-        private int transactionTimeout;
+        private int transactionTimeout = -1;
 
 
         public NetworkListener() {
@@ -286,11 +285,11 @@ public class UrsusJerseyApplicationConfiguration extends UrsusConfiguration {
             this.compression = compression;
         }
 
-        public long getIdleTimeout() {
+        public int getIdleTimeout() {
             return idleTimeout;
         }
 
-        public void setIdleTimeout(long idleTimeout) {
+        public void setIdleTimeout(int idleTimeout) {
             this.idleTimeout = idleTimeout;
         }
 

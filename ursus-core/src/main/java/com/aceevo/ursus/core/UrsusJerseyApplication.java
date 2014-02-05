@@ -203,8 +203,6 @@ public abstract class UrsusJerseyApplication<T extends UrsusJerseyApplicationCon
         final NetworkListener listener = new NetworkListener("grizzly",
                 configuration.getHttpServer().getHost(), configuration.getHttpServer().getPort());
 
-        listener.getKeepAlive().setIdleTimeoutInSeconds(-1);
-
         configureListener(listener);
         configureTyrus(configuration, listener);
 
@@ -257,11 +255,22 @@ public abstract class UrsusJerseyApplication<T extends UrsusJerseyApplicationCon
         // Fetch our UrsusJerseyApplicationConfiguration for NetworkListener and configure
         UrsusJerseyApplicationConfiguration.NetworkListener networkListenerConfig = configuration.getHttpServer().getNetworkListener();
 
+        LOGGER.info(listener.isAuthPassThroughEnabled() + "");
+        LOGGER.info(listener.getMaxFormPostSize() + "");
+        LOGGER.info(listener.getMaxBufferedPostSize() + "");
+        LOGGER.info(listener.isChunkingEnabled() + "");
+
+
         if (networkListenerConfig != null) {
             listener.setAuthPassThroughEnabled(networkListenerConfig.isAuthPassThroughEnabled());
             listener.setMaxFormPostSize(networkListenerConfig.getMaxFormPostSize());
             listener.setMaxBufferedPostSize(networkListenerConfig.getMaxBufferedPostSize());
             listener.setChunkingEnabled(networkListenerConfig.isChunkingEnabled());
+            listener.setTransactionTimeout(networkListenerConfig.getTransactionTimeout());
+
+            //KeepAlive
+            listener.getKeepAlive().setIdleTimeoutInSeconds(networkListenerConfig.getIdleTimeout());
+            listener.getKeepAlive().setMaxRequestsCount(networkListenerConfig.getMaxRequests());
 
             // Handle SSL Configuration
             if (networkListenerConfig.isSecure()) {
