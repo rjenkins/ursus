@@ -255,12 +255,6 @@ public abstract class UrsusJerseyApplication<T extends UrsusJerseyApplicationCon
         // Fetch our UrsusJerseyApplicationConfiguration for NetworkListener and configure
         UrsusJerseyApplicationConfiguration.NetworkListener networkListenerConfig = configuration.getHttpServer().getNetworkListener();
 
-        LOGGER.info(listener.isAuthPassThroughEnabled() + "");
-        LOGGER.info(listener.getMaxFormPostSize() + "");
-        LOGGER.info(listener.getMaxBufferedPostSize() + "");
-        LOGGER.info(listener.isChunkingEnabled() + "");
-
-
         if (networkListenerConfig != null) {
             listener.setAuthPassThroughEnabled(networkListenerConfig.isAuthPassThroughEnabled());
             listener.setMaxFormPostSize(networkListenerConfig.getMaxFormPostSize());
