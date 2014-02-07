@@ -17,15 +17,11 @@
  */
 package com.aceevo.ursus.core;
 
-import ch.qos.logback.core.FileAppender;
 import com.aceevo.ursus.config.UrsusJerseyApplicationConfiguration;
-import com.aceevo.ursus.config.UrsusConfigurationFactory;
 import com.aceevo.ursus.websockets.GrizzlyServerFilter;
 import com.aceevo.ursus.websockets.TyrusAddOn;
 import com.aceevo.ursus.websockets.UrsusTyrusServerContainer;
-import com.google.common.base.Charsets;
 import com.google.common.collect.ImmutableMap;
-import com.google.common.io.Resources;
 import com.google.common.util.concurrent.Service;
 import org.glassfish.grizzly.http.CompressionConfig;
 import org.glassfish.grizzly.http.server.HttpServer;
@@ -68,7 +64,7 @@ public abstract class UrsusJerseyApplication<T extends UrsusJerseyApplicationCon
     private final Set<ServerEndpointConfig> serverEndpointConfigs = new HashSet<ServerEndpointConfig>();
     private final UrsusApplicationHelper<T> ursusApplicationHelper = new UrsusApplicationHelper();
 
-    final Logger LOGGER = LoggerFactory.getLogger(UrsusJerseyApplication.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(UrsusJerseyApplication.class);
 
     protected UrsusJerseyApplication(String[] args) {
 

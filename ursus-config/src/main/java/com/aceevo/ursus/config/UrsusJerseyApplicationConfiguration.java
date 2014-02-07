@@ -214,7 +214,9 @@ public class UrsusJerseyApplicationConfiguration extends UrsusConfiguration {
         private int maxRequests = 256;
 
         @JsonProperty(required = false)
-        private int transactionTimeout = -1;
+        // Default of GrizzlyHttpListener is -1 which is indefinite
+        // setting it to something reasonable (10s)
+        private int transactionTimeout = 10;
 
 
         public NetworkListener() {
@@ -457,11 +459,11 @@ public class UrsusJerseyApplicationConfiguration extends UrsusConfiguration {
 
         // mime types of the enitties, which will be compressed
         @JsonProperty(required = false)
-            private List<String> compressableMimeTypes = new ArrayList<String>(0);
+        private List<String> compressableMimeTypes = new ArrayList<String>(0);
 
         // the user-agents, for which the payload will never be compressed
         @JsonProperty(required = false)
-        private List<String>  noCompressionUserAgents = new ArrayList<String>(0);
+        private List<String> noCompressionUserAgents = new ArrayList<String>(0);
 
         public Compression() {
 
