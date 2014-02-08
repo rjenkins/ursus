@@ -21,6 +21,10 @@ import com.aceevo.ursus.config.UrsusJerseyApplicationConfiguration;
 import com.aceevo.ursus.websockets.GrizzlyServerFilter;
 import com.aceevo.ursus.websockets.TyrusAddOn;
 import com.aceevo.ursus.websockets.UrsusTyrusServerContainer;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
+import com.fasterxml.jackson.datatype.guava.GuavaModule;
+import com.fasterxml.jackson.jaxrs.json.JacksonJaxbJsonProvider;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.util.concurrent.Service;
 import org.glassfish.grizzly.http.CompressionConfig;
@@ -167,7 +171,7 @@ public abstract class UrsusJerseyApplication<T extends UrsusJerseyApplicationCon
     private HttpServer initializeServer() {
 
         //Register Jackson support
-        packages("org.glassfish.jersey.examples.jackson").register(JacksonFeature.class);
+        registerJacksonSupport();
 
         //Add ExceptionMapper and create Container
         register(exceptionMapperClass);
@@ -196,6 +200,18 @@ public abstract class UrsusJerseyApplication<T extends UrsusJerseyApplicationCon
         httpServer.addListener(listener);
 
         return httpServer;
+    }
+
+    private void registerJacksonSupport() {
+        ObjectMapper mapper = new ObjectMapper();
+        mapper.enable(SerializationFeature.INDENT_OUTPUT);
+        mapper.registerModule(new GuavaModule());
+
+        // create JsonProvider to provide custom ObjectMapper
+        JacksonJaxbJsonProvider provider = new JacksonJaxbJsonProvider();
+        provider.setMapper(mapper);
+
+        register(provider);
     }
 
     /**
