@@ -34,7 +34,6 @@ public class UrsusJerseyApplicationConfiguration extends UrsusConfiguration {
     @JsonProperty(required = false)
     private UrsusHttpClientConfiguration ursusHttpClient;
 
-
     @JsonProperty(required = false)
     private Tyrus tyrus = new Tyrus();
 

@@ -26,6 +26,7 @@
         <module>ursus-example-websocket-client</module>
         <module>ursus-example-nio-application</module>
         <module>ursus-example-nio-client</module>
+        <module>ursus-db</module>
     </modules>
 
     <licenses>

@@ -15,12 +15,23 @@ public class UrsusConfiguration {
     @JsonProperty(required = false)
     private Logging logging;
 
+    @JsonProperty(required = false)
+    private UrsusJDBCConfiguration.Database database;
+
     public Logging getLogging() {
         return logging;
     }
 
     public void setLogging(Logging logging) {
         this.logging = logging;
+    }
+
+    public UrsusJDBCConfiguration.Database getDatabase() {
+        return database;
+    }
+
+    public void setDatabase(UrsusJDBCConfiguration.Database database) {
+        this.database = database;
     }
 
     public static class Logging {
