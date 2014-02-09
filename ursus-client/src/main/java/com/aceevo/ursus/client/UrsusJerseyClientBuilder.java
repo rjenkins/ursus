@@ -19,6 +19,10 @@
 package com.aceevo.ursus.client;
 
 import com.aceevo.ursus.config.UrsusJerseyClientConfiguration;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
+import com.fasterxml.jackson.datatype.guava.GuavaModule;
+import com.fasterxml.jackson.jaxrs.json.JacksonJaxbJsonProvider;
 import org.apache.http.impl.conn.PoolingClientConnectionManager;
 import org.glassfish.jersey.apache.connector.ApacheClientProperties;
 import org.glassfish.jersey.client.ClientConfig;
@@ -69,8 +73,16 @@ public class UrsusJerseyClientBuilder {
 
         clientConfig.property(ApacheClientProperties.CONNECTION_MANAGER, poolingClientConnectionManager);
 
+        ObjectMapper mapper = new ObjectMapper();
+        mapper.enable(SerializationFeature.INDENT_OUTPUT);
+        mapper.registerModule(new GuavaModule());
+
+        // create JsonProvider to provide custom ObjectMapper
+        JacksonJaxbJsonProvider provider = new JacksonJaxbJsonProvider();
+        provider.setMapper(mapper);
+
         Client client = ClientBuilder.newBuilder()
-                .register(JacksonFeature.class)
+                .register(provider)
                 .withConfig(clientConfig)
                 .build();
 
