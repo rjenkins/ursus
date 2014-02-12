@@ -3,7 +3,7 @@
     <parent>
         <artifactId>ursus-parent</artifactId>
         <groupId>com.aceevo.ursus</groupId>
-        <version>0.2.7-SNAPSHOT</version>
+        <version>0.2.7</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
@@ -13,7 +13,7 @@
         <dependency>
             <groupId>com.aceevo.ursus</groupId>
             <artifactId>ursus-client</artifactId>
-            <version>0.2.7-SNAPSHOT</version>
+            <version>0.2.7</version>
         </dependency>
         <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>
