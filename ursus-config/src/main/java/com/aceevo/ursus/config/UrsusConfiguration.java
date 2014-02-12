@@ -3,13 +3,6 @@ package com.aceevo.ursus.config;
 import ch.qos.logback.classic.Level;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-/**
- * Created with IntelliJ IDEA.
- * User: rayjenkins
- * Date: 1/26/14
- * Time: 5:30 PM
- * To change this template use File | Settings | File Templates.
- */
 public class UrsusConfiguration {
 
     @JsonProperty(required = false)

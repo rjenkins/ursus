@@ -195,7 +195,7 @@ name: Ray
 #### Building our first artifact and running our application.
 
 Like Dropwizard Ursus recommends building a "fat" jar that contains all the ```.class``` files needed to run our service.
-For the ```ursus-example-application``` we've already added this to the pom.xml, here's the relavent parts of our configuration.
+Here's the relevant parts of our configuration.
 
 ```xml
 <build>
@@ -238,16 +238,15 @@ For the ```ursus-example-application``` we've already added this to the pom.xml,
 ```
 
 If you've cloned the ursus git repo and have modified the ```ursus-example-application``` you should be able to build and test
-the project, build by running ```mvn clean; mvn package``` from the ursus directory. Now we can cd into ursus-example-application and
-start our server with the following command ```java -jar ./target/ursus-example-application-0.2.4-SNAPSHOT.jar```
+the project by running ```mvn -q clean compile -P run-ursus-example-application``` from the ursus directory.
 
-Unfortunately our application starts and then quickly exists, what's up?
+Unfortunately our application starts and then quickly exits, what's up?
 
 ```
-boundray:ursus-example-application rayjenkins$ java -jar ./target/ursus-example-application-0.2.4-SNAPSHOT.jar
+$ mvn -q compile -P run-ursus-example-application
 19:16:17.488 [main] INFO  o.h.validator.internal.util.Version - HV000001: Hibernate Validator 5.0.1.Final
 19:16:18.009 [main] INFO  o.g.jersey.server.ApplicationHandler - Initiating Jersey application, version Jersey: 2.5 2013-12-18 14:27:29...
-boundray:ursus-example-application rayjenkins$
+$
 ```
 
 #### Starting the HttpServer
@@ -305,10 +304,8 @@ protected void run(HttpServer httpServer) {
 ...
 ```
 
-```java -jar ./target/ursus-example-application-0.2.4-SNAPSHOT.jar```
-
 ```
-boundray:ursus-example-application rayjenkins$ java -jar ./target/ursus-example-application-0.2.4-SNAPSHOT.jar
+$ mvn -q compile -P run-ursus-example-application
 19:32:04.643 [main] INFO  o.h.validator.internal.util.Version - HV000001: Hibernate Validator 5.0.1.Final
 19:32:05.150 [main] INFO  o.g.jersey.server.ApplicationHandler - Initiating Jersey application, version Jersey: 2.5 2013-12-18 14:27:29...
 19:32:05.504 [main] INFO  c.aceevo.ursus.core.UrsusJerseyApplication - Starting all managed services...
@@ -330,7 +327,7 @@ Success! Now it's time to move on to implementing our service.
 
 #### Representations and Resources
 We've got our application started but we need to provide some resources and some representations. As previously mentioned
-this Hello World application is going to support specifiying exactly who we're going to say hello to. Let's create a model
+this Hello World application is going to support specifying exactly who we're going to say hello to. Let's create a model
 class to represent a Hello.
 
 ```java
@@ -476,7 +473,7 @@ public class ExampleApplication extends UrsusJerseyApplication<ExampleApplicatio
 Now we're ready to build and try out our resources.
 
 ```
-boundray:ursus-example-application rayjenkins$ java -jar ./target/ursus-example-application-0.2.4-SNAPSHOT.jar
+$ mvn -q compile -P run-ursus-example-application
 21:27:58.901 [main] INFO  o.h.validator.internal.util.Version - HV000001: Hibernate Validator 5.0.1.Final
 21:27:59.901 [main] INFO  o.g.jersey.server.ApplicationHandler - Initiating Jersey application, version Jersey: 2.5 2013-12-18 14:27:29...
 21:28:00.290 [main] INFO  c.aceevo.ursus.core.UrsusJerseyApplication - Starting all managed services...
@@ -493,12 +490,12 @@ boundray:ursus-example-application rayjenkins$ java -jar ./target/ursus-example-
 
 21:28:00.366 [main] INFO  c.aceevo.ursus.core.UrsusJerseyApplication - Press CTRL^C to exit..
 ^Z
-[1]+  Stopped                 java -jar ./target/ursus-example-application-0.2.4-SNAPSHOT.jar
-boundray:ursus-example-application rayjenkins$ bg
-[1]+ java -jar ./target/ursus-example-application-0.2.4-SNAPSHOT.jar &
+[1]+  Stopped                 mvn -q compile -P run-ursus-example-application
+$ bg
+[1]+ mvn -q compile -P run-ursus-example-application &
 ```
 ```
-boundray:ursus-example-application rayjenkins$ curl -v -X GET -H "Accept: application/json" http://localhost:8080/hello
+$ curl -v -X GET -H "Accept: application/json" http://localhost:8080/hello
 * About to connect() to localhost port 8080 (#0)
 *   Trying ::1...
 * Connection refused
@@ -520,7 +517,7 @@ boundray:ursus-example-application rayjenkins$ curl -v -X GET -H "Accept: applic
 ```
 
 ```
-boundray:ursus-example-application rayjenkins$ curl -v -H "Content-Type: application/json" -X POST http://localhost:8080/hello -d '{ "name" : "Andrea" }'
+$ curl -v -H "Content-Type: application/json" -X POST http://localhost:8080/hello -d '{ "name" : "Andrea" }'
 * About to connect() to localhost port 8080 (#0)
 *   Trying ::1...
 * Connection refused
@@ -545,7 +542,7 @@ boundray:ursus-example-application rayjenkins$ curl -v -H "Content-Type: applica
 ```
 
 ```
-boundray:ursus-example-application rayjenkins$ curl -v -X GET -H "Accept: application/json" http://localhost:8080/hello/async
+$ curl -v -X GET -H "Accept: application/json" http://localhost:8080/hello/async
 * About to connect() to localhost port 8080 (#0)
 *   Trying ::1...
 * Connection refused
@@ -570,7 +567,7 @@ Ursus supports full content negotiation via Jersey, so if your resource class pr
 Jersey will reply with a ```406 Not Acceptable```.
 
 ```
-boundray:ursus-example-application rayjenkins$ curl -v -H "Accept: text/plain" -X GET http://localhost:8080/hello
+$ curl -v -H "Accept: text/plain" -X GET http://localhost:8080/hello
 * About to connect() to localhost port 8080 (#0)
 *   Trying ::1...
 * Connection refused
@@ -784,14 +781,14 @@ If we add an index.html file to the ```assets``` directory of our application.
 We can access static resources from the browser.
 
 ```
-boundray:ursus-example-application rayjenkins$ curl -X GET http://localhost:8080/ursus/index.html
+$ curl -X GET http://localhost:8080/ursus/index.html
 <!DOCTYPE html>
 <html>
 <head></head>
 <body>
 <p>Hello from Ursus!</p>
 </body>
-</html>boundray:ursus-example-application rayjenkins$
+$
 ```
 
 #### WebSocket EndPoints
@@ -999,10 +996,10 @@ public class SimpleWebSocketClient {
 #### Testing our WebSocket Client
 
 Now that we've created a WebSocket Endpoint we can test our WebSocket Client. Let's start ExampleApplication with the following
-command ```java -jar ./target/ursus-example-application-0.2.4-SNAPSHOT.jar```
+command ```mvn -q compile -P run-ursus-example-application```
 
 ```
-boundray:ursus-example-application rayjenkins$ java -jar ./target/ursus-example-application-0.2.4-SNAPSHOT.jar
+$ mvn -q compile -P run-ursus-example-application
 21:01:39.778 [main] INFO  o.h.validator.internal.util.Version - HV000001: Hibernate Validator 5.0.1.Final
 21:01:40.711 [main] INFO  o.g.jersey.server.ApplicationHandler - Initiating Jersey application, version Jersey: 2.5 2013-12-18 14:27:29...
 21:01:40.815 [main] WARN  o.g.jersey.internal.inject.Providers - A provider com.aceevo.ursus.example.api.AnnotatedEndPointResource registered in SERVER runtime does not implement any provider interfaces applicable in the SERVER runtime. Due to constraint configuration problems the provider com.aceevo.ursus.example.api.AnnotatedEndPointResource will be ignored.
@@ -1021,7 +1018,7 @@ boundray:ursus-example-application rayjenkins$ java -jar ./target/ursus-example-
 21:01:41.174 [main] INFO  c.a.u.core.UrsusJerseyApplication - Press CTRL^C to exit..
 ```
 
-Now we can launch our client ```java -jar ./target/ursus-example-websocket-client-0.2.4-SNAPSHOT.jar```
+Now we can launch our client ```mvn -q compile -P run-ursus-example-websocket-client```
 
 ```
 21:02:39.943 [main] INFO  c.a.u.e.w.SimpleWebSocketClient - starting
@@ -1032,11 +1029,11 @@ Now we can launch our client ```java -jar ./target/ursus-example-websocket-clien
 And with the annotated command line argument
 
 ```
-boundray:ursus-example-websocket-client rayjenkins$ java -jar ./target/ursus-example-websocket-client-0.2.4-SNAPSHOT.jar annotated
+$ mvn -q compile -P run-ursus-example-websocket-client -Dexec.args="annotated"
 01:09:20.213 [main] INFO  c.a.u.e.w.SimpleWebSocketClient - starting
 01:09:20.569 [Grizzly(2) SelectorRunner] INFO  c.a.u.e.a.AnnotatedEndPointResource - Received message from client: Hello WebSocket
 01:09:20.573 [Grizzly(2)] INFO  c.a.u.e.w.SimpleWebSocketClient - Server replied with : Hello WebSocket
-boundray:ursus-example-websocket-client rayjenkins$
+$
 ```
 
 We can see the server side ```EchoEndpointResource``` received the message ```Hello WebSocket``` from our WebSocket Client and replied with
@@ -1377,8 +1374,7 @@ and watch it connect to our [NIOTransport](https://grizzly.java.net/docs/2.3/api
 verify that the server has responded.
 
 ```
-boundray:ursus rayjenkins$ cd ursus-example-nio-application/
-boundray:ursus-example-nio-application rayjenkins$ java -jar ./target/ursus-example-nio-application-0.2.4-SNAPSHOT.jar
+$ mvn -q compile -P run-ursus-example-nio-application
 23:21:27.332 [main] INFO  o.h.validator.internal.util.Version - HV000001: Hibernate Validator 5.0.1.Final
 23:21:27.638 [main] INFO  c.a.ursus.core.UrsusNIOApplication - Starting all managed services...
 23:21:27.682 [main] INFO  c.a.ursus.core.UrsusNIOApplication - Starting NIOExampleApplication
@@ -1392,13 +1388,12 @@ boundray:ursus-example-nio-application rayjenkins$ java -jar ./target/ursus-exam
 
 23:21:27.682 [main] INFO  c.a.ursus.core.UrsusNIOApplication - Press CTRL^C to exit..
 ^Z
-[1]+  Stopped                 java -jar ./target/ursus-example-nio-application-0.2.4-SNAPSHOT.jar
-boundray:ursus-example-nio-application rayjenkins$ bg
-[1]+ java -jar ./target/ursus-example-nio-application-0.2.4-SNAPSHOT.jar &
-boundray:ursus-example-nio-application rayjenkins$ cd ../ursus-example-nio-client/
-boundray:ursus-example-nio-client rayjenkins$ java -jar ./target/ursus-example-nio-client-0.2.4-SNAPSHOT.jar
+[1]+  Stopped                 mvn -q compile -P run-ursus-example-application
+$ bg
+[1]+ mvn -q compile -P run-ursus-example-application &
+$ mvn -q compile -P run-ursus-example-nio-client
 23:21:49.485 [Grizzly-worker(1)] INFO  c.a.u.e.NIOExampleApplication$HelloFilter - received message Hello Ursus
 23:21:49.493 [Grizzly-worker(1)] INFO  c.a.u.e.NIOExampleClient$HelloClientFilter - received message from server: Hello Ursus
-boundray:ursus-example-nio-client rayjenkins$
+$
 
  ```

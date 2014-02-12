@@ -66,7 +66,8 @@ public class UrsusConfigurationFactory<T extends UrsusConfiguration> {
             for (ConstraintViolation constraintViolation : violationSet) {
                 stringBuilder.append(constraintViolation.getPropertyPath());
                 stringBuilder.append(" ");
-                stringBuilder.append(constraintViolation.getMessage() + "\n");
+                stringBuilder.append(constraintViolation.getMessage());
+                stringBuilder.append(System.lineSeparator());
             }
             throw new RuntimeException(stringBuilder.substring(0, stringBuilder.length() - 1));
         }

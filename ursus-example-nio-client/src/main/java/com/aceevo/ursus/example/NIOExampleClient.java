@@ -23,8 +23,12 @@ public class NIOExampleClient {
         clientRunnerThread.start();
     }
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws InterruptedException {
         new NIOExampleClient();
+        if (Boolean.valueOf(System.getProperty("wait"))) {
+            System.out.println("Press CTRL^C to exit..");
+            Thread.currentThread().join();
+        }
     }
 
     private class ClientRunner implements Runnable {
@@ -57,7 +61,7 @@ public class NIOExampleClient {
                     connection.close();
 
                 try {
-                    transport.stop();
+                    transport.shutdownNow();
                 } catch (IOException e) {
                     LOGGER.debug("can't close connect", e);
                 }

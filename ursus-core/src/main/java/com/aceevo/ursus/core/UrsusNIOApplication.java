@@ -44,10 +44,9 @@ public abstract class UrsusNIOApplication<T extends UrsusNIOApplicationConfigura
 
 
     private String configurationFile;
-    private final Class<T> configurationClass;
     private final T configuration;
-    private final Set<Service> managedServices = new HashSet<Service>();
-    private final UrsusApplicationHelper<T> ursusApplicationHelper = new UrsusApplicationHelper();
+    private final Set<Service> managedServices = new HashSet<>();
+    private final UrsusApplicationHelper<T> ursusApplicationHelper = new UrsusApplicationHelper<>();
     protected N transport;
 
     final Logger LOGGER = LoggerFactory.getLogger(UrsusNIOApplication.class);
@@ -59,7 +58,7 @@ public abstract class UrsusNIOApplication<T extends UrsusNIOApplicationConfigura
         SLF4JBridgeHandler.install();
 
         // Use reflection to find our UrsusNIOApplicationConfiguration Class
-        this.configurationClass = (Class<T>) ((ParameterizedType) getClass()
+        Class<T> configurationClass = (Class<T>) ((ParameterizedType) getClass()
                 .getGenericSuperclass()).getActualTypeArguments()[0];
 
         parseArguments(args);
@@ -122,7 +121,7 @@ public abstract class UrsusNIOApplication<T extends UrsusNIOApplicationConfigura
             public void run() {
                 LOGGER.info("Stopping Grizzly NIOTransport...");
                 try {
-                    transport.stop();
+                    transport.shutdownNow();
                     LOGGER.info("Stopping all managed services...");
                     for (Service service : managedServices) {
                         service.stopAsync();
