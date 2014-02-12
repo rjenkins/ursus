@@ -23,11 +23,10 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.datatype.guava.GuavaModule;
 import com.fasterxml.jackson.jaxrs.json.JacksonJaxbJsonProvider;
-import org.apache.http.impl.conn.PoolingClientConnectionManager;
+import org.apache.http.impl.conn.PoolingHttpClientConnectionManager;
 import org.glassfish.jersey.apache.connector.ApacheClientProperties;
 import org.glassfish.jersey.client.ClientConfig;
 import org.glassfish.jersey.client.ClientProperties;
-import org.glassfish.jersey.jackson.JacksonFeature;
 
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
@@ -67,7 +66,7 @@ public class UrsusJerseyClientBuilder {
         clientConfig.property(ClientProperties.CONNECT_TIMEOUT, configuration.getConnectTimeout());
         clientConfig.property(ApacheClientProperties.DISABLE_COOKIES, true);
 
-        PoolingClientConnectionManager poolingClientConnectionManager = new PoolingClientConnectionManager();
+        PoolingHttpClientConnectionManager poolingClientConnectionManager = new PoolingHttpClientConnectionManager();
         poolingClientConnectionManager.setMaxTotal(configuration.getMaxTotalThread());
         poolingClientConnectionManager.setDefaultMaxPerRoute(configuration.getDefaultMaxPerRoute());
 
@@ -81,11 +80,9 @@ public class UrsusJerseyClientBuilder {
         JacksonJaxbJsonProvider provider = new JacksonJaxbJsonProvider();
         provider.setMapper(mapper);
 
-        Client client = ClientBuilder.newBuilder()
+        return ClientBuilder.newBuilder()
                 .register(provider)
                 .withConfig(clientConfig)
                 .build();
-
-        return client;
     }
 }

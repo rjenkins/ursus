@@ -61,11 +61,10 @@ public abstract class UrsusJerseyApplication<T extends UrsusJerseyApplicationCon
     private final HttpServer httpServer = new HttpServer();
     private Class exceptionMapperClass = UrsusExceptionMapper.class;
     private String configurationFile;
-    private final Class<T> configurationClass;
     private final T configuration;
     private final Set<Service> managedServices = new HashSet<Service>();
     private final Set<ServerEndpointConfig> serverEndpointConfigs = new HashSet<ServerEndpointConfig>();
-    private final UrsusApplicationHelper<T> ursusApplicationHelper = new UrsusApplicationHelper();
+    private final UrsusApplicationHelper<T> ursusApplicationHelper = new UrsusApplicationHelper<>();
 
     private static final Logger LOGGER = LoggerFactory.getLogger(UrsusJerseyApplication.class);
 
@@ -76,7 +75,7 @@ public abstract class UrsusJerseyApplication<T extends UrsusJerseyApplicationCon
         SLF4JBridgeHandler.install();
 
         // Use reflection to find our UrsusJerseyApplicationConfiguration Class
-        this.configurationClass = (Class<T>) ((ParameterizedType) getClass()
+        Class<T> configurationClass = (Class<T>) ((ParameterizedType) getClass()
                 .getGenericSuperclass()).getActualTypeArguments()[0];
 
         parseArguments(args);
@@ -159,7 +158,7 @@ public abstract class UrsusJerseyApplication<T extends UrsusJerseyApplicationCon
     }
 
     public void registerEndpoint(Class<? extends Endpoint> clazz, String path, String key, Object userObject) {
-        registerEndpoint(clazz, path, ImmutableMap.<String, Object>of(key, userObject));
+        registerEndpoint(clazz, path, ImmutableMap.of(key, userObject));
     }
 
 
@@ -224,7 +223,7 @@ public abstract class UrsusJerseyApplication<T extends UrsusJerseyApplicationCon
             @Override
             public void run() {
                 LOGGER.info("Stopping Grizzly HttpServer...");
-                httpServer.stop();
+                httpServer.shutdownNow();
                 LOGGER.info("Stopping all managed services...");
                 for (Service service : managedServices) {
                     service.stopAsync();
@@ -286,8 +285,8 @@ public abstract class UrsusJerseyApplication<T extends UrsusJerseyApplicationCon
 
         compressionConfig.setCompressionMode(CompressionConfig.CompressionMode.fromString(compression.getCompressionMode()));
         compressionConfig.setCompressionMinSize(compression.getCompressionMinSize());
-        compressionConfig.setCompressableMimeTypes(new HashSet(compression.getCompressableMimeTypes()));
-        compressionConfig.setNoCompressionUserAgents(new HashSet(compression.getNoCompressionUserAgents()));
+        compressionConfig.setCompressableMimeTypes(new HashSet<>(compression.getCompressableMimeTypes()));
+        compressionConfig.setNoCompressionUserAgents(new HashSet<>(compression.getNoCompressionUserAgents()));
     }
 
     private void configureSSLForListener(UrsusJerseyApplicationConfiguration.NetworkListener networkListenerConfig, NetworkListener listener) {
@@ -329,14 +328,14 @@ public abstract class UrsusJerseyApplication<T extends UrsusJerseyApplicationCon
 
         Set<Class<?>> classes = getClasses();
 
-        Set<Class<?>> tyrusEndpoints = new HashSet<Class<?>>();
+        Set<Class<?>> tyrusEndpoints = new HashSet<>();
         for (Class<?> clazz : classes) {
             if (clazz.isAnnotationPresent(ServerEndpoint.class)) {
                 tyrusEndpoints.add(clazz);
             }
         }
 
-        UrsusTyrusServerContainer ursusTyrusServerContainer = null;
+        UrsusTyrusServerContainer ursusTyrusServerContainer;
         try {
             ursusTyrusServerContainer = new UrsusTyrusServerContainer(tyrusEndpoints, serverEndpointConfigs,
                     configuration.getHttpServer().getRootContext(), configuration.getTyrus().getIncomingBufferSize());

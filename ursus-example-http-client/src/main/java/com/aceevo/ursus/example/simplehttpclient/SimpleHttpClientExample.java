@@ -19,12 +19,12 @@ import java.io.*;
  */
 public class SimpleHttpClientExample {
 
-    public SimpleHttpClientExample() {
+    public SimpleHttpClientExample(String configFile) {
 
         ObjectMapper mapper = new ObjectMapper(new YAMLFactory());
         try {
             UrsusHttpClientConfiguration ursusHttpClientConfiguration =
-                    mapper.readValue(open("httpClient.yml"), UrsusHttpClientConfiguration.class);
+                    mapper.readValue(open(configFile), UrsusHttpClientConfiguration.class);
             HttpClient httpClient = new UrsusHttpClientBuilder().build("example", ursusHttpClientConfiguration);
             HttpResponse httpResponse = httpClient.execute(new HttpGet("http://localhost:8080/hello"));
 
@@ -39,8 +39,16 @@ public class SimpleHttpClientExample {
 
     }
 
-    public static void main(String[] args) {
-        new SimpleHttpClientExample();
+    public static void main(String[] args) throws InterruptedException {
+        if (args.length != 1) {
+            System.err.printf("Usage: %s <config.yaml>%n", SimpleHttpClientExample.class.getName());
+            System.exit(1);
+        }
+        new SimpleHttpClientExample(args[0]);
+        if (Boolean.valueOf(System.getProperty("wait"))) {
+            System.out.println("Press CTRL^C to exit..");
+            Thread.currentThread().join();
+        }
     }
 
     private InputStream open(String configurationFile) throws IOException {

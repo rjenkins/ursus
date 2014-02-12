@@ -11,22 +11,15 @@ import javax.ws.rs.core.MediaType;
 import java.io.*;
 import java.net.URI;
 
-/**
- * Created with IntelliJ IDEA.
- * User: rayjenkins
- * Date: 1/2/14
- * Time: 10:31 PM
- * To change this template use File | Settings | File Templates.
- */
 public class SimpleJerseyClientExample {
 
-    public SimpleJerseyClientExample() {
+    public SimpleJerseyClientExample(String configFile) {
 
         ObjectMapper mapper = new ObjectMapper(new YAMLFactory());
         try {
 
             UrsusJerseyClientConfiguration ursusJerseyClientConfiguration =
-                    mapper.readValue(open("jerseyClient.yml"), UrsusJerseyClientConfiguration.class);
+                    mapper.readValue(open(configFile), UrsusJerseyClientConfiguration.class);
             Client client = new UrsusJerseyClientBuilder().using(ursusJerseyClientConfiguration).build();
 
             Invocation.Builder invocationBuilder = client.target(URI.create("http://localhost:8080/hello"))
@@ -41,8 +34,16 @@ public class SimpleJerseyClientExample {
         }
     }
 
-    public static void main(String[] args) {
-        new SimpleJerseyClientExample();
+    public static void main(String[] args) throws InterruptedException {
+        if (args.length != 1) {
+            System.err.printf("Usage: %s <config.yml>%n", SimpleJerseyClientExample.class.getName());
+            System.exit(1);
+        }
+        new SimpleJerseyClientExample(args[0]);
+        if (Boolean.valueOf(System.getProperty("wait"))) {
+            System.out.println("Press CTRL^C to exit..");
+            Thread.currentThread().join();
+        }
     }
 
     private InputStream open(String configurationFile) throws IOException {

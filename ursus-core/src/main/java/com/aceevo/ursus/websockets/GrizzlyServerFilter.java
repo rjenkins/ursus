@@ -43,7 +43,6 @@ package com.aceevo.ursus.websockets;
 import java.io.IOException;
 import java.net.URI;
 import java.nio.ByteBuffer;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.Queue;
@@ -53,7 +52,6 @@ import java.util.logging.Logger;
 
 import javax.websocket.CloseReason;
 
-import org.glassfish.grizzly.http.util.Header;
 import org.glassfish.tyrus.container.grizzly.client.GrizzlyWriter;
 import org.glassfish.tyrus.container.grizzly.client.TaskProcessor;
 import org.glassfish.tyrus.core.RequestContext;
@@ -106,7 +104,7 @@ public class GrizzlyServerFilter extends BaseFilter {
 
     private final ServerContainer serverContainer;
 
-    private final Queue<TaskProcessor.Task> taskQueue = new ConcurrentLinkedQueue<TaskProcessor.Task>();
+    private final Queue<TaskProcessor.Task> taskQueue = new ConcurrentLinkedQueue<>();
 
     // ------------------------------------------------------------ Constructors
 
@@ -230,7 +228,6 @@ public class GrizzlyServerFilter extends BaseFilter {
      * @param ctx     {@link FilterChainContext}
      * @param content HTTP message
      * @return {@link NextAction} instruction for {@link FilterChain}, how it should continue the execution
-     * @throws IOException TODO
      */
     private NextAction handleHandshake(final FilterChainContext ctx, HttpContent content) {
         final UpgradeRequest upgradeRequest = createWebSocketRequest(content);

@@ -18,20 +18,23 @@ public class SimpleWebSocketClient {
     final Logger logger = LoggerFactory.getLogger(SimpleWebSocketClient.class);
 
     public SimpleWebSocketClient() {
-
         // Bridge j.u.l in Grizzly with SLF4J
         SLF4JBridgeHandler.removeHandlersForRootLogger();
         SLF4JBridgeHandler.install();
         logger.info("starting");
     }
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws InterruptedException {
         SimpleWebSocketClient simpleWebSocketClient = new SimpleWebSocketClient();
 
         if (args.length > 0 && "annotated".equals(args[0]))
             simpleWebSocketClient.run("ws://localhost:8080/annotatedEcho");
         else
             simpleWebSocketClient.run("ws://localhost:8080/echo");
+        if (Boolean.valueOf(System.getProperty("wait"))) {
+            System.out.println("Press CTRL^C to exit..");
+            Thread.currentThread().join();
+        }
     }
 
     public void run(String uri) {

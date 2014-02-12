@@ -1,7 +1,6 @@
 package com.aceevo.ursus.core;
 
 import com.aceevo.ursus.config.UrsusNIOApplicationConfiguration;
-import com.google.common.base.Optional;
 import org.glassfish.grizzly.filterchain.FilterChain;
 import org.glassfish.grizzly.nio.transport.TCPNIOTransport;
 import org.glassfish.grizzly.nio.transport.TCPNIOTransportBuilder;

@@ -1,5 +1,7 @@
 package com.aceevo.ursus.core;
 
+import ch.qos.logback.classic.spi.ILoggingEvent;
+import ch.qos.logback.core.Appender;
 import ch.qos.logback.core.FileAppender;
 import com.aceevo.ursus.config.UrsusConfiguration;
 import com.aceevo.ursus.config.UrsusConfigurationFactory;
@@ -23,20 +25,20 @@ public class UrsusApplicationHelper<T extends UrsusConfiguration> {
     }
 
     protected void configureLogging(T configuration) {
-
         // set logging level and file programmatically if defined
         if (configuration.getLogging() != null) {
             ch.qos.logback.classic.Logger rootLogger = (ch.qos.logback.classic.Logger) LoggerFactory.getLogger(Logger.ROOT_LOGGER_NAME);
-            FileAppender fileAppender = (FileAppender) rootLogger.getAppender("FILE");
+            Appender<ILoggingEvent> appender = rootLogger.getAppender("FILE");
+            if (appender != null) {
+                rootLogger.detachAppender(appender);
+                rootLogger.setLevel(configuration.getLogging().getLevel());
 
-            rootLogger.detachAppender(fileAppender);
-            rootLogger.setLevel(configuration.getLogging().getLevel());
-
-            if (configuration.getLogging().getFileName() != null) {
-                fileAppender.setFile(configuration.getLogging().getFileName());
+                if (configuration.getLogging().getFileName() != null && appender instanceof FileAppender) {
+                    ((FileAppender)appender).setFile(configuration.getLogging().getFileName());
+                }
+                rootLogger.addAppender(appender);
+                appender.start();
             }
-            rootLogger.addAppender(fileAppender);
-            fileAppender.start();
         }
     }
 
@@ -45,11 +47,10 @@ public class UrsusApplicationHelper<T extends UrsusConfiguration> {
      *
      * @return and instance of type T which extends {@link com.aceevo.ursus.config.UrsusJerseyApplicationConfiguration}
      */
-    protected T parseConfiguration(String configurationFile, Class configurationClass) {
-
+    protected T parseConfiguration(String configurationFile, Class<T> configurationClass) {
         //Fetch Server Configuration
-        UrsusConfigurationFactory ursusConfigurationFactory = new UrsusConfigurationFactory(configurationFile, configurationClass);
-        return (T) ursusConfigurationFactory.getConfiguration();
+        UrsusConfigurationFactory<T> ursusConfigurationFactory = new UrsusConfigurationFactory<>(configurationFile, configurationClass);
+        return ursusConfigurationFactory.getConfiguration();
     }
 
 }
