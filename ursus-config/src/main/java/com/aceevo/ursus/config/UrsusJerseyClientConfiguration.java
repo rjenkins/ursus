@@ -28,7 +28,7 @@ public class UrsusJerseyClientConfiguration extends UrsusHttpClientConfiguration
     private int readTimeout = 2000;
 
     @JsonProperty
-    private int connectTimeout = 500;
+    private int connectTimeout = 2000;
 
 
     public boolean isGzipEnabled() {
