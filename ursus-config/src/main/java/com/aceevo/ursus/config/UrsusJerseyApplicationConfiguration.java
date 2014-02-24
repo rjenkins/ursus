@@ -20,6 +20,7 @@ package com.aceevo.ursus.config;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import javax.net.ssl.SSLEngine;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -63,33 +64,51 @@ public class UrsusJerseyApplicationConfiguration extends UrsusConfiguration {
 
     public static class HttpServer {
 
+        // An arbitrary optional name for your HTTPServer
         @JsonProperty(required = false)
         private String name;
 
+        // Hostname or IPAddress to hind to
         @JsonProperty(required = true)
         private String host;
 
+        // TCP Port this HttpServer will listen on
         @JsonProperty(required = false)
         private int port = 8080;
 
+        // RootContext for your HttpServer and listener
         @JsonProperty(required = false)
         private String rootContext = "/";
 
+        // Enable / Disable JMX
         @JsonProperty(required = false)
         private boolean jmxEnabled;
 
+        // boolean to configure if trace requests will
+        // be handled by Grizzly or by a configured
+        // HttpHandler.
         @JsonProperty(required = false)
         private boolean passTraceRequest = true;
 
+
+        //If <tt>enabled</tt> is <tt>true</tt> the <tt>TRACE</tt> method will be
+        // respected and a proper response will be generated.  Otherwise, the
+        // method will be considered as not allowed and an HTTP 405 will be returned.
+        //
+        // This method only comes into effect when <code>setPassTraceRequest(false)</code>
+        // has been called.
         @JsonProperty(required = false)
         private boolean traceEnabled = false;
+
 
         @JsonProperty(required = false)
         private NetworkListener networkListener;
 
+        // Root directory to look for static resources
         @JsonProperty(required = false)
         private String staticResourceDirectory;
 
+        // Root context for static resources
         @JsonProperty(required = false)
         private String staticResourceContextRoot;
 
@@ -190,9 +209,13 @@ public class UrsusJerseyApplicationConfiguration extends UrsusConfiguration {
         @JsonProperty(required = false)
         private int maxBufferedPostSize = 2 * 1024 * 1024;
 
+        // Flag indicating whether listener is secured, MUST be set to true
+        // to enable SSL support
         @JsonProperty(required = false)
         private boolean secure;
 
+        // Enable/disable chunking of an HTTP response body if no content length has been explicitly specified.
+        // Chunking is enabled by default.
         @JsonProperty(required = false)
         private boolean chunkingEnabled = true;
 
@@ -311,6 +334,10 @@ public class UrsusJerseyApplicationConfiguration extends UrsusConfiguration {
         }
     }
 
+    /**
+     * Wrapper configuration class for configuring {@link javax.net.ssl.SSLEngine}
+     */
+
     public static class SSLEngine {
 
         @JsonProperty(required = false)
@@ -396,17 +423,29 @@ public class UrsusJerseyApplicationConfiguration extends UrsusConfiguration {
         }
     }
 
+    /**
+     * Configuration Wrapper for SSLContextConfigurator
+     */
     public static class SSLContext {
+
+        // Sets key store file name, also makes sure that if other key store
+        // configuration parameters are not set to set them to default values.
+        // Method resets key store bytes if any have been set before via
 
         @JsonProperty(required = true)
         private String keyStoreFile;
 
+        // Password of keystore to set.
         @JsonProperty(required = true)
         private String keyStorePass;
 
+        // Sets trust store file name, also makes sure that if other trust store
+        // configuration parameters are not set to set them to default values.
+        // Method resets trust store bytes if any have been set before via
         @JsonProperty(required = true)
         private String trustStoreFile;
 
+        // Passwword for the trustStore
         @JsonProperty(required = true)
         private String trustStorePass;
 
