@@ -7,6 +7,7 @@ import javax.validation.constraints.Min;
 
 public class UrsusHttpClientConfiguration {
 
+    // Determines the default socket timeout value for non-blocking I/O operations.
     @JsonProperty
     private int timeout = 500;
 
