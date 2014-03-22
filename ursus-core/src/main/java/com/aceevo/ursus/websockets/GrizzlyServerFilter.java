@@ -40,6 +40,22 @@ package com.aceevo.ursus.websockets;
 * holder.
 */
 
+import org.glassfish.grizzly.*;
+import org.glassfish.grizzly.Connection;
+import org.glassfish.grizzly.attributes.Attribute;
+import org.glassfish.grizzly.attributes.AttributeHolder;
+import org.glassfish.grizzly.filterchain.*;
+import org.glassfish.grizzly.http.*;
+import org.glassfish.grizzly.memory.ByteBufferArray;
+import org.glassfish.tyrus.container.grizzly.client.GrizzlyWriter;
+import org.glassfish.tyrus.container.grizzly.client.TaskProcessor;
+import org.glassfish.tyrus.core.RequestContext;
+import org.glassfish.tyrus.core.TyrusUpgradeResponse;
+import org.glassfish.tyrus.core.Utils;
+import org.glassfish.tyrus.spi.ReadHandler;
+import org.glassfish.tyrus.spi.*;
+
+import javax.websocket.CloseReason;
 import java.io.IOException;
 import java.net.URI;
 import java.nio.ByteBuffer;
@@ -50,47 +66,10 @@ import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import javax.websocket.CloseReason;
-
-import org.glassfish.tyrus.container.grizzly.client.GrizzlyWriter;
-import org.glassfish.tyrus.container.grizzly.client.TaskProcessor;
-import org.glassfish.tyrus.core.RequestContext;
-import org.glassfish.tyrus.core.TyrusUpgradeResponse;
-import org.glassfish.tyrus.core.Utils;
-import org.glassfish.tyrus.core.WebSocket;
-import org.glassfish.tyrus.spi.ReadHandler;
-import org.glassfish.tyrus.spi.ServerContainer;
-import org.glassfish.tyrus.spi.UpgradeRequest;
-import org.glassfish.tyrus.spi.UpgradeResponse;
-import org.glassfish.tyrus.spi.WebSocketEngine;
-
-import org.glassfish.grizzly.Buffer;
-import org.glassfish.grizzly.CloseListener;
-import org.glassfish.grizzly.Closeable;
-import org.glassfish.grizzly.Connection;
-import org.glassfish.grizzly.Grizzly;
-import org.glassfish.grizzly.ICloseType;
-import org.glassfish.grizzly.attributes.Attribute;
-import org.glassfish.grizzly.attributes.AttributeHolder;
-import org.glassfish.grizzly.filterchain.BaseFilter;
-import org.glassfish.grizzly.filterchain.Filter;
-import org.glassfish.grizzly.filterchain.FilterChain;
-import org.glassfish.grizzly.filterchain.FilterChainContext;
-import org.glassfish.grizzly.filterchain.NextAction;
-import org.glassfish.grizzly.http.HttpClientFilter;
-import org.glassfish.grizzly.http.HttpContent;
-import org.glassfish.grizzly.http.HttpHeader;
-import org.glassfish.grizzly.http.HttpRequestPacket;
-import org.glassfish.grizzly.http.HttpResponsePacket;
-import org.glassfish.grizzly.http.HttpServerFilter;
-import org.glassfish.grizzly.http.Protocol;
-import org.glassfish.grizzly.memory.ByteBufferArray;
-
 /**
 * WebSocket {@link Filter} implementation, which supposed to be placed into a {@link FilterChain} right after HTTP
 * Filter: {@link HttpServerFilter}, {@link HttpClientFilter}; depending whether it's server or client side. The
 * <tt>WebSocketFilter</tt> handles websocket connection, handshake phases and, when receives a websocket frame -
-* redirects it to appropriate connection ({@link org.glassfish.tyrus.core.WebSocketApplication}, {@link org.glassfish.tyrus.core.WebSocket}) for processing.
 *
 * @author Alexey Stashok
 * @author Pavel Bucek (pavel.bucek at oracle.com)
@@ -120,10 +99,8 @@ public class GrizzlyServerFilter extends BaseFilter {
     // ----------------------------------------------------- Methods from Filter
 
     /**
-     * Method handles Grizzly {@link Connection} close phase. Check if the {@link Connection} is a {@link org.glassfish.tyrus.core.WebSocket}, if
+     * Method handles Grizzly {@link Connection} close phase. Check if the {@link Connection} is a {@link org.glassfish.tyrus.core.TyrusWebSocket}, if
      * yes - tries to close the websocket gracefully (sending close frame) and calls {@link
-     * org.glassfish.tyrus.core.WebSocket#onClose(javax.websocket.CloseReason)}. If the Grizzly {@link Connection} is not websocket - passes processing to the next
-     * filter in the chain.
      *
      * @param ctx {@link FilterChainContext}
      * @return {@link NextAction} instruction for {@link FilterChain}, how it should continue the execution
@@ -141,11 +118,7 @@ public class GrizzlyServerFilter extends BaseFilter {
     }
 
     /**
-     * Handle Grizzly {@link Connection} read phase. If the {@link Connection} has associated {@link WebSocket} object
-     * (websocket connection), we check if websocket handshake has been completed for this connection, if not -
-     * initiate/validate handshake. If handshake has been completed - parse websocket {@link org.glassfish.tyrus.core.DataFrame}s one by one and
-     * pass processing to appropriate {@link WebSocket}: {@link org.glassfish.tyrus.core.WebSocketApplication} for server- and client- side
-     * connections.
+     * Handle Grizzly {@link Connection} read phase.
      *
      * @param ctx {@link FilterChainContext}
      * @return {@link NextAction} instruction for {@link FilterChain}, how it should continue the execution

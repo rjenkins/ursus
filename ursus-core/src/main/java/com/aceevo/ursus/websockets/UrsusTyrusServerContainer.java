@@ -37,7 +37,7 @@ public class UrsusTyrusServerContainer extends TyrusServerContainer {
         super(classes);
         this.classes = classes;
         this.contextPath = contextPath;
-        this.engine = new TyrusWebSocketEngine(this, incomingBufferSize);
+        this.engine = new TyrusWebSocketEngine(this, incomingBufferSize, null);
         init();
     }
 
@@ -46,7 +46,7 @@ public class UrsusTyrusServerContainer extends TyrusServerContainer {
         super(classes);
         this.classes = classes;
         this.contextPath = contextPath;
-        this.engine = new TyrusWebSocketEngine(this, incomingBufferSize);
+        this.engine = new TyrusWebSocketEngine(this, incomingBufferSize, null);
         this.serverEndpointConfigs = serverEndpointConfigs;
         init();
     }
