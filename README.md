@@ -41,7 +41,7 @@ Ursus also includes many libraries found in Dropwizard and other frameworks to h
 * [Hibernate Validator](http://hibernate.org/validator/)
 * [Jackson](http://jackson.codehaus.org/) for YAML and JSON support
 * [Logback](http://logback.qos.ch/) and [SLF4J](http://www.slf4j.org/) for bridging of Grizzly's java.util.logging
-* An [Apache HTTPClient](http://hc.apache.org/httpclient-3.x/) and a [Jersey 2.5 client](https://jersey.java.net/documentation/latest/user-guide.html#client)
+* An [Apache HTTPClient](http://hc.apache.org/httpclient-3.x/) and a [Jersey 2.7 client](https://jersey.java.net/documentation/latest/user-guide.html#client)
 
 #### Using Ursus
 Ursus releases artifacts are hosted on the central repository, to get started with Ursus simply add the ```ursus-core```
@@ -52,7 +52,7 @@ module to your pom.xml as a dependency.
     <dependency>
         <groupId>com.aceevo.ursus</groupId>
         <artifactId>ursus-core</artifactId>
-        <version>0.2.8</version>
+        <version>0.2.9</version>
     </dependency>
  </dependencies>
 ```
