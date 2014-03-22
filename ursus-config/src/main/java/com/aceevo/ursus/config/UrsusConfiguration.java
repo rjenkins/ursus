@@ -5,10 +5,10 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class UrsusConfiguration {
 
-    @JsonProperty(required = false)
+    @JsonProperty
     private Logging logging;
 
-    @JsonProperty(required = false)
+    @JsonProperty
     private UrsusJDBCConfiguration.Database database;
 
     public Logging getLogging() {
@@ -32,7 +32,7 @@ public class UrsusConfiguration {
         @JsonProperty
         private Level level = Level.INFO;
 
-        @JsonProperty(required = false)
+        @JsonProperty
         private String fileName;
 
         public Level getLevel() {

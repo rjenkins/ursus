@@ -1,2 +1,3 @@
 httpServer:
   host: localhost
+  jmxEnabled: true

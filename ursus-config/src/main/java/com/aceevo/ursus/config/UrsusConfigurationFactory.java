@@ -19,11 +19,14 @@
 package com.aceevo.ursus.config;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.module.SimpleModule;
 import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
+import org.slf4j.Logger;
 
 import javax.validation.ConstraintViolation;
 import javax.validation.Validation;
 import javax.validation.Validator;
+import javax.validation.ValidatorFactory;
 import java.io.*;
 import java.util.Set;
 
@@ -48,8 +51,8 @@ public class UrsusConfigurationFactory<T extends UrsusConfiguration> {
     public T getConfiguration() {
 
         ObjectMapper mapper = new ObjectMapper(yamlFactory);
-        try {
 
+        try {
             T ursusHttpServerConfig =
                     mapper.readValue(open(configurationFile), clazz);
 

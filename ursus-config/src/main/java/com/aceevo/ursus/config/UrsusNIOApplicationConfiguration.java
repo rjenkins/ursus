@@ -2,12 +2,17 @@ package com.aceevo.ursus.config;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
+
 public class UrsusNIOApplicationConfiguration extends UrsusConfiguration {
 
-    @JsonProperty(required = true)
+    @JsonProperty
+    @Valid
+    @NotNull
     private Server server;
 
-    @JsonProperty(required = false)
+    @JsonProperty
     private TCPNIOApplication tcpnioApplication;
 
     public Server getServer() {
@@ -28,10 +33,12 @@ public class UrsusNIOApplicationConfiguration extends UrsusConfiguration {
 
     public static class Server {
 
-        @JsonProperty(required = true)
+        @JsonProperty
+        @Valid
+        @NotNull
         private String host;
 
-        @JsonProperty(required = false)
+        @JsonProperty
         private int port = 8080;
 
         public String getHost() {
@@ -54,22 +61,22 @@ public class UrsusNIOApplicationConfiguration extends UrsusConfiguration {
     public static class TCPNIOApplication {
 
         // Enable/disable SO_TIMEOUT with the specified timeout, in milliseconds (client mode).
-        @JsonProperty(required = false)
+        @JsonProperty
         private int clientSocketSoTimeout = -1;
 
         // Time in milliseconds for how long establishing a connection can
         // take before the operation times out.
-        @JsonProperty(required = false)
+        @JsonProperty
         private int connectionTimeout = 30000;
 
         // Enable/disable SO_KEEPALIVE.
-        @JsonProperty(required = false)
+        @JsonProperty
         private boolean keepAlive = true;
 
         // Enable/disable SO_LINGER with the specified linger time in seconds.
         // The maximum timeout value is platform specific.
         // The setting only affects socket close.
-        @JsonProperty(required = false)
+        @JsonProperty
         private int linger = -1;
 
         // Enable/disable the SO_REUSEADDR socket option. When a TCP connection is closed the
@@ -78,37 +85,37 @@ public class UrsusNIOApplicationConfiguration extends UrsusConfiguration {
         // For applications using a well known socket address or port it may not be possible to bind
         // a socket to the required SocketAddress if there is a connection in the timeout state
         // involving the socket address or port.
-        @JsonProperty(required = false)
+        @JsonProperty
         private boolean reuseAddress = true;
 
         // Specifies the maximum pending connection queue length.
-        @JsonProperty(required = false)
+        @JsonProperty
         private int serverConnectionBacklog = 4096;
 
         // Enable/disable SO_TIMEOUT with the specified timeout, in milliseconds (server mode).
-        @JsonProperty(required = false)
+        @JsonProperty
         private int serverSocketSoTimeout = 0;
 
         // Enable/disable TCP_NODELAY (disable/enable Nagle's algorithm).
-        @JsonProperty(required = false)
+        @JsonProperty
         private boolean tcpNoDelay = true;
 
         // Controls the behavior of writing to a connection. If enabled, then all writes regardless
         // if the current thread can write directly to the connection or not, will be passed to the async
         // write queue. When the write actually occurs, the transport will attempt to write as much content
         // from the write queue as possible. This option is disabled by default.
-        @JsonProperty(required = false)
+        @JsonProperty
         private boolean optimizedForMultiplexing = false;
 
         // maxAsyncWriteQueueSize is usually set at runtime, set this override property and maxAyncWriteQueueSizeOverride
         // to set maxAsyncWriteQueueSize
-        @JsonProperty(required = false)
+        @JsonProperty
         private boolean maxAyncWriteQueueSizeOverride;
 
         // Specifies the size, in bytes, of the async write queue on a per-connection basis.
         // If not specified, the value will be configured to be four times the size of the system's
         // socket write buffer size. Setting this value to -1 will allow the queue to be unbounded.
-        @JsonProperty(required = false)
+        @JsonProperty
         private int maxAsyncWriteQueueSize;
 
         public int getClientSocketSoTimeout() {

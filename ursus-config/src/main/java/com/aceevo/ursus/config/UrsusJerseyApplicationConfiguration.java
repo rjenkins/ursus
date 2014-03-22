@@ -20,7 +20,8 @@ package com.aceevo.ursus.config;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-import javax.net.ssl.SSLEngine;
+import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -30,12 +31,15 @@ import java.util.List;
 public class UrsusJerseyApplicationConfiguration extends UrsusConfiguration {
 
     @JsonProperty(required = true)
+    @Valid
+    @NotNull
     private HttpServer httpServer;
 
-    @JsonProperty(required = false)
+    @JsonProperty
+    @Valid
     private UrsusHttpClientConfiguration ursusHttpClient;
 
-    @JsonProperty(required = false)
+    @JsonProperty
     private Tyrus tyrus = new Tyrus();
 
     public HttpServer getHttpServer() {
@@ -65,31 +69,31 @@ public class UrsusJerseyApplicationConfiguration extends UrsusConfiguration {
     public static class HttpServer {
 
         // An arbitrary optional name for your HTTPServer
-        @JsonProperty(required = false)
+        @JsonProperty
         private String name;
 
         // Hostname or IPAddress to hind to
         @JsonProperty(required = true)
+        @NotNull
         private String host;
 
         // TCP Port this HttpServer will listen on
-        @JsonProperty(required = false)
+        @JsonProperty
         private int port = 8080;
 
         // RootContext for your HttpServer and listener
-        @JsonProperty(required = false)
+        @JsonProperty
         private String rootContext = "/";
 
         // Enable / Disable JMX
-        @JsonProperty(required = false)
+        @JsonProperty(required=true)
         private boolean jmxEnabled;
 
         // boolean to configure if trace requests will
         // be handled by Grizzly or by a configured
         // HttpHandler.
-        @JsonProperty(required = false)
+        @JsonProperty
         private boolean passTraceRequest = true;
-
 
         //If <tt>enabled</tt> is <tt>true</tt> the <tt>TRACE</tt> method will be
         // respected and a proper response will be generated.  Otherwise, the
@@ -97,19 +101,18 @@ public class UrsusJerseyApplicationConfiguration extends UrsusConfiguration {
         //
         // This method only comes into effect when <code>setPassTraceRequest(false)</code>
         // has been called.
-        @JsonProperty(required = false)
+        @JsonProperty
         private boolean traceEnabled = false;
 
-
-        @JsonProperty(required = false)
+        @JsonProperty
         private NetworkListener networkListener;
 
         // Root directory to look for static resources
-        @JsonProperty(required = false)
+        @JsonProperty
         private String staticResourceDirectory;
 
         // Root context for static resources
-        @JsonProperty(required = false)
+        @JsonProperty
         private String staticResourceContextRoot;
 
         public HttpServer() {
@@ -200,42 +203,42 @@ public class UrsusJerseyApplicationConfiguration extends UrsusConfiguration {
 
     public static class NetworkListener {
 
-        @JsonProperty(required = false)
+        @JsonProperty
         private boolean authPassThroughEnabled;
 
-        @JsonProperty(required = false)
+        @JsonProperty
         private int maxFormPostSize = 2 * 1024 * 1024;
 
-        @JsonProperty(required = false)
+        @JsonProperty
         private int maxBufferedPostSize = 2 * 1024 * 1024;
 
         // Flag indicating whether listener is secured, MUST be set to true
         // to enable SSL support
-        @JsonProperty(required = false)
+        @JsonProperty
         private boolean secure;
 
         // Enable/disable chunking of an HTTP response body if no content length has been explicitly specified.
         // Chunking is enabled by default.
-        @JsonProperty(required = false)
+        @JsonProperty
         private boolean chunkingEnabled = true;
 
-        @JsonProperty(required = false)
+        @JsonProperty
         private SSLContext sslContext = null;
 
-        @JsonProperty(required = false)
+        @JsonProperty
         private SSLEngine sslEngine = null;
 
-        @JsonProperty(required = false)
+        @JsonProperty
         private Compression compression = null;
 
         // KeepAlive in seconds
-        @JsonProperty(required = false)
+        @JsonProperty
         private int idleTimeout = 30;
 
-        @JsonProperty(required = false)
+        @JsonProperty
         private int maxRequests = 256;
 
-        @JsonProperty(required = false)
+        @JsonProperty
         // Default of GrizzlyHttpListener is -1 which is indefinite
         // setting it to something reasonable (10s)
         private int transactionTimeout = 10;
@@ -340,25 +343,25 @@ public class UrsusJerseyApplicationConfiguration extends UrsusConfiguration {
 
     public static class SSLEngine {
 
-        @JsonProperty(required = false)
+        @JsonProperty
         private String[] enabledCipherSuites = null;
 
-        @JsonProperty(required = false)
+        @JsonProperty
         private String[] enabledProtocols = null;
 
-        @JsonProperty(required = false)
+        @JsonProperty
         private boolean clientMode = true;
 
-        @JsonProperty(required = false)
+        @JsonProperty
         private boolean needClientAuth = false;
 
-        @JsonProperty(required = false)
+        @JsonProperty
         private boolean wantClientAuth = false;
 
-        @JsonProperty(required = false)
+        @JsonProperty
         private boolean protocolConfigured = false;
 
-        @JsonProperty(required = false)
+        @JsonProperty
         private boolean cipherConfigured = false;
 
 
@@ -492,15 +495,15 @@ public class UrsusJerseyApplicationConfiguration extends UrsusConfiguration {
         private String compressionMode = "OFF"; // ON, OFF or FORCE
 
         // the min size of the entities, which will be compressed
-        @JsonProperty(required = false)
+        @JsonProperty
         private int compressionMinSize = 1;
 
         // mime types of the enitties, which will be compressed
-        @JsonProperty(required = false)
+        @JsonProperty
         private List<String> compressableMimeTypes = new ArrayList<String>(0);
 
         // the user-agents, for which the payload will never be compressed
-        @JsonProperty(required = false)
+        @JsonProperty
         private List<String> noCompressionUserAgents = new ArrayList<String>(0);
 
         public Compression() {
@@ -543,7 +546,7 @@ public class UrsusJerseyApplicationConfiguration extends UrsusConfiguration {
 
     public static class Tyrus {
 
-        @JsonProperty(required = false)
+        @JsonProperty
         private int incomingBufferSize = 4194315;
 
         public int getIncomingBufferSize() {
