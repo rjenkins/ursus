@@ -34,6 +34,17 @@
             <version>0.2.11-SNAPSHOT</version>
         </dependency>
         <dependency>
+            <groupId>com.aceevo.ursus</groupId>
+            <artifactId>ursus-spi</artifactId>
+            <version>0.2.11-SNAPSHOT</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>com.aceevo.ursus</groupId>
+                    <artifactId>ursus-config</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <dependency>
             <groupId>ch.qos.logback</groupId>
             <artifactId>logback-core</artifactId>
             <version>${logback.version}</version>

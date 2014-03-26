@@ -5,10 +5,14 @@ import ch.qos.logback.core.Appender;
 import ch.qos.logback.core.FileAppender;
 import com.aceevo.ursus.config.UrsusConfiguration;
 import com.aceevo.ursus.config.UrsusConfigurationFactory;
+import com.aceevo.ursus.spi.liquibase.LiquibaseService;
 import com.google.common.base.Charsets;
 import com.google.common.io.Resources;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.util.Iterator;
+import java.util.ServiceLoader;
 
 public class UrsusApplicationHelper<T extends UrsusConfiguration> {
 
@@ -34,7 +38,7 @@ public class UrsusApplicationHelper<T extends UrsusConfiguration> {
                 rootLogger.setLevel(configuration.getLogging().getLevel());
 
                 if (configuration.getLogging().getFileName() != null && appender instanceof FileAppender) {
-                    ((FileAppender)appender).setFile(configuration.getLogging().getFileName());
+                    ((FileAppender) appender).setFile(configuration.getLogging().getFileName());
                 }
                 rootLogger.addAppender(appender);
                 appender.start();
@@ -53,4 +57,15 @@ public class UrsusApplicationHelper<T extends UrsusConfiguration> {
         return ursusConfigurationFactory.getConfiguration();
     }
 
+    public void handleDbCommand(String[] args, Class<T> configurationClass) {
+        String configurationFile = args[1];
+        String command = args[2];
+
+        T configuration = parseConfiguration(configurationFile, configurationClass);
+
+        ServiceLoader<LiquibaseService> loader = ServiceLoader.load(LiquibaseService.class);
+        Iterator<LiquibaseService> iterator = loader.iterator();
+        LiquibaseService liquibaseService = iterator.next(); // There can be only one
+        liquibaseService.runLiquibaseCommand(configuration.getDatabase(), command);
+    }
 }

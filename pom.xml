@@ -32,6 +32,7 @@
         <module>ursus-example-nio-application</module>
         <module>ursus-example-nio-client</module>
         <module>ursus-db</module>
+        <module>ursus-spi</module>
     </modules>
 
     <licenses>

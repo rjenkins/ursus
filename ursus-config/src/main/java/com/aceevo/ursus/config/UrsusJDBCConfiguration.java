@@ -9,6 +9,9 @@ public class UrsusJDBCConfiguration {
 
     public static class Database {
 
+        @JsonProperty
+        private String migrationFile;
+
         // The default auto-commit state of connections created by this pool. If not set, default is JDBC driver
         // default (If not set then the setAutoCommit method will not be called.)
 
@@ -600,5 +603,12 @@ public class UrsusJDBCConfiguration {
             this.propagateInterruptState = propagateInterruptState;
         }
 
+        public String getMigrationFile() {
+            return migrationFile;
+        }
+
+        public void setMigrationFile(String migrationFile) {
+            this.migrationFile = migrationFile;
+        }
     }
 }

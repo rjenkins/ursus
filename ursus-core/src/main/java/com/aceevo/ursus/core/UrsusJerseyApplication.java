@@ -65,6 +65,7 @@ public abstract class UrsusJerseyApplication<T extends UrsusJerseyApplicationCon
     private final Set<Service> managedServices = new HashSet<Service>();
     private final Set<ServerEndpointConfig> serverEndpointConfigs = new HashSet<ServerEndpointConfig>();
     private final UrsusApplicationHelper<T> ursusApplicationHelper = new UrsusApplicationHelper<>();
+    private final Class<T> configurationClass;
 
     private static final Logger LOGGER = LoggerFactory.getLogger(UrsusJerseyApplication.class);
 
@@ -75,7 +76,7 @@ public abstract class UrsusJerseyApplication<T extends UrsusJerseyApplicationCon
         SLF4JBridgeHandler.install();
 
         // Use reflection to find our UrsusJerseyApplicationConfiguration Class
-        Class<T> configurationClass = (Class<T>) ((ParameterizedType) getClass()
+        this.configurationClass = (Class<T>) ((ParameterizedType) getClass()
                 .getGenericSuperclass()).getActualTypeArguments()[0];
 
         parseArguments(args);
@@ -99,6 +100,9 @@ public abstract class UrsusJerseyApplication<T extends UrsusJerseyApplicationCon
 
         if ("server".equals(args[0]) && args.length >= 2) {
             configurationFile = args[1];
+        } else if ("db".equals(args[0])) {
+            ursusApplicationHelper.handleDbCommand(args, configurationClass);
+            System.exit(1);
         }
     }
 
