@@ -212,6 +212,9 @@ public class UrsusJerseyApplicationConfiguration extends UrsusConfiguration {
         @JsonProperty
         private int maxBufferedPostSize = 2 * 1024 * 1024;
 
+        @JsonProperty
+        private int maxHttpHeaderSize = -1;
+
         // Flag indicating whether listener is secured, MUST be set to true
         // to enable SSL support
         @JsonProperty
@@ -334,6 +337,14 @@ public class UrsusJerseyApplicationConfiguration extends UrsusConfiguration {
 
         public void setTransactionTimeout(int transactionTimeout) {
             this.transactionTimeout = transactionTimeout;
+        }
+
+        public int getMaxHttpHeaderSize() {
+            return maxHttpHeaderSize;
+        }
+
+        public void setMaxHttpHeaderSize(int maxHttpHeaderSize) {
+            this.maxHttpHeaderSize = maxHttpHeaderSize;
         }
     }
 

@@ -266,6 +266,7 @@ public abstract class UrsusJerseyApplication<T extends UrsusJerseyApplicationCon
             listener.setMaxBufferedPostSize(networkListenerConfig.getMaxBufferedPostSize());
             listener.setChunkingEnabled(networkListenerConfig.isChunkingEnabled());
             listener.setTransactionTimeout(networkListenerConfig.getTransactionTimeout());
+            listener.setMaxHttpHeaderSize(networkListenerConfig.getMaxHttpHeaderSize());
 
             //KeepAlive
             listener.getKeepAlive().setIdleTimeoutInSeconds(networkListenerConfig.getIdleTimeout());
