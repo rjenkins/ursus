@@ -61,7 +61,7 @@ public class UrsusJDBCConfiguration {
 
         // The maximum number of active connections that can be allocated from this pool at the same time. The default value is 100
         @JsonProperty
-        private Integer maxAtive;
+        private Integer maxActive;
 
         // The maximum number of connections that should be kept in the pool at all times. Default value is maxActive:100 Idle
         // connections are checked periodically (if enabled) and connections that been idle for longer than minEvictableIdleTimeMillis
@@ -339,12 +339,12 @@ public class UrsusJDBCConfiguration {
             this.defaultCatalog = defaultCatalog;
         }
 
-        public Integer getMaxAtive() {
-            return maxAtive;
+        public Integer getMaxActive() {
+            return maxActive;
         }
 
-        public void setMaxAtive(Integer maxAtive) {
-            this.maxAtive = maxAtive;
+        public void setMaxActive(Integer maxActive) {
+            this.maxActive = maxActive;
         }
 
         public Integer getMaxIdle() {

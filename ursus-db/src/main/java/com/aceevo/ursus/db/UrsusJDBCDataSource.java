@@ -18,8 +18,8 @@ public class UrsusJDBCDataSource extends DataSource {
             poolProperties.setDefaultCatalog(database.getDefaultCatalog());
         if (database.getDefaultTransactionIsolation() != null)
             poolProperties.setDefaultTransactionIsolation(database.getDefaultTransactionIsolation());
-        if (database.getMaxAtive() != null)
-            poolProperties.setMaxActive(database.getMaxAtive());
+        if (database.getMaxActive() != null)
+            poolProperties.setMaxActive(database.getMaxActive());
         if (database.getMaxIdle() != null)
             poolProperties.setMaxIdle(database.getMaxIdle());
         if (database.getMaxWait() != null)
