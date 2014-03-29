@@ -13,11 +13,11 @@
     <url>https://github.com/rjenkins/ursus</url>
     <properties>
         <jersey.version>2.7</jersey.version>
-        <slf4j.version>1.7.5</slf4j.version>
-        <logback.version>1.0.13</logback.version>
-        <grizzly.version>2.3.8</grizzly.version>
+        <slf4j.version>1.7.6</slf4j.version>
+        <logback.version>1.1.1</logback.version>
+        <grizzly.version>2.3.11</grizzly.version>
         <tyrus.version>1.5</tyrus.version>
-        <jackson.version>2.3.0</jackson.version>
+        <jackson.version>2.3.2</jackson.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.sourceEncoding>UTF-8</project.reporting.sourceEncoding>
     </properties>
