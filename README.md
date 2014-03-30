@@ -4,7 +4,7 @@
 
 Ursus is a [Dropwizard](http://dropwizard.codahale.com/) inspired framework for developing lightweight
 web services and NIO applications on the JVM and [Grizzly](https://grizzly.java.net/). Ursus combines Grizzly's
-NIO/Event Driven framework and popular libraries such as [Jersey 2.5](https://jersey.java.net/) and
+NIO/Event Driven framework and popular libraries such as [Jersey 2.7](https://jersey.java.net/) and
 [Project Tyrus - JSR 356: Java API for WebSocket - Reference Implementation](https://tyrus.java.net/) with
 the simple conventions found in Dropwizard, allowing you to focus on developing your services rather
 than managing their accompanying dependencies, reducing time-to-market and maintenance.
@@ -52,7 +52,7 @@ module to your pom.xml as a dependency.
     <dependency>
         <groupId>com.aceevo.ursus</groupId>
         <artifactId>ursus-core</artifactId>
-        <version>0.2.10</version>
+        <version>0.2.12</version>
     </dependency>
  </dependencies>
 ```
