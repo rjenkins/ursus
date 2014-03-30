@@ -204,7 +204,7 @@ public abstract class UrsusJerseyApplication<T extends UrsusJerseyApplicationCon
         return httpServer;
     }
 
-    private void registerJacksonSupport() {
+    protected void registerJacksonSupport() {
         ObjectMapper mapper = new ObjectMapper();
         mapper.enable(SerializationFeature.INDENT_OUTPUT);
         mapper.registerModule(new GuavaModule());
