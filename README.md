@@ -52,7 +52,7 @@ module to your pom.xml as a dependency.
     <dependency>
         <groupId>com.aceevo.ursus</groupId>
         <artifactId>ursus-core</artifactId>
-        <version>0.2.12</version>
+        <version>0.2.13</version>
     </dependency>
  </dependencies>
 ```
