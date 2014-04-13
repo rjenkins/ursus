@@ -27,6 +27,7 @@
         <module>ursus-client</module>
         <module>ursus-example-application</module>
         <module>ursus-example-scala-application</module>
+        <module>ursus-example-scala-nio-application</module>
         <module>ursus-example-http-client</module>
         <module>ursus-example-jersey-client</module>
         <module>ursus-example-websocket-client</module>

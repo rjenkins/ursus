@@ -20,6 +20,6 @@ package com.aceevo.ursus.core
 import com.aceevo.ursus.config.UrsusNIOApplicationConfiguration
 
 abstract class UrsusScalaUDPNIOApplication[T <: UrsusNIOApplicationConfiguration](args: Array[String])
-  extends UrsusUDPNIOApplication(args: Array[String]) {
+  extends UrsusUDPNIOApplication[T](args: Array[String]) {
 
 }
