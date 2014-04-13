@@ -54,6 +54,14 @@
                 <version>3.1.0</version>
                 <executions>
                     <execution>
+                        <id>scala-compile-first</id>
+                        <phase>process-resources</phase>
+                        <goals>
+                            <goal>add-source</goal>
+                            <goal>compile</goal>
+                        </goals>
+                    </execution>
+                    <execution>
                         <id>compile</id>
                         <goals>
                             <goal>compile</goal>
