@@ -1,4 +1,4 @@
-package com.aceevo.ursus.example.api
+package com.aceevo.ursus.example
 
 import javax.ws.rs.{GET, Produces, Path}
 import javax.ws.rs.core.{Response, MediaType}
@@ -13,7 +13,7 @@ import com.aceevo.ursus.example.model.Hello
  */
 @Path("foo")
 @Produces(Array(MediaType.APPLICATION_JSON))
-class Foo {
+class HelloFooResource {
 
   @GET
   @Produces(Array(MediaType.APPLICATION_JSON))
