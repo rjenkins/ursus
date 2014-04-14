@@ -1,6 +1,6 @@
-# Ursus
+#Ursus
 
-### Overview
+<h1 id="overview">Overview</h1>
 
 Ursus is a [Dropwizard](http://dropwizard.codahale.com/) inspired framework for developing lightweight
 web services and NIO applications on the JVM and [Grizzly](https://grizzly.java.net/). Ursus combines Grizzly's
@@ -9,7 +9,7 @@ NIO/Event Driven framework and popular libraries such as [Jersey 2.7](https://je
 the simple conventions found in Dropwizard, allowing you to focus on developing your services rather
 than managing their accompanying dependencies, reducing time-to-market and maintenance.
 
-#### Grizzly HTTP Container
+<h2 id="grizzly">Grizzly HTTP Container</h3>
 
 Grizzly is a multi-protocol framework built on top of Java NIO. Grizzly aims to simplify development of
 robust and scalable servers. Jersey provides a container extension module that enables support for using
@@ -17,14 +17,14 @@ Grizzly as a plain vanilla HTTP container that runs JAX-RS applications. Startin
 run a JAX-RS or Jersey application is one of the most lightweight and easy ways how to expose a
 functional RESTful services application.
 
-#### REST / Jersey
+<h2 id="jersey">REST / Jersey</h3>
 
 Jersey is an open source, production quality, framework for developing RESTful Web Services in Java that
 provides support for JAX-RS APIs and serves as a JAX-RS (JSR 311 & JSR 339) Reference Implementation.
 Developing RESTful Web services with Jersey is a snap and the latest Jersey implementation included in
 Ursus provides support for both asynchronous clients and server side services with [AsyncResponse](https://jax-rs-spec.java.net/nonav/2.0/apidocs/javax/ws/rs/container/AsyncResponse.html)
 
-#### WebSockets / Tyrus
+<h2 id="tyrus">WebSockets / Tyrus</h3>
 
 Tyrus is the open source [JSR 356](https://java.net/projects/websocket-spec) Java reference implementation of
 WebSockets. The WebSocket protocol provides full-duplex communications between server and remote hosts.
@@ -32,7 +32,7 @@ WebSocket is designed to be implemented in web browsers and web servers, but it 
 The WebSocket protocol makes possible more interaction between a browser and a web site, facilitating live content
 and the creation of real-time applications and services.
 
-#### Additional Libraries
+<h2 id="additional libraries">Additional Libraries</h3>
 
 Ursus also includes many libraries found in Dropwizard and other frameworks to help speed up development including,
 
@@ -41,9 +41,11 @@ Ursus also includes many libraries found in Dropwizard and other frameworks to h
 * [Hibernate Validator](http://hibernate.org/validator/)
 * [Jackson](http://jackson.codehaus.org/) for YAML and JSON support
 * [Logback](http://logback.qos.ch/) and [SLF4J](http://www.slf4j.org/) for bridging of Grizzly's java.util.logging
+* [Tomcat JDBC Connection Pool](https://people.apache.org/~fhanik/jdbc-pool/jdbc-pool.html) for JDBC connection pooling.
+* [Liquibase](http://www.liquibase.org/) for Database refactoring.
 * An [Apache HTTPClient](http://hc.apache.org/httpclient-3.x/) and a [Jersey 2.7 client](https://jersey.java.net/documentation/latest/user-guide.html#client)
 
-#### Using Ursus
+<h2 id="using">Using Ursus</h1>
 Ursus releases artifacts are hosted on the central repository, to get started with Ursus simply add the ```ursus-core```
 module to your pom.xml as a dependency.
 
@@ -57,7 +59,7 @@ module to your pom.xml as a dependency.
  </dependencies>
 ```
 
-### Jersey Application Quick Start
+<h1 id="jersey quickstart">Jersey Application Quick Start</h1>
 Let's take a look at the ```ursus-example-application``` project a simple HelloWorld service. It's fully implemented, but we're going
 to walk through the steps it took to build this project. If it helps you might want to clone the Ursus repro, [https://github.com/rjenkins/ursus.git](https://github.com/rjenkins/ursus.git)
 and modify ```ursus-example-application``` as we progress through the quick start building up the application yourself.
@@ -98,7 +100,7 @@ In addition to your own environment specific configuration parameters [UrsusJers
 defines a large set of configuration properties that allow you to modify all of the granular configuration options available with Grizzly and many of the other
 included libraries simply by adding lines of YAML (more on that later).
 
-#### Creating our YAML File
+<h3 id="jersey creating yaml">Creating our YAML File</h3>
 
 Let's allow our ExampleApplication the ability to specify who it should say Hello to. For this we'll use the name property we created in
 ```ExampleApplicationConfiguration```. Now we can define this parameter in ```exampleapplication.yml```
@@ -111,13 +113,11 @@ name: Ray
 
 Great! Let's move on to creating our first application.
 
-#### Creating an UrsusJerseyApplication
+<h3 id="creating ursusjerseyapplication">A First UrsusJerseyApplication</h3>
 
 We'll name our application ```ExampleApplication``` and subclass ```UrsusJerseyApplication``` we also need to parameterize
 ExampleApplication with the type of our ```UrsusJerseyApplicationConfiguration``` class, that's named ```ExampleApplicationConfiguration```.
-If you're using an IDE like IntelliJ you can select implement methods and you'll get the skeleton of our application. We also
-If you're using an IDE like IntelliJ you can select implement methods and you'll get the skeleton of our application. We also
-need to add a ```public static void main(String[] args)``` method and instantiate an instance of ExampleApplication.
+If you're using an IDE like IntelliJ you can select implement methods and you'll get the skeleton of our application. We also need to add a ```public static void main(String[] args)``` method and instantiate an instance of ExampleApplication.
 
 ```java
 package com.aceevo.ursus.example;
@@ -150,7 +150,7 @@ public class ExampleApplication extends UrsusJerseyApplication<ExampleApplicatio
 ExampleApplication in the ```ursus-example-application``` project is filled out and has more data than this, but let's ignore that for now.
 If you like you can always overwrite ```ExampleApplication``` with the above and follow along.
 
-#### Setting up Logging
+<h3 id="setting up logging">Setting up Logging</h3>
 
 Ursus includes [Logback](http://logback.qos.ch/) for logging, we need to setup a ```logback.xml``` file for our project and because
 we're using maven we'll put this file in ```src/main/resources```. Our logback.xml should include an appender named ```FILE```.
@@ -192,7 +192,7 @@ name: Ray
 ```
 
 
-#### Building our first artifact and running our application.
+<h3 id="building first artifact">Building our First Artifact.</h3>
 
 Like Dropwizard Ursus recommends building a "fat" jar that contains all the ```.class``` files needed to run our service.
 Here's the relevant parts of our configuration.
@@ -249,7 +249,7 @@ $ mvn -q compile -P run-ursus-example-application
 $
 ```
 
-#### Starting the HttpServer
+<h3 id="starting http">Starting the HttpServer</h3>
 
 We need to start our HttpServer instance to run our application. ```protected void run(HttpServer httpServer)``` method passes us
 a configured HttpServer (after bootstrap has been called) allowing us to make any additional modifications to the Grizzly Http Server before
@@ -325,7 +325,7 @@ $ mvn -q compile -P run-ursus-example-application
 
 Success! Now it's time to move on to implementing our service.
 
-#### Representations and Resources
+<h3 id="representations and resources">Representations and Resources</h3>
 We've got our application started but we need to provide some resources and some representations. As previously mentioned
 this Hello World application is going to support specifying exactly who we're going to say hello to. Let's create a model
 class to represent a Hello.
@@ -360,7 +360,7 @@ public class Hello {
 
 Now that we've created a representation we can create a Jersey Resource class for serving this representation.
 
-#### Creating Resources
+<h3 id="creating resources">Creating Resources</h3>
 
 Let's create a simple Jersey resource that serves our Hello representation. In this Resource we'll add support for the
 [GET](http://tools.ietf.org/search/rfc2616#section-9.3) and [POST](http://tools.ietf.org/search/rfc2616#section-9.5) methods as well as support for
@@ -438,7 +438,7 @@ The first ```@GET``` and ```@POST``` methods are pretty standard, let's take a l
 uses the ```@Suspend``` annotation and allows us to suspend the current request releasing the thread responsible for handling the request and resume
 asynchronously once we're ready to response.
 
-#### Registering Resources
+<h3 id="registering resources">Registering Resources</h3>
 
 Now that we've created our first resource we need to register them with our Jersey ResourceConfig, there are many ways to do this (more on this later, you can also
 register an instance of a Resource class with ```register(Object components)```). For our example application let's use Jersey's built-in resource discovery and
@@ -613,7 +613,7 @@ javax.ws.rs.NotAcceptableException: HTTP 406 Not Acceptable
 * Closing connection #0
 ```
 
-#### Writing Resource Tests
+<h3 id="resource tests">Writing Resource Tests</h3>
 
 Jersey comes with a testframework provider for Grizzly, let's add that to our pom.xml so we can write some tests.
 
@@ -751,7 +751,7 @@ Tests run: 3, Failures: 0, Errors: 0, Skipped: 0
 [INFO] ------------------------------------------------------------------------
 ```
 
-#### Serving Static Assets
+<h3 id="static assets">Serving Static Assets</h3>
 
 With Ursus you can serve static assets such as HTML or Javascript files. Simply add the staticResourceDirectory and staticResourceContextRoot options
 to the ```httpServer``` section of the ```exampleapplication.yml``` file.
@@ -791,7 +791,7 @@ $ curl -X GET http://localhost:8080/ursus/index.html
 $
 ```
 
-#### WebSocket EndPoints
+<h3 id="websocket">WebSocket EndPoints</h3>
 
 In addition to Jersey, Ursus includes [Tyrus](https://tyrus.java.net/) the open source JSR 356 - Java API for WebSocket
 reference implementation for easy development of WebSocket applications. You can create Annotated EndPoints and register
@@ -835,7 +835,7 @@ public class EchoEndpointResource extends Endpoint {
 }
 ```
 
-#### Registering EndPoints
+<h3 id="registering endpoints">Registering EndPoints</h3>
 
 Ursus provides some short cuts that allow you to quickly register your endpoints and pass any dependencies to your endpoint.
 Let's modify our bootstrap method and use the ```registerEndPoint``` method to add ```EchoEndPointResouce```. We simply need
@@ -860,7 +860,7 @@ public class ExampleApplication extends UrsusJerseyApplication<ExampleApplicatio
 }
 ```
 
-#### Tyrus Annotated EndPoints
+<h3 id="tyrus annotated">Tyrus Annotated EndPoints</h3>
 
 Tyrus also provides support for annotated EndPoints using the ```@OnOpen``` ```@OnClose``` ```@OnError``` ```@OnMessage```. You
 can't pass arguments into these endpoints as the lifecycle of these resources are controlled by Tyrus (though you can control that
@@ -911,7 +911,7 @@ public class ExampleApplication extends UrsusJerseyApplication<ExampleApplicatio
 }
 ```
 
-#### Creating a WebSocket Client
+<h3 id="websocket client">Creating WebSocket Clients</h3>
 
 The ```ursus-example-websocket-client``` project provides an example of how to create a Java based WebSocket client. Our client
 accepts a command line argument, if the argument ```annotated``` is passed we'll call the annotation based EndPoint, otherwise
@@ -993,7 +993,7 @@ public class SimpleWebSocketClient {
 }
 ```
 
-#### Testing our WebSocket Client
+<h3 id="testing websocket client">Testing WebSocket Clients</h3>
 
 Now that we've created a WebSocket Endpoint we can test our WebSocket Client. Let's start ExampleApplication with the following
 command ```mvn -q compile -P run-ursus-example-application```
@@ -1039,7 +1039,7 @@ $
 We can see the server side ```EchoEndpointResource``` received the message ```Hello WebSocket``` from our WebSocket Client and replied with
 the message ```Hello Ray``` which was received by ```SimpleWebSocketClient```.
 
-### NIOTransport Applications Quick Start
+<h1 id="niotransport quick start">NIOTransport Applications Quick Start</h1>
 
 In addition to Jersey based Web Services Ursus allows you to rapidly create NIO based applications on the JVM, after all [Grizzly’s](https://grizzly.java.net/)
 goal is to help developers to build scalable and robust servers using NIO as well as offering extended framework components: like HTTP and HTTPS.
@@ -1153,7 +1153,7 @@ public class UrsusNIOApplicationConfiguration extends UrsusConfiguration {
 }
 ```
 
-#### NIOTransport Bootstrap and Run Methods
+<h3 id="nio bootstrap and run">NIOTransport Bootstrap and Run</h3>
 
 UrsusNIOApplications follow the same semantics as ```UrsusJerseyApplications``` we create a constructor and call ```super(args)``` and creates a ```public static void main``` method
 which instantiates our ```UrsusNIOApplication``` and passes our command line arguments. But the bootstrap and run methods differ in the arguments they take. Let's inspect
@@ -1178,7 +1178,7 @@ an instance of ```FilterChain```. The bootstrap method creates a new FilterChain
 The run method takes a ```TCPNIOTransport``` as an argument and like our ```UrsusJerseyApplication``` we'll call ```startWithShutdownHook``` if we do not have any
 more programmatic changes to make to our ```TCPNIOTransport```.
 
-#### HelloFilter implementing a BasicFilter
+<h3 id="a basic filter">Implementing a BasicFilter</h3>
 
 [Grizzly](https://grizzly.java.net/) provides several [examples](https://grizzly.java.net/quickstart.html) of how to use FilterChains and [Filters](https://grizzly.java.net/docs/2.3/apidocs/org/glassfish/grizzly/filterchain/Filter.html)
 to build NIO applications (more on that later). The ```Filter``` interface is as follows
@@ -1223,7 +1223,7 @@ to retrieve the message sent from the client and write that message back to the 
     }
 ```
 
-#### Implementing an Ursus NIO Client
+<h3 id="nio clients">Implementing Ursus NIO Clients</h3>
 
 Implementing a Grizzly NIO client is very similar to implementing a server. We will need to build a [FilterChain](https://grizzly.java.net/docs/2.3/apidocs/org/glassfish/grizzly/filterchain/FilterChain.html)
 and create a [TCPNIOTransport](https://grizzly.java.net/docs/2.3/apidocs/org/glassfish/grizzly/nio/transport/jmx/TCPNIOTransport.html) to use our ```FilterChain```. Let's take a look at
@@ -1327,7 +1327,7 @@ public class NIOExampleClient {
 }
 ```
 
-#### HelloClientFilter
+<h3 id="client filters">Writing ClientFilter</h3>
 
 This is a basic echo application so our ```HelloClientFilter``` essentially mirrors the ```HelloFilter```. It's job is to receive responses
 from the server [NIOTransport](https://grizzly.java.net/docs/2.3/apidocs/org/glassfish/grizzly/nio/NIOTransport.html) filter and log the response. Our
@@ -1367,7 +1367,7 @@ client initiates the conversation in the ```ClientRunner``` class by writing to 
     }
 ```
 
-#### Running an example NIOTransport application
+<h3 id="running nio application">Running NIOTransport applications</h3>
 
 Let's use the ```ursus-example-nio-application``` project to start our server. Once we've started our server we can launch the ```ursus-example-nio-client```
 and watch it connect to our [NIOTransport](https://grizzly.java.net/docs/2.3/apidocs/org/glassfish/grizzly/nio/NIOTransport.html) application, say "Hello Ursus" and
@@ -1397,3 +1397,4 @@ $ mvn -q compile -P run-ursus-example-nio-client
 $
 
  ```
+
