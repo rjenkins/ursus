@@ -45,7 +45,7 @@ Ursus also includes many libraries found in Dropwizard and other frameworks to h
 * [Liquibase](http://www.liquibase.org/) for Database refactoring.
 * An [Apache HTTPClient](http://hc.apache.org/httpclient-3.x/) and a [Jersey 2.7 client](https://jersey.java.net/documentation/latest/user-guide.html#client)
 
-<h2 id="using">Using Ursus</h1>
+<h2 id="using">Using Ursus</h2>
 Ursus releases artifacts are hosted on the central repository, to get started with Ursus simply add the ```ursus-core```
 module to your pom.xml as a dependency.
 
