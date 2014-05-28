@@ -98,11 +98,19 @@ public abstract class UrsusJerseyApplication<T extends UrsusJerseyApplicationCon
         if (args == null || args.length == 0)
             return;
 
-        if ("server".equals(args[0]) && args.length >= 2) {
-            configurationFile = args[1];
-        } else if ("db".equals(args[0])) {
-            ursusApplicationHelper.handleDbCommand(args, configurationClass);
-            System.exit(1);
+        switch (args[0]) {
+            case "server":
+                if (args.length >= 2) {
+                    configurationFile = args[1];
+                }
+                break;
+            case "db":
+                ursusApplicationHelper.handleDbCommand(args, configurationClass);
+                break;
+            default:
+                System.err.printf("Usage: %s <server|db> [args...]%n", getClass().getName());
+                System.exit(1);
+                break;
         }
     }
 
