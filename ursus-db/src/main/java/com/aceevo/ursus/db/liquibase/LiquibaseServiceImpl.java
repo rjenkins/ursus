@@ -23,10 +23,14 @@ public class LiquibaseServiceImpl implements LiquibaseService {
 
     @Override
     public void runLiquibaseCommand(UrsusJDBCConfiguration.Database ursusJDBCConfiguration, String command) {
+        final String migrationFile = ursusJDBCConfiguration.getMigrationFile();
+        if (migrationFile == null) {
+            throw new IllegalArgumentException("database.migrationFile must be set in order to run database migration.");
+        }
         try {
             UrsusJDBCDataSource ursusJDBCDataSource = new UrsusJDBCDataSource(ursusJDBCConfiguration);
             Database database = DatabaseFactory.getInstance().findCorrectDatabaseImplementation(new JdbcConnection(ursusJDBCDataSource.getConnection()));
-            Liquibase liquibase = new Liquibase(ursusJDBCConfiguration.getMigrationFile(), new ClassLoaderResourceAccessor(), database);
+            Liquibase liquibase = new Liquibase(migrationFile, new ClassLoaderResourceAccessor(), database);
 
             Liquibase_Command liquibaseCommand = Liquibase_Command.valueOf(command.toLowerCase());
 
