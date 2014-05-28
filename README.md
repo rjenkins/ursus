@@ -54,7 +54,7 @@ module to your pom.xml as a dependency.
     <dependency>
         <groupId>com.aceevo.ursus</groupId>
         <artifactId>ursus-core</artifactId>
-        <version>0.2.13</version>
+        <version>0.2.14</version>
     </dependency>
  </dependencies>
 ```
