@@ -5,7 +5,7 @@
     <parent>
         <groupId>com.aceevo.ursus</groupId>
         <artifactId>ursus-parent</artifactId>
-        <version>0.2.14-SNAPSHOT</version>
+        <version>0.2.14</version>
     </parent>
 
     <artifactId>ursus-core</artifactId>
@@ -31,12 +31,12 @@
         <dependency>
             <groupId>com.aceevo.ursus</groupId>
             <artifactId>ursus-config</artifactId>
-            <version>0.2.14-SNAPSHOT</version>
+            <version>0.2.14</version>
         </dependency>
         <dependency>
             <groupId>com.aceevo.ursus</groupId>
             <artifactId>ursus-spi</artifactId>
-            <version>0.2.14-SNAPSHOT</version>
+            <version>0.2.14</version>
             <exclusions>
                 <exclusion>
                     <groupId>com.aceevo.ursus</groupId>
