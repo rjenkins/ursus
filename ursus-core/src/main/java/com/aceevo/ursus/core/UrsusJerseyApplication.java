@@ -61,7 +61,7 @@ public abstract class UrsusJerseyApplication<T extends UrsusJerseyApplicationCon
     private final HttpServer httpServer = new HttpServer();
     private Class exceptionMapperClass = UrsusExceptionMapper.class;
     private String configurationFile;
-    private final T configuration;
+    private T configuration;
     private final Set<Service> managedServices = new HashSet<Service>();
     private final Set<ServerEndpointConfig> serverEndpointConfigs = new HashSet<ServerEndpointConfig>();
     private final UrsusApplicationHelper<T> ursusApplicationHelper = new UrsusApplicationHelper<>();
@@ -80,15 +80,6 @@ public abstract class UrsusJerseyApplication<T extends UrsusJerseyApplicationCon
                 .getGenericSuperclass()).getActualTypeArguments()[0];
 
         parseArguments(args);
-
-        configurationFile = configurationFile != null ? configurationFile : getClass().getSimpleName().toLowerCase() + ".yml";
-        this.configuration = ursusApplicationHelper.parseConfiguration(configurationFile, configurationClass);
-
-        registerInstances(new UrsusApplicationBinder(this.configuration));
-
-        ursusApplicationHelper.configureLogging(configuration);
-        boostrap(configuration);
-        run(initializeServer());
     }
 
     /**
@@ -103,6 +94,14 @@ public abstract class UrsusJerseyApplication<T extends UrsusJerseyApplicationCon
                 if (args.length >= 2) {
                     configurationFile = args[1];
                 }
+
+                configurationFile = configurationFile != null ? configurationFile : getClass().getSimpleName().toLowerCase() + ".yml";
+                this.configuration = ursusApplicationHelper.parseConfiguration(configurationFile, configurationClass);
+
+                registerInstances(new UrsusApplicationBinder(this.configuration));
+                ursusApplicationHelper.configureLogging(configuration);
+                boostrap(configuration);
+                run(initializeServer());
                 break;
             case "db":
                 ursusApplicationHelper.handleDbCommand(args, configurationClass);
