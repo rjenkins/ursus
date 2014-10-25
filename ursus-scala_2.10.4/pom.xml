@@ -5,7 +5,7 @@
     <parent>
         <groupId>com.aceevo.ursus</groupId>
         <artifactId>ursus-parent</artifactId>
-        <version>0.2.16-SNAPSHOT</version>
+        <version>0.2.15-SNAPSHOT</version>
     </parent>
 
     <artifactId>ursus-scala_2.10.4</artifactId>
@@ -24,7 +24,7 @@
         <dependency>
             <groupId>com.aceevo.ursus</groupId>
             <artifactId>ursus-core</artifactId>
-            <version>0.2.16-SNAPSHOT</version>
+            <version>0.2.15-SNAPSHOT</version>
         </dependency>
         <dependency>
             <groupId>com.fasterxml.jackson.module</groupId>
